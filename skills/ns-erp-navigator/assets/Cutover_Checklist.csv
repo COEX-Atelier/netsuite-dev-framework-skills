@@ -1,0 +1,7 @@
+Activity,Responsible,Start Time,Duration,Dependencies,Status
+"Production Account Prep","Lead Consultant","Friday 18:00","2h","None","Pending"
+"Final Master Data Load","Data Migration Lead","Friday 20:00","4h","Account Prep","Pending"
+"Final Transactional Data Load","Data Migration Lead","Saturday 08:00","8h","Master Data","Pending"
+"Validation & Testing","Project Manager","Saturday 18:00","4h","Data Load","Pending"
+"Enable Access for Users","Lead Consultant","Sunday 12:00","1h","Validation","Pending"
+"Official Go-Live","Sponsor","Monday 08:00","N/A","All Steps","Pending"

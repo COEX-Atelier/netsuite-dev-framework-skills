@@ -1,0 +1,4 @@
+Requirement ID,Requirement Description,Priority,Solution Type (Standard/Config/Custom),Solution ID,Solution Description,Status
+"FR-01","Ability to apply customer prepayments to sales orders","High","Standard","SO-01","Enable Customer Deposits feature","Draft"
+"FR-02","Custom invoice PDF with specific logic for subsidiary logo","Medium","Custom","INV-01","Advanced PDF/HTML Template with conditional logo logic","Draft"
+"FR-03","Auto-approve orders under $500","Low","Config","WF-01","SuiteFlow workflow on Sales Order record","Draft"
