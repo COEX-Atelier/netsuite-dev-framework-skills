@@ -1,4 +1,11 @@
-Requirement ID,Requirement Description,Priority,Solution Type (Standard/Config/Custom),Solution ID,Solution Description,Status
-"FR-01","Ability to apply customer prepayments to sales orders","High","Standard","SO-01","Enable Customer Deposits feature","Draft"
-"FR-02","Custom invoice PDF with specific logic for subsidiary logo","Medium","Custom","INV-01","Advanced PDF/HTML Template with conditional logo logic","Draft"
-"FR-03","Auto-approve orders under $500","Low","Config","WF-01","SuiteFlow workflow on Sales Order record","Draft"
+Requirement ID,Requirement Description,Priority,Functional Area,Solution Type,Solution ID,Solution Description,SDD Reference,Customization/Integration Spec,RTM Status,Test Case ID,UAT Status,UAT Notes
+FR-01,Ability to apply customer prepayments to Sales Orders before fulfillment,High,O2C,Standard,SO-01,Enable Customer Deposits feature under Accounting Preferences,SDD_O2C.md §3.1,,Draft,,,
+FR-02,Custom invoice PDF with subsidiary logo selected conditionally based on subsidiary on the transaction,Medium,O2C,Configuration,INV-01,Advanced PDF/HTML Template with conditional logo logic using ${record.subsidiary},SDD_O2C.md §4.2,,Draft,,,
+FR-03,Auto-approve Sales Orders under $500 without manager sign-off,Low,O2C,Customization,CUST-O2C-01,SuiteFlow Workflow on Sales Order: IF Amount < 500 THEN set Approval Status = Approved,SDD_O2C.md §5.1,CUST-O2C-01,Draft,,,
+FR-04,Nightly commission calculation based on tiered rates per product category,High,O2C,Customization,CUST-O2C-02,Scheduled SuiteScript 2.1 Map/Reduce — runs daily at 02:00 UTC; writes to Commission Calculation custom record,SDD_O2C.md §5.2,CUST-O2C-02,Draft,,,
+FR-05,Real-time two-way sync with Salesforce CRM for Opportunity and Customer data,High,O2C,Integration,INT-SFDC-01,RESTlet integration — Salesforce calls NetSuite on Opportunity Close Won; NetSuite pushes Invoice status back,SDD_O2C.md §7,INT-SFDC-01,Draft,,,
+FR-06,Automated 3-way PO matching (PO vs. Receipt vs. Vendor Bill),High,P2P,Standard,PO-01,Enable Advanced Receiving and 3-Way Match feature under Accounting Preferences,SDD_P2P.md §3.1,,Draft,,,
+FR-07,Vendor Bill approval workflow with dual-approval for bills over $10000,Medium,P2P,Customization,CUST-P2P-01,SuiteFlow Workflow on Vendor Bill: single approver under $10K; dual approver at or above $10K,SDD_P2P.md §5.1,CUST-P2P-01,Draft,,,
+FR-08,Import vendor invoices from EDI file drop on SFTP server,Medium,P2P,Integration,INT-EDI-01,Scheduled SuiteScript reads SFTP; parses EDI 810; creates Vendor Bills via record.create,SDD_P2P.md §7,INT-EDI-01,Draft,,,
+FR-09,Multi-currency GL with automatic exchange rate revaluation at month-end,High,R2R,Standard,GL-01,Enable Multi-Currency and Currency Revaluation features; configure exchange rate provider,SDD_R2R.md §3.1,,Draft,,,
+FR-10,Intercompany elimination entries auto-generated at consolidation close,High,R2R,Customization,CUST-R2R-01,Scheduled Map/Reduce script: queries intercompany transactions per period; auto-generates elimination JE,SDD_R2R.md §5.1,CUST-R2R-01,Draft,,,

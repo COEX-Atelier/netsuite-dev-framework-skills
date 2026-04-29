@@ -1,0 +1,37 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-sdd-p2p",
+  "prompt": "I need you to draft the SDD for our Procure-to-Pay process. Fit-gap is done. Here are the key requirements:\n- FR-P2P-01 (High): Standard PO approval — auto-approve under $5K, manager approval at or above $5K.\n- FR-P2P-02 (High): Vendor performance scorecard custom record that tracks on-time delivery % per vendor, updated weekly.\n- FR-P2P-03 (Medium): Nightly sync from our legacy ERP (SAP) to update vendor master data in NetSuite.\n\nWe're on NetSuite OneWorld.",
+  "assertions": [
+    {
+      "id": "all-three-req-ids-present",
+      "description": "Output references all three requirement IDs: FR-P2P-01, FR-P2P-02, FR-P2P-03",
+      "type": "string_match"
+    },
+    {
+      "id": "sdd-core-sections-present",
+      "description": "Document contains all core SDD sections: Requirements Reference, Process Flow, Solution Overview, Records & Fields, Automation & Logic, Roles & Permissions",
+      "type": "qualitative"
+    },
+    {
+      "id": "custom-record-for-scorecard",
+      "description": "FR-P2P-02 (scorecard) results in a custom record definition with internal ID format (custrecord_) and key fields listed",
+      "type": "qualitative"
+    },
+    {
+      "id": "integration-spec-referenced-for-sap",
+      "description": "FR-P2P-03 (SAP sync) references an Integration Spec ID (INT-SAP-xx or similar) rather than attempting to describe the full integration inline",
+      "type": "qualitative"
+    },
+    {
+      "id": "po-approval-as-workflow-not-script",
+      "description": "FR-P2P-01 (PO approval threshold) is correctly solved as SuiteFlow/Workflow or Configuration — not SuiteScript, since simple threshold logic belongs in a workflow",
+      "type": "qualitative"
+    },
+    {
+      "id": "completion-checklist-or-quality-gate",
+      "description": "Output includes a completion checklist or open items section (evidence the skill's quality gate was applied)",
+      "type": "qualitative"
+    }
+  ]
+}

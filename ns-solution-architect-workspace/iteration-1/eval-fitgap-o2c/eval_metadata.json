@@ -1,0 +1,37 @@
+{
+  "eval_id": 0,
+  "eval_name": "eval-fitgap-o2c",
+  "prompt": "We have these requirements for our Order-to-Cash process and need a fit-gap analysis:\n1. Sales reps need to put orders on hold with a reason code.\n2. Volume discounts — orders over 100 units of the same item get 10% off automatically.\n3. Every invoice needs to be emailed to a secondary billing contact, not just the primary.\n4. Sales commissions calculated weekly and posted as a journal entry.\n\nWe're on NetSuite OneWorld with Advanced Financials. Can you do a fit-gap analysis for these?",
+  "assertions": [
+    {
+      "id": "all-four-req-ids-present",
+      "description": "Output contains all four requirement IDs (FR-O2C-01 through FR-O2C-04)",
+      "type": "string_match"
+    },
+    {
+      "id": "fit-classification-all-rows",
+      "description": "Every requirement row has an explicit fit classification (Standard, Configuration, Customization, or Out-of-Scope — or S/C/X/O shorthand)",
+      "type": "qualitative"
+    },
+    {
+      "id": "effort-and-risk-all-rows",
+      "description": "Every requirement row has both an effort estimate and a risk level",
+      "type": "qualitative"
+    },
+    {
+      "id": "commission-classified-as-custom",
+      "description": "Commission calculation (FR-O2C-04) is classified as Customization/Custom — not Standard or Config, since weekly JE posting from a calculation requires SuiteScript",
+      "type": "qualitative"
+    },
+    {
+      "id": "summary-section-present",
+      "description": "Output includes a summary or count-by-category section at the end",
+      "type": "qualitative"
+    },
+    {
+      "id": "solution-ids-assigned",
+      "description": "Each requirement has a Solution ID assigned (e.g. SDD reference, CUST-xx, or similar)",
+      "type": "qualitative"
+    }
+  ]
+}

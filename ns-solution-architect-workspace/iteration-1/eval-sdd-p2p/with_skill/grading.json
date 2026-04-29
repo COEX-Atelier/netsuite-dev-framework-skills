@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "Output references all three requirement IDs: FR-P2P-01, FR-P2P-02, FR-P2P-03",
+      "passed": true,
+      "evidence": "All three IDs in §1 Requirements Reference table with fit and section pointers. Referenced throughout §2, §3, §5, §7."
+    },
+    {
+      "text": "Document contains all core SDD sections: Requirements Reference, Process Flow, Solution Overview, Records & Fields, Automation & Logic, Roles & Permissions",
+      "passed": true,
+      "evidence": "All six sections present: §1 Requirements Reference, §2 Future-State Process Flow, §3 NetSuite Solution Overview, §4 Records & Fields, §5 Automation & Logic, §6 User Roles & Permissions."
+    },
+    {
+      "text": "FR-P2P-02 (scorecard) results in a custom record definition with internal ID format (custrecord_) and key fields listed",
+      "passed": true,
+      "evidence": "customrecord_vendor_scorecard in §4.2 with 5 fields all using custrecord_ prefix: custrecord_scorecard_vendor, custrecord_scorecard_asof_date, custrecord_scorecard_ontime_pct, custrecord_scorecard_total_count, custrecord_scorecard_excluded_count."
+    },
+    {
+      "text": "FR-P2P-03 (SAP sync) references an Integration Spec ID rather than designing inline",
+      "passed": true,
+      "evidence": "§7 Integrations table lists INT-SAP-01 with reference to INT-SAP-01.md. Full spec explicitly deferred."
+    },
+    {
+      "text": "FR-P2P-01 (PO approval threshold) solved as SuiteFlow/Workflow or Configuration, not SuiteScript",
+      "passed": true,
+      "evidence": "§5.1 classifies WF-P2P-01 as SuiteFlow Workflow. §1 explicitly states 'consistent with the principle that workflows beat SuiteScript for simple state-based approval logic.'"
+    },
+    {
+      "text": "Output includes a completion checklist or quality gate (evidence the skill's quality gate was applied)",
+      "passed": true,
+      "evidence": "Completion Checklist at the top of the document with all 10 items checked [x]."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

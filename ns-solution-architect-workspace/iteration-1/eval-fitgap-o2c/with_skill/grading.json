@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "All four requirement IDs (FR-O2C-01 through FR-O2C-04) are present in the output",
+      "passed": true,
+      "evidence": "All four IDs appear as row headers in the Fit-Gap Table: FR-O2C-01, FR-O2C-02, FR-O2C-03, FR-O2C-04."
+    },
+    {
+      "text": "Every requirement row has an explicit fit classification (S/C/X/O)",
+      "passed": true,
+      "evidence": "FR-O2C-01=C, FR-O2C-02=X, FR-O2C-03=X, FR-O2C-04=X. All rows have a Fit column populated."
+    },
+    {
+      "text": "Every requirement row has both an effort estimate and a risk level",
+      "passed": true,
+      "evidence": "All four rows have Effort (M, M, L, XL) and Risk (Low, Medium, Medium, High) columns populated."
+    },
+    {
+      "text": "Commission calculation (FR-O2C-04) is classified as Customization",
+      "passed": true,
+      "evidence": "FR-O2C-04 classified X (Customization). Solution: Scheduled SuiteScript 2.1 Map/Reduce writing Journal Entries."
+    },
+    {
+      "text": "Output includes a summary or count-by-category section",
+      "passed": true,
+      "evidence": "Has 'Summary' section with 'Count by Fit Category' table, High-Risk Items table, and Open Questions Tracker with 13 items."
+    },
+    {
+      "text": "Each requirement has a Solution ID assigned (e.g. SDD reference, CUST-xx, or similar)",
+      "passed": true,
+      "evidence": "Solution IDs assigned: CUST-O2C-01, SDD-O2C §3.2 / CUST-O2C-02 (fallback), CUST-O2C-03, CUST-O2C-04."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  }
+}

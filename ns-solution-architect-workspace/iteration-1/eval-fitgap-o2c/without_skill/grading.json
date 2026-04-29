@@ -1,0 +1,40 @@
+{
+  "expectations": [
+    {
+      "text": "All four requirement IDs (FR-O2C-01 through FR-O2C-04) are present in the output",
+      "passed": true,
+      "evidence": "All four IDs appear in the summary table header and in individual detailed analysis sections."
+    },
+    {
+      "text": "Every requirement row has an explicit fit classification (S/C/X/O)",
+      "passed": true,
+      "evidence": "All four requirements have explicit fit classifications: Configuration, Configuration, Customization, Customization."
+    },
+    {
+      "text": "Every requirement row has both an effort estimate and a risk level",
+      "passed": true,
+      "evidence": "Summary table has Effort Estimate and Risk Level columns; detailed sections also include these."
+    },
+    {
+      "text": "Commission calculation (FR-O2C-04) is classified as Customization",
+      "passed": true,
+      "evidence": "FR-O2C-04 classified as Customization with Scheduled Script recommendation."
+    },
+    {
+      "text": "Output includes a summary or count-by-category section",
+      "passed": true,
+      "evidence": "Opens with a Summary Table. Also has Risk Register Summary and Recommended Next Steps."
+    },
+    {
+      "text": "Each requirement has a Solution ID assigned (e.g. SDD reference, CUST-xx, or similar)",
+      "passed": false,
+      "evidence": "No Solution IDs assigned. Document uses narrative descriptions but never assigns formal CUST-XX-NN or SDD §X.X identifiers. RTM cannot be populated from this document."
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "failed": 1,
+    "total": 6,
+    "pass_rate": 0.833
+  }
+}

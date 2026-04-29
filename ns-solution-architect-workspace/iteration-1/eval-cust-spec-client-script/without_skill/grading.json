@@ -1,0 +1,45 @@
+{
+  "expectations": [
+    {
+      "text": "Document header contains the exact Spec ID CUST-O2C-03",
+      "passed": true,
+      "evidence": "Header table: 'Spec ID: CUST-O2C-03'."
+    },
+    {
+      "text": "Script type is identified as Client Script",
+      "passed": true,
+      "evidence": "Type field: 'Client Script'. Deployment info also confirms ClientScript type."
+    },
+    {
+      "text": "Trigger is fieldChanged or sublistChanged on the Sales Order item sublist",
+      "passed": true,
+      "evidence": "Uses fieldChanged and pageInit. Scope: 'Any change to the item field or quantity field within the Items sublist.' fieldChanged targets the item sublist."
+    },
+    {
+      "text": "The source field custitem_lead_time_days is explicitly referenced in the affected fields table or pseudocode",
+      "passed": true,
+      "evidence": "Fields table: 'Lead Time (Days), custitem_lead_time_days, Integer'. Referenced in pseudocode as the sublist field being read."
+    },
+    {
+      "text": "Business logic section contains pseudocode that iterates lines and selects the maximum lead time value",
+      "passed": true,
+      "evidence": "Pseudocode: 'IF leadTimeDays > maxLeadTime THEN maxLeadTime = leadTimeDays' inside a FOR loop over all lines."
+    },
+    {
+      "text": "Edge cases section addresses null lead time, single line scenario, and line removal",
+      "passed": true,
+      "evidence": "10 edge cases. EC-01: blank custitem_lead_time_days. EC-04: single line item. EC-05: line deleted, reducing maximum lead time."
+    },
+    {
+      "text": "Testing section contains at least 3 test cases with specific input data and expected results",
+      "passed": true,
+      "evidence": "11 test cases with specific inputs and expected results."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  }
+}

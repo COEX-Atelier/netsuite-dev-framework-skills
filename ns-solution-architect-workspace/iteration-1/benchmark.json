@@ -1,0 +1,182 @@
+{
+  "metadata": {
+    "skill_name": "ns-solution-architect",
+    "skill_path": "skills/ns-solution-architect",
+    "executor_model": "claude-sonnet-4-6",
+    "analyzer_model": "claude-sonnet-4-6",
+    "timestamp": "2026-04-29T20:30:00Z",
+    "evals_run": ["eval-fitgap-o2c", "eval-sdd-p2p", "eval-cust-spec-client-script"],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 0,
+      "eval_name": "eval-fitgap-o2c",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 99.2,
+        "tokens": 20584,
+        "tool_calls": 5,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "All four requirement IDs (FR-O2C-01 through FR-O2C-04) are present", "passed": true, "evidence": "FR-O2C-01 through FR-O2C-04 in Fit-Gap Table."},
+        {"text": "Every row has an explicit fit classification", "passed": true, "evidence": "C, X, X, X assigned."},
+        {"text": "Every row has effort and risk", "passed": true, "evidence": "M/Low, M/Medium, L/Medium, XL/High."},
+        {"text": "Commission (FR-O2C-04) classified as Customization", "passed": true, "evidence": "X — Scheduled Map/Reduce SuiteScript."},
+        {"text": "Summary/count-by-category section present", "passed": true, "evidence": "Summary section with category counts + 13 open questions."},
+        {"text": "Solution IDs assigned to each requirement", "passed": true, "evidence": "CUST-O2C-01, CUST-O2C-02 (fallback), CUST-O2C-03, CUST-O2C-04 assigned."}
+      ]
+    },
+    {
+      "eval_id": 0,
+      "eval_name": "eval-fitgap-o2c",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.833,
+        "passed": 5,
+        "failed": 1,
+        "total": 6,
+        "time_seconds": 98.2,
+        "tokens": 15565,
+        "tool_calls": 2,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "All four requirement IDs (FR-O2C-01 through FR-O2C-04) are present", "passed": true, "evidence": "All four in summary table."},
+        {"text": "Every row has an explicit fit classification", "passed": true, "evidence": "Configuration, Configuration, Customization, Customization."},
+        {"text": "Every row has effort and risk", "passed": true, "evidence": "All rows have effort and risk."},
+        {"text": "Commission (FR-O2C-04) classified as Customization", "passed": true, "evidence": "Customization with Scheduled Script."},
+        {"text": "Summary/count-by-category section present", "passed": true, "evidence": "Summary Table + Risk Register Summary."},
+        {"text": "Solution IDs assigned to each requirement", "passed": false, "evidence": "No CUST-XX-NN or SDD section identifiers assigned. RTM cannot be populated from this document."}
+      ]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "eval-sdd-p2p",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 159.5,
+        "tokens": 27142,
+        "tool_calls": 6,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "All three req IDs present", "passed": true, "evidence": "FR-P2P-01/02/03 in §1 Requirements Reference."},
+        {"text": "All 6 core SDD sections present", "passed": true, "evidence": "§1-§7 all present and populated."},
+        {"text": "Custom record for scorecard with custrecord_ IDs", "passed": true, "evidence": "customrecord_vendor_scorecard with 5 custrecord_ fields."},
+        {"text": "SAP sync references Integration Spec ID", "passed": true, "evidence": "§7: INT-SAP-01 → INT-SAP-01.md."},
+        {"text": "PO approval as Workflow not SuiteScript", "passed": true, "evidence": "WF-P2P-01 SuiteFlow. §1 explicitly cites workflow-over-script principle."},
+        {"text": "Completion checklist present", "passed": true, "evidence": "Completion Checklist with 10 items all checked [x]."}
+      ]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "eval-sdd-p2p",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.833,
+        "passed": 5,
+        "failed": 1,
+        "total": 6,
+        "time_seconds": 125.8,
+        "tokens": 18246,
+        "tool_calls": 3,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "All three req IDs present", "passed": true, "evidence": "FR-P2P-01/02/03 in §2 Requirements Reference."},
+        {"text": "All 6 core SDD sections present", "passed": true, "evidence": "§2-§9 all present."},
+        {"text": "Custom record for scorecard with custrecord_ IDs", "passed": true, "evidence": "customrecord_vend_perf_scorecard with 10 custrecord_vps_ fields."},
+        {"text": "SAP sync references Integration Spec ID", "passed": true, "evidence": "§8: INT-P2P-01 assigned."},
+        {"text": "PO approval as Workflow not SuiteScript", "passed": true, "evidence": "SuiteFlow workflow for FR-P2P-01 in §6.1."},
+        {"text": "Completion checklist present", "passed": false, "evidence": "No completion checklist. Has Open Items but not a quality gate checklist."}
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "eval-cust-spec-client-script",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 127.5,
+        "tokens": 23720,
+        "tool_calls": 5,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Spec ID is CUST-O2C-03", "passed": true, "evidence": "Header: Spec ID: CUST-O2C-03."},
+        {"text": "Script type is Client Script", "passed": true, "evidence": "Type: Client Script (CS)."},
+        {"text": "Trigger is sublistChanged or fieldChanged on item sublist", "passed": true, "evidence": "sublistChanged on item sublist + pageInit."},
+        {"text": "custitem_lead_time_days referenced", "passed": true, "evidence": "In §3 field table and §4.1 pseudocode."},
+        {"text": "Max lead time loop in pseudocode", "passed": true, "evidence": "FOR EACH loop: IF days > maxLeadTime: maxLeadTime = days."},
+        {"text": "Edge cases cover null, single line, line removal", "passed": true, "evidence": "15 edge cases: EC#1 all removed, EC#3 null, EC#7 single line."},
+        {"text": "3+ test cases with specific data", "passed": true, "evidence": "15 test cases."}
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "eval-cust-spec-client-script",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "time_seconds": 113.3,
+        "tokens": 17223,
+        "tool_calls": 4,
+        "errors": 0
+      },
+      "expectations": [
+        {"text": "Spec ID is CUST-O2C-03", "passed": true, "evidence": "Header: Spec ID: CUST-O2C-03."},
+        {"text": "Script type is Client Script", "passed": true, "evidence": "Type: Client Script."},
+        {"text": "Trigger is sublistChanged or fieldChanged on item sublist", "passed": true, "evidence": "fieldChanged on item/quantity fields + pageInit."},
+        {"text": "custitem_lead_time_days referenced", "passed": true, "evidence": "In fields table and pseudocode."},
+        {"text": "Max lead time loop in pseudocode", "passed": true, "evidence": "IF leadTimeDays > maxLeadTime THEN maxLeadTime = leadTimeDays."},
+        {"text": "Edge cases cover null, single line, line removal", "passed": true, "evidence": "10 edge cases: EC-01 blank, EC-04 single, EC-05 deletion."},
+        {"text": "3+ test cases with specific data", "passed": true, "evidence": "11 test cases."}
+      ]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0, "min": 1.0, "max": 1.0},
+      "time_seconds": {"mean": 128.7, "stddev": 24.6, "min": 99.2, "max": 159.5},
+      "tokens": {"mean": 23815, "stddev": 2726, "min": 20584, "max": 27142}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 0.944, "stddev": 0.077, "min": 0.833, "max": 1.0},
+      "time_seconds": {"mean": 112.4, "stddev": 10.9, "min": 98.2, "max": 125.8},
+      "tokens": {"mean": 17011, "stddev": 1270, "min": 15565, "max": 18246}
+    },
+    "delta": {
+      "pass_rate": "+0.056",
+      "time_seconds": "+16.3",
+      "tokens": "+6804"
+    }
+  },
+  "notes": [
+    "Eval 3 (customization spec) ties 7/7 for both configurations — current assertions don't fully capture skill value. Qualitative differences are significant (15 vs 11 test cases, batched search.lookupFields, copy-mode pageInit handling) but not measured.",
+    "The two failing assertions (Solution ID assignment in eval-0, Completion Checklist in eval-1) are structurally related: both are template-structure behaviors that only appear when the skill's templates are followed.",
+    "With-skill runs used ~40% more tokens on average due to reading SKILL.md and all referenced templates before producing output — expected overhead that pays back in structural consistency and traceability.",
+    "Baseline runs produced surprisingly high-quality content, suggesting assertions should be tightened in iteration 2. Consider adding assertions that check for: Open Questions Tracker format, Sign-Off table, template section ordering, or RTM-ready Solution IDs."
+  ]
+}

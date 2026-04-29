@@ -1,0 +1,45 @@
+{
+  "expectations": [
+    {
+      "text": "Document header contains the exact Spec ID CUST-O2C-03",
+      "passed": true,
+      "evidence": "Header table first row: 'Spec ID: CUST-O2C-03'."
+    },
+    {
+      "text": "Script type is identified as Client Script",
+      "passed": true,
+      "evidence": "Type field: 'Client Script (CS)'. Design rationale explains why CS chosen over UE and Workflow."
+    },
+    {
+      "text": "Trigger is fieldChanged or sublistChanged on the Sales Order item sublist",
+      "passed": true,
+      "evidence": "§2 Trigger: 'sublistChanged — fires after any change to the item sublist.' pageInit also included for edit mode. Both target the item sublist."
+    },
+    {
+      "text": "The source field custitem_lead_time_days is explicitly referenced in the affected fields table or pseudocode",
+      "passed": true,
+      "evidence": "§3 table: 'Lead Time Days, custitem_lead_time_days, Integer'. Referenced throughout §4.1 pseudocode via search.lookupFields."
+    },
+    {
+      "text": "Business logic section contains pseudocode that iterates lines and selects the maximum lead time value",
+      "passed": true,
+      "evidence": "§4.1: 'FOR EACH entry IN itemIds: days = leadTimeMap[entry.itemId]; IF days IS NOT NULL AND days > 0: IF days > maxLeadTime: maxLeadTime = days'"
+    },
+    {
+      "text": "Edge cases section addresses null lead time, single line scenario, and line removal",
+      "passed": true,
+      "evidence": "15 edge cases. EC#3: custitem_lead_time_days is null. EC#7: Only one line. EC#1: All lines removed. TC-07 also covers removing line with longest lead time."
+    },
+    {
+      "text": "Testing section contains at least 3 test cases with specific input data and expected results",
+      "passed": true,
+      "evidence": "15 test cases in §8, all with specific input and expected results (e.g. 'item has custitem_lead_time_days=7 → custbody_estimated_ship_date = today + 7 days')."
+    }
+  ],
+  "summary": {
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "pass_rate": 1.0
+  }
+}

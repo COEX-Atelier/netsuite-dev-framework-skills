@@ -1,0 +1,7 @@
+.claude/
+.gemini/
+*.log
+node_modules/
+dist/
+build/
+.env

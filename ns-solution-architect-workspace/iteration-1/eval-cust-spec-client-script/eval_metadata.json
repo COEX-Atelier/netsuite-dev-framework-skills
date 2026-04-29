@@ -1,0 +1,42 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-cust-spec-client-script",
+  "prompt": "I need a customization spec for the following: a Client Script on the Sales Order record that auto-populates the Estimated Ship Date field based on each item's lead time (stored as a custom field `custitem_lead_time_days` on the Item record) whenever a sales rep adds or changes a line item. If multiple lines have different lead times, use the longest one. The spec ID should be CUST-O2C-03.",
+  "assertions": [
+    {
+      "id": "spec-id-is-cust-o2c-03",
+      "description": "Document header contains the exact Spec ID CUST-O2C-03",
+      "type": "string_match"
+    },
+    {
+      "id": "script-type-is-client-script",
+      "description": "Script type is identified as Client Script (not User Event, Scheduled, or other type)",
+      "type": "string_match"
+    },
+    {
+      "id": "trigger-is-sublist-or-field-changed",
+      "description": "Trigger is fieldChanged or sublistChanged on the Sales Order item sublist — the correct CS entry point for line-level changes",
+      "type": "qualitative"
+    },
+    {
+      "id": "custitem-lead-time-days-referenced",
+      "description": "The source field `custitem_lead_time_days` is explicitly referenced in the affected fields table or pseudocode",
+      "type": "string_match"
+    },
+    {
+      "id": "max-lead-time-logic-in-pseudocode",
+      "description": "Business logic section contains pseudocode or decision logic that iterates lines and selects the maximum lead time value",
+      "type": "qualitative"
+    },
+    {
+      "id": "edge-cases-covered",
+      "description": "Edge cases section addresses at least: item with no lead time set (null), single line scenario, and re-evaluation when a line is removed",
+      "type": "qualitative"
+    },
+    {
+      "id": "test-cases-with-data",
+      "description": "Testing section contains at least 3 test cases with specific input data and expected results",
+      "type": "qualitative"
+    }
+  ]
+}
