@@ -1,0 +1,10 @@
+[
+  "The 'with_skill' configuration showed a +48% improvement in pass rate compared to 'without_skill', primarily driven by project classification and methodology adherence.",
+  "Expectation 'Explicitly asks for user confirmation before proceeding' failed in 100% of runs across all configurations in Eval 1 and 2, suggesting models tend to over-scaffold without pausing for user input.",
+  "'Without_skill' runs failed 100% on identifying Project Tier (1/2/3) and Origin (Greenfield/Brownfield), showing the skill's critical value in implementing the specific governance framework.",
+  "Eval 3 (BRD generation) achieved 100% pass rate in both configurations, indicating that standard requirement gathering is a strong base model capability or that the template was picked up from the workspace regardless of skill activation.",
+  "The skill added a consistent 15-second (50%) overhead and 100k token increase per run, which correlates with the extensive reading of references and templates mandated by the instructions.",
+  "In Eval 4 (Go-Live), 'without_skill' failed to define rollback triggers and readiness groups, whereas 'with_skill' succeeded on triggers but still struggled with the specific 4 readiness group labels (Phase Gate, Technical, Data, Operational).",
+  "The 'with_skill' agent correctly identified the 'Tier 1 Brownfield' and 'Tier 3 Greenfield' typologies in Evals 1 and 2, whereas 'without_skill' defaulted to generic project plans.",
+  "The '4 readiness groups' expectation in Eval 4 is the most consistent failure point for the 'with_skill' configuration, suggesting a possible misalignment between the instruction weight and the evaluation criteria."
+]

@@ -1,0 +1,59 @@
+{
+  "skill_name": "ns-erp-navigator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We are starting a project to replace our old QuickBooks setup with NetSuite. We have 3 subsidiaries and 50 users. We need to migrate all historical data and set up O2C and P2P processes. How do we start?",
+      "expected_output": "The agent should recommend a Tier 1 Brownfield classification, explain the reasoning, and ask for user confirmation. It should mention scaffolding the 7-phase folder structure and creating a PLAN.md.",
+      "expectations": [
+        "Recommends Tier 1 classification and explains why (multi-subsidiary, full O2C+P2P migration qualifies as full implementation)",
+        "Identifies Brownfield origin because QuickBooks historical data requires migration",
+        "Explicitly asks for user confirmation before proceeding to scaffold the workspace",
+        "Mentions creating a 7-phase folder structure (01_Discovery through 07_GoLive)",
+        "Mentions creating a PLAN.md coordination artifact"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I want to add a simple custom field to the Item record and a basic workflow to notify the warehouse manager when a field is changed. This is a brand new NetSuite account with no legacy data. What is the plan?",
+      "expected_output": "The agent should recommend a Tier 3 Greenfield classification, explain the reasoning, and ask for user confirmation. It should mention a simplified folder structure (Discovery_Design, Build_Test, Deployment) and a 1-page functional spec.",
+      "expectations": [
+        "Recommends Tier 3 classification and explains why (isolated field + single workflow is a tiny enhancement)",
+        "Identifies Greenfield origin because there is no legacy data or system to migrate",
+        "Explicitly asks for user confirmation before proceeding",
+        "Mentions the simplified 3-folder structure (Discovery_Design, Build_Test, Deployment)",
+        "Mentions a 1-page functional spec rather than a full BRD"
+      ],
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "We've finished our stakeholder interviews for a mid-size manufacturing company moving from Sage 300 to NetSuite. They have about 80 users, one subsidiary, Order-to-Cash and Procure-to-Pay processes. I have my interview notes ready. Help me draft the BRD.",
+      "expected_output": "The agent should guide the user through populating the BRD template. It should reference the BRD_Template.md, prompt for functional requirements across relevant categories (O2C, P2P), ask about scope boundaries, and produce a structured draft with requirement IDs and priorities.",
+      "expectations": [
+        "References or loads BRD_Template.md as the working document",
+        "Produces requirement rows with ID (e.g. FR-01), Category, Description, and Priority columns",
+        "Includes at least one requirement for Order-to-Cash and one for Procure-to-Pay",
+        "Includes a Scope Boundaries section distinguishing In-Scope from Out-of-Scope items",
+        "Assigns priorities (H/M/L) to requirements based on the scoping heuristics (GL-touching = High)",
+        "Populates the Stakeholders table with roles mentioned (manufacturing company context)"
+      ],
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Our NetSuite go-live is this Friday for a mid-size retail company. We've completed UAT and training. Walk me through what needs to happen between now and Monday morning.",
+      "expected_output": "The agent should run through the Phase 7 Go-Live workflow: pre-launch checklist verification, cutover sequencing (phases A-G), go/no-go decision criteria, and hypercare activation. It should surface rollback triggers and confirm readiness criteria before any cutover steps.",
+      "expectations": [
+        "Triggers the Phase 7 Go-Live workflow from SKILL.md",
+        "References the pre-launch checklist with the 4 readiness groups (Phase Gate, Technical, Data Migration, Operational)",
+        "Outlines the cutover sequence phases (Pre-Freeze, Production Setup, Data Load, Validation, Go/No-Go, Enable Users)",
+        "Mentions the recommended cutover window (Friday 17:00 through Monday 08:00)",
+        "Defines at least one rollback trigger criteria",
+        "Mentions activating hypercare and daily stand-ups after go-live"
+      ],
+      "files": []
+    }
+  ]
+}

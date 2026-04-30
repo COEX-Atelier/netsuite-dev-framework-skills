@@ -1,0 +1,13 @@
+{
+  "eval_id": 3,
+  "eval_name": "brd-draft-manufacturing",
+  "prompt": "We've finished our stakeholder interviews for a mid-size manufacturing company moving from Sage 300 to NetSuite. They have about 80 users, one subsidiary, Order-to-Cash and Procure-to-Pay processes. I have my interview notes ready. Help me draft the BRD.",
+  "assertions": [
+    "References or loads BRD_Template.md as the working document",
+    "Produces requirement rows with ID (e.g. FR-01), Category, Description, and Priority columns",
+    "Includes at least one requirement for Order-to-Cash and one for Procure-to-Pay",
+    "Includes a Scope Boundaries section distinguishing In-Scope from Out-of-Scope items",
+    "Assigns priorities (H/M/L) to requirements based on the scoping heuristics (GL-touching = High)",
+    "Populates the Stakeholders table with roles mentioned (manufacturing company context)"
+  ]
+}

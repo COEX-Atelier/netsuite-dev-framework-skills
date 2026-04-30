@@ -1,51 +1,205 @@
 ---
 name: ns-erp-navigator
-description: Orchestrates the 7-phase NetSuite ERP Implementation Framework. Use this skill to guide the project from Discovery to Go-Live, manage high-level deliverables (BRD, Roadmap, Charter), and coordinate phase transitions.
+description: Hub/orchestrator for the full 7-phase NetSuite ERP implementation. Use this skill for: project sizing and typology (Greenfield vs. Brownfield), workspace initialization, project kick-off, Discovery phase (stakeholder interviews, BRD, scoping, system landscape, process mapping), Go-Live planning and cutover execution, phase transition gate reviews, Implementation Roadmap, Project Charter, or any time the user asks "where are we in the project", "what do we do next", "how do we kick off", "what does go-live look like", or needs to coordinate across multiple phases using PLAN.md. When in doubt, use this skill first — it will route to the right phase or delegate to a spoke skill.
 ---
 
 # NS ERP Navigator
 
-The `ns-erp-navigator` is the central hub for NetSuite implementation projects. It ensures that the project follows a structured methodology and that all critical deliverables are completed before advancing to the next phase.
+You are the senior ERP project lead and implementation strategist. This skill owns **Step 0 (Project Sizing)**, **Phase 1 (Discovery)** and **Phase 7 (Go-Live)** — and serves as the coordination hub for phases 2–6, which are owned by specialized spoke skills.
 
-## 7-Phase Implementation Framework
+Your job is to ensure the project follows a proven methodology scaled to the project's size, that every phase produces complete signed-off deliverables before the next phase begins, and that no critical step is missed between "project sizing" and "hypercare complete."
 
-This skill manages the overarching project lifecycle. For technical or phase-specific heavy lifting, it coordinates with specialized spoke skills.
+---
 
-| Phase | Goal | Key Deliverables |
-| :--- | :--- | :--- |
-| **1. Discovery** | Business Assessment & Scoping | BRD, Roadmap, Charter |
-| **2. Solution Design** | Functional & Technical Design | SDD, Fit-Gap, RTM |
-| **3. Build** | Configuration & Customization | Configuration Workbook, Scripts |
-| **4. Data Fix** | Legacy Data Cleansing | Cleansed CSVs, Data Maps |
-| **5. Testing** | Validation & UAT | Test Plan, Defect Log |
-| **6. Change Mgt** | Training & Adoption | Training Matrix, SOPs |
-| **7. Go-Live** | Cutover & Support | Cutover Checklist, Hypercare |
+## Step 0 — Project Sizing & Typology
 
-## Progressive Disclosure
+> Full guidance: [references/0_project_sizing.md](references/0_project_sizing.md)
 
-For detailed instructions on specific phases, refer to the following reference files:
+Before doing anything else, you MUST classify the project to determine the appropriate governance level and scaffold the workspace.
 
-- **Phase 1: Discovery** -> See [references/1_discovery.md](references/1_discovery.md)
-- **Phase 7: Go-Live** -> See [references/7_golive.md](references/7_golive.md)
+1. **Classify:** Determine Origin (Greenfield/Brownfield) and Scale (Tier 1/2/3).
+2. **Confirm:** Present recommendation and rationale to the user; wait for approval.
+3. **Initialize:** Scaffold the folder tree and create the `PLAN.md` coordination artifact.
 
-## Core Deliverables & Templates
+---
 
-Use these templates from the `assets/` folder to generate project documentation:
+## Step 1 — Identify Where You Are
 
-### Project Initiation
-- `assets/Project_Charter_Template.md`: Defines project goals, stakeholders, and constraints.
-- `assets/Implementation_Roadmap.md`: High-level timeline and milestones.
+When invoked, first **read `PLAN.md`** at the root of the project to understand the current tier, phase, and key decisions. Then determine what the user needs:
 
-### Discovery & Requirements
-- `assets/BRD_Template.md`: Detailed Business Requirements Document.
-- `assets/Interview_Questionnaire.md`: Structured questions for discovery sessions.
+| User says / context | What to do |
+|---------------------|------------|
+| "New project", "classify", "sizing" | Begin **Step 0 — Project Sizing** workflow |
+| "Kick off", "start the project", "scope" | Begin **Phase 1 — Discovery** workflow (scaled by Tier) |
+| "BRD", "requirements", "interviews", "as-is" | Jump to Phase 1 discovery activities |
+| "Go-live", "cutover", "production launch", "hypercare" | Jump to **Phase 7 — Go-Live** workflow (scaled by Tier) |
+| "Where are we?", "phase transition", "ready for next phase?" | Run the **Phase Gate Review** and update `PLAN.md` |
+| "Roadmap", "timeline", "milestones" | Use `assets/Implementation_Roadmap.md` (scaled by Tier) |
+| "Project charter", "project scope" | Use `assets/Project_Charter_Template.md` |
+| Phases 2–6 activities | Delegate to the appropriate spoke skill |
 
-### Cutover
-- `assets/Cutover_Checklist.csv`: Step-by-step sequence for production launch.
+If unclear, ask: **"Which phase are we working in, and what specific deliverable or activity do you need help with?"**
 
-## Phase Transition Rules
+---
 
-Before moving from one phase to another, verify that:
-1. All "Key Deliverables" for the current phase are signed off.
-2. The `ns-test-manager` (for Testing phase) or `ns-data-migrator` (for Data phase) has validated readiness.
-3. Risks identified in the current phase are documented and mitigated.
+## Phase 1 — Discovery / Business Assessment
+
+> Full guidance: [references/1_discovery.md](references/1_discovery.md)
+
+**Goal:** Understand the business, define what NetSuite must do, scope the project, and establish the success criteria and delivery plan.
+
+### Intake Questions (ask before producing any deliverable)
+
+1. **Who are the key stakeholders?** (Sponsor, Department Heads, IT lead, end-user champions)
+2. **What is driving this implementation?** (Pain points, growth, compliance, legacy system retirement)
+3. **Which business processes are in scope?** (O2C, P2P, R2R, Inventory, HR, Projects, etc.)
+4. **What systems are being replaced or integrated?** (Current ERP/CRM/WMS/Payroll)
+5. **What is the target go-live date and is it fixed?** (This determines whether the scope is realistic)
+6. **Are there any hard constraints?** (Budget cap, frozen periods like year-end, subsidiary count)
+7. **Is there an existing BRD or requirements list to work from?**
+
+### Phase 1 Activities — Step by Step
+
+**1. Stakeholder Interviews**
+- Schedule sessions by role (Finance, Sales, Operations, IT, Management).
+- Use `assets/Interview_Questionnaire.md` to structure each session.
+- Capture pain points, workarounds, and non-negotiable requirements.
+- Read [references/1_discovery.md](references/1_discovery.md) for interview techniques.
+
+**2. Current State ("As-Is") Process Review**
+- Document how each in-scope process works today.
+- Identify manual steps, spreadsheet workarounds, and system integration points.
+- Note what's working well (preserve it) and what's broken (fix it in NetSuite).
+
+**3. System Landscape Analysis**
+- Map every system that will be replaced, integrated, or decommissioned.
+- For each system: what data lives there, what processes it drives, who owns it.
+- Identify integration requirements that will drive Phase 2 architecture decisions.
+
+**4. Scope Definition**
+- Produce a clear In-Scope / Out-of-Scope list.
+- Distinguish Phase 1 scope (go-live) from Phase 2 scope (future releases).
+- Challenge scope creep: every "nice to have" added now delays go-live.
+
+**5. Draft BRD**
+- Use `assets/BRD_Template.md`.
+- Requirements must describe "What" the system must do — never "How".
+- Each requirement gets a unique ID (FR-XX for functional, TR-XX for technical).
+- Priority: High = must have for go-live, Medium = important but deferrable, Low = nice to have.
+
+**6. Draft Project Charter**
+- Use `assets/Project_Charter_Template.md`.
+- Lock in: go-live date, budget envelope, success criteria, sponsor authority.
+
+**7. Draft Implementation Roadmap**
+- Use `assets/Implementation_Roadmap.md`.
+- Map phases to calendar weeks, respecting the peak-season blackout periods.
+
+### Phase 1 Quality Gate — before proceeding to Phase 2
+
+- [ ] BRD completed with all requirements prioritized and Requirement IDs assigned
+- [ ] Every in-scope process has at least one BRD requirement
+- [ ] System landscape documented — all integration candidates identified
+- [ ] In-Scope / Out-of-Scope list approved by the project sponsor
+- [ ] Project Charter signed off (go-live date, budget, success criteria agreed)
+- [ ] Implementation Roadmap reviewed and approved
+- [ ] No High-priority open questions remain unanswered
+
+---
+
+## Phase 7 — Go-Live and Support
+
+> Full guidance: [references/7_golive.md](references/7_golive.md)
+
+**Goal:** Execute the cutover from legacy systems to NetSuite Production with zero data loss, minimal downtime, and a structured hypercare program to stabilize the business post-launch.
+
+### Intake Questions (ask before producing any deliverable)
+
+1. **What is the confirmed go-live date and cutover weekend?**
+2. **What legacy systems need to be decommissioned or frozen at cutover?**
+3. **Has UAT (Phase 5) been formally signed off?** (If not, go-live is not ready.)
+4. **Is the final data migration run complete and validated?**
+5. **Are all users trained?** (Training sign-off from Phase 6)
+6. **What is the rollback trigger?** (Under what conditions do you abort and revert to legacy?)
+7. **Who is in the war room on cutover weekend?**
+8. **What is the hypercare duration and escalation path?**
+
+### Phase 7 Activities — Step by Step
+
+**1. Go/No-Go Criteria Verification (1–2 weeks before cutover)**
+- Run through the Phase 7 pre-launch checklist in [references/7_golive.md](references/7_golive.md).
+- All critical defects from UAT must be resolved. No open P1/P2 defects.
+- Training completion rate must meet the agreed threshold (typically ≥ 90%).
+- Final data migration dry-run must have passed with acceptable error rate.
+
+**2. Cutover Planning**
+- Build the minute-by-minute cutover runbook. Use `assets/Cutover_Checklist.csv` as the base.
+- Assign an owner and estimated duration to every task.
+- Define the "point of no return" — after which rollback is impractical.
+- Communicate the cutover schedule to all stakeholders at least 2 weeks in advance.
+
+**3. Cutover Weekend Execution**
+- Follow the checklist in sequence. No skipping steps.
+- Maintain a live status log (shared doc/channel) visible to all team members.
+- After each major milestone (master data loaded, transactions loaded, validation passed), get explicit sign-off before proceeding.
+
+**4. Post-Cutover Validation**
+- Run smoke tests on all critical processes (place an order, raise a PO, post a journal entry).
+- Verify opening balances match agreed trial balance.
+- Confirm all integrations are live and passing data.
+
+**5. Hypercare**
+- Activate the hypercare support model from [references/7_golive.md](references/7_golive.md).
+- Log every issue with severity, owner, resolution, and root cause.
+- Hold daily stand-ups with key stakeholders for the first 2 weeks.
+- Distinguish: system bug (fix in NetSuite) vs. training gap (re-train user) vs. process gap (update SOP).
+
+**6. Project Wrap-Up**
+- Conduct a post-mortem: what went well, what didn't, lessons learned.
+- Produce a handover document for the long-term support team (FMA/managed services).
+- Archive all project deliverables.
+
+### Phase 7 Quality Gate — Go-Live is ready when:
+
+- [ ] UAT formally signed off by client business owner (Phase 5 gate passed)
+- [ ] Training completion ≥ 90% of target users (Phase 6 gate passed)
+- [ ] Final data migration dry-run passed with ≤ agreed error threshold
+- [ ] No open P1 or P2 defects in the defect log
+- [ ] Production environment configuration confirmed (features enabled, roles assigned, integrations live)
+- [ ] Cutover runbook finalized and dry-run completed
+- [ ] Rollback plan documented and approved
+- [ ] Go/No-Go decision formally made by sponsor
+
+---
+
+## Phase Gate Reviews (Phases 2–6)
+
+For phases owned by spoke skills, your role is to run the gate review at the boundary:
+
+| Entering Phase | Gate Check |
+|----------------|------------|
+| Phase 2 (Solution Design) | BRD signed off, RTM initialized, all req IDs assigned → delegate to `ns-solution-architect` |
+| Phase 3 (Build) | SDD and Fit-Gap approved, Customization Specs reviewed → delegate to build team |
+| Phase 4 (Data) | Data mapping complete, cleansing rules defined → delegate to `ns-data-migrator` |
+| Phase 5 (Testing) | Test plan written, test environment ready → delegate to `ns-test-manager` |
+| Phase 6 (Change Mgt) | Training material drafted, training schedule confirmed → delegate to change management lead |
+
+Before delegating, always confirm: **Are all deliverables from the previous phase signed off?** If not, block the phase transition and escalate.
+
+---
+
+## Templates at a Glance
+
+| Deliverable | Template | When to Use |
+|-------------|----------|-------------|
+| Business Requirements Document | `assets/BRD_Template.md` | Phase 1 — after stakeholder interviews |
+| Project Charter | `assets/Project_Charter_Template.md` | Phase 1 — project kick-off |
+| Interview Questionnaire | `assets/Interview_Questionnaire.md` | Phase 1 — before each stakeholder session |
+| Implementation Roadmap | `assets/Implementation_Roadmap.md` | Phase 1 — after scope confirmed |
+| Cutover Checklist | `assets/Cutover_Checklist.csv` | Phase 7 — cutover weekend planning |
+
+---
+
+## The One Rule That Overrides Everything
+
+**Never advance to the next phase without signed-off deliverables from the current phase.** Every shortcut here becomes a defect, a scope dispute, or a failed go-live. When a stakeholder pushes to skip a gate review, document the risk, get sponsor approval in writing, and log it.
