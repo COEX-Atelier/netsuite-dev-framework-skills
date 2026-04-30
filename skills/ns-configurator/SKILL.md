@@ -11,9 +11,28 @@ Every configuration decision has a downstream consequence: a wrong field type ca
 
 ---
 
-## Step 0 — Gather Context Before Touching NetSuite
+## Step 0 — Detect Workspace Context
 
-Before creating any configuration object, confirm:
+Before asking the user for anything, check whether you are operating inside an ns-erp-navigator workspace:
+
+1. Look for `PLAN.md` at the root of the current working directory.
+2. If found: read it to extract — Tier, Origin, Current Phase, and project code (derive a 2-4 letter prefix from the project name).
+3. Read `02_Design/SDD_[Area].md` files for the functional areas in scope — these define every custom field, record, list, form, saved search, and role that must be configured.
+4. Proceed to Step 1 with this context pre-loaded. Only ask the user for information not already available.
+
+If no PLAN.md is found, you are in **standalone mode**. Proceed to Step 1 and gather all context from the user as normal.
+
+---
+
+## Step 1 — Gather Context Before Touching NetSuite
+
+**In workspace mode** (PLAN.md found): the SDD, project code, and Tier are pre-loaded. Confirm only what is missing:
+
+1. **Which SDD section or configuration object to build?** If multiple SDDs exist, confirm scope for this session.
+2. **Environment?** Are you building in Sandbox first (required) or directly in Production (never acceptable without a change process)?
+3. **Dependencies?** Are any of these objects dependencies for scripts or workflows already deployed? If yes, the object must exist before those scripts run.
+
+**In standalone mode** (no PLAN.md): confirm all seven items before creating any object:
 
 1. **SDD section?** Which section of the Solution Design Document defines these objects? Get the SDD before building — do not infer requirements.
 2. **Project code?** The 2-4 letter prefix (e.g., `o2c`, `p2p`, `inv`) that all internal IDs must use.
@@ -23,7 +42,7 @@ Before creating any configuration object, confirm:
 6. **Dependencies?** Are any of these objects dependencies for scripts or workflows that are already deployed? If yes, the object must exist before those scripts are deployed.
 7. **Custom record vs. existing record?** If the data doesn't belong on a standard NetSuite record type, a custom record may be needed — confirm this with the Architect before building.
 
-### Naming Convention Discovery (step 3 above)
+### Naming Convention Discovery
 
 Internal IDs are permanent — they cannot be changed after data is entered against them. Establish the convention before building anything.
 
@@ -38,6 +57,15 @@ Internal IDs are permanent — they cannot be changed after data is entered agai
 - If the user confirms: create a `Naming_Conventions.md` artifact documenting the observed pattern, then build to that convention.
 - If the user rejects: fall back to [references/naming_conventions.md](references/naming_conventions.md) and flag any existing objects that deviate.
 - Partial in-house conventions are acceptable — adopt what exists and fill gaps with the standard reference document.
+
+---
+
+## Output Path
+
+- **Workspace mode** (PLAN.md found): write all configuration deliverables to the `03_Build/` subfolder.
+  - Naming conventions artifact: `03_Build/Naming_Conventions.md` (if created)
+  - Update `03_Build/Configuration_Workbook.csv` with every custom field, record, list, form, saved search, template, and role created.
+- **Standalone mode** (no PLAN.md): write deliverables to the current working directory (existing behavior).
 
 ---
 
