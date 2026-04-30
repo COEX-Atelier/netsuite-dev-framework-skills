@@ -1,6 +1,6 @@
 ---
 name: ns-configurator
-description: Build phase skill for NetSuite configuration: custom fields, records, forms, saved searches, PDF/HTML templates, and roles/permissions. Use when configuration objects in the SDD or Customization Spec need to be created. Trigger on: building forms, layouts, reports, transaction templates, or configuring roles. Covers hands-on build work not requiring SuiteScript or SuiteFlow. Proper configuration is critical as errors cascade into script failures and UAT defects.
+description: Build phase skill for NetSuite configuration — custom fields, records, forms, saved searches, PDF/HTML templates, and roles/permissions. Use when configuration objects in the SDD or Customization Spec need to be created. Trigger on building forms, layouts, reports, transaction templates, or configuring roles. Covers hands-on build work not requiring SuiteScript or SuiteFlow. Proper configuration is critical as errors cascade into script failures and UAT defects.
 ---
 
 # NS Configurator
