@@ -1,0 +1,75 @@
+{
+  "expectations": [
+    {
+      "text": "References or loads BRD_Template.md as the working document",
+      "passed": true,
+      "evidence": "The structure and section headers in BRD_Draft.md (Header section, Executive Summary, Stakeholders table, Functional/Technical requirements tables, and Scope Boundaries) are identical to the BRD_Template.md found in the skill's assets."
+    },
+    {
+      "text": "Produces requirement rows with ID (e.g. FR-01), Category, Description, and Priority columns",
+      "passed": true,
+      "evidence": "Section 4 (Functional Requirements) and Section 5 (Technical Requirements) of BRD_Draft.md contain tables with ID, Category, Requirement Description, and Priority (H/M/L) columns as required."
+    },
+    {
+      "text": "Includes at least one requirement for Order-to-Cash and one for Procure-to-Pay",
+      "passed": true,
+      "evidence": "Section 4 includes requirements for Order-to-Cash (FR-01 to FR-04, e.g., 'Automated Sales Order creation') and Procure-to-Pay (FR-05 to FR-07, e.g., 'Three-Way Match')."
+    },
+    {
+      "text": "Includes a Scope Boundaries section distinguishing In-Scope from Out-of-Scope items",
+      "passed": true,
+      "evidence": "Section 6 (Scope Boundaries) clearly distinguishes between 'In-Scope', 'Out-of-Scope', and 'Deferred to Phase 2' items."
+    },
+    {
+      "text": "Assigns priorities (H/M/L) to requirements based on the scoping heuristics (GL-touching = High)",
+      "passed": true,
+      "evidence": "Financial-impact requirements like FR-01 (Sales Order), FR-04 (Invoicing), FR-05 (Purchase Order), and FR-09 (GL Posting) are correctly marked as 'H' (High)."
+    },
+    {
+      "text": "Populates the Stakeholders table with roles mentioned (manufacturing company context)",
+      "passed": true,
+      "evidence": "Section 2 (Stakeholders) identifies roles relevant to the manufacturing context and Sage 300 migration: Project Sponsor, Controller, Operations Manager, and IT Manager."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "total_tool_calls": 0,
+    "total_steps": 0,
+    "errors_encountered": 0,
+    "output_chars": 5308,
+    "transcript_chars": 1158
+  },
+  "claims": [
+    {
+      "claim": "The BRD contains 11 functional requirements.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Counted 11 rows in the Functional Requirements table in BRD_Draft.md (FR-01 through FR-11)."
+    },
+    {
+      "claim": "The BRD includes requirements for real-time inventory tracking.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "FR-02 and FR-08 specifically address real-time inventory checks and tracking."
+    },
+    {
+      "claim": "The document defines scope boundaries for a single subsidiary environment.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Section 6 (In-Scope) specifies 'Inventory Management (Single location)' and 'single subsidiary' is mentioned in the Executive Summary."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "reason": "The 'References or loads BRD_Template.md' assertion is verified by output structure, but since the transcript is redacted/incomplete, it's hard to verify if the file was actually read via tool call or just hallucinated correctly based on general knowledge. Consider ensuring full transcripts are available for grading."
+      }
+    ],
+    "overall": "The expectations are well-met. The output is a high-quality BRD draft that adheres to the provided template and project context."
+  }
+}

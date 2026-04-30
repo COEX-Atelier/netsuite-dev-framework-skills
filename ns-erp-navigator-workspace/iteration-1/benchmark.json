@@ -1,0 +1,103 @@
+{
+  "metadata": {
+    "skill_name": "ns-erp-navigator",
+    "timestamp": "2026-04-30T14:45:00Z",
+    "runs_per_configuration": 1,
+    "evals_run": [1, 2]
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "eval_name": "eval-1",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "total": 4,
+        "time_seconds": 15.4,
+        "tokens": 4520
+      },
+      "expectations": [
+        { "text": "Correct Tier/Origin identification", "passed": true, "evidence": "Identified as Tier 1 Brownfield in both PLAN.md ('Tier: 1', 'Origin: Brownfield') and response.md." },
+        { "text": "Created PLAN.md", "passed": true, "evidence": "PLAN.md exists at the root of the output directory with the required governance and next steps sections." },
+        { "text": "Scaffolded folder tree correctly", "passed": true, "evidence": "Created folders 01_Discovery through 07_GoLive, matching the Tier 1 requirement." },
+        { "text": "Appropriate roadmap/plan for the tier", "passed": true, "evidence": "Plan focuses on Discovery phase (interviews, BRD, system landscape) which is appropriate for a Tier 1 Brownfield implementation." }
+      ]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "eval-1",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "total": 4,
+        "time_seconds": 12.0,
+        "tokens": 4000
+      },
+      "expectations": [
+        { "text": "Correct Tier/Origin identification", "passed": false, "evidence": "No sizing framework used." },
+        { "text": "Created PLAN.md", "passed": false, "evidence": "Artifact not created." },
+        { "text": "Scaffolded folder tree correctly", "passed": false, "evidence": "Workspace not initialized." },
+        { "text": "Appropriate roadmap/plan for the tier", "passed": false, "evidence": "Generic advice without governance." }
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "eval-2",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 4,
+        "total": 4,
+        "time_seconds": 45.2,
+        "tokens": 18450
+      },
+      "expectations": [
+        { "text": "Correct Tier/Origin identification", "passed": true, "evidence": "Identified as Tier 3 Greenfield in both PLAN.md ('Tier: 3', 'Origin: Greenfield') and RESPONSE.md." },
+        { "text": "Created PLAN.md", "passed": true, "evidence": "PLAN.md exists with the correct classification and next steps for a tiny enhancement." },
+        { "text": "Scaffolded folder tree correctly", "passed": true, "evidence": "Created merged folders (Discovery_Design, Build_Test, Deployment) as specified for Tier 3 projects." },
+        { "text": "Appropriate roadmap/plan for the tier", "passed": true, "evidence": "The plan is appropriately simplified, skipping complex discovery and focusing on the specific field and workflow implementation." }
+      ]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "eval-2",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "total": 4,
+        "time_seconds": 1.54,
+        "tokens": 842
+      },
+      "expectations": [
+        { "text": "Correct Tier/Origin identification", "passed": false, "evidence": "No sizing framework used." },
+        { "text": "Created PLAN.md", "passed": false, "evidence": "Artifact not created." },
+        { "text": "Scaffolded folder tree correctly", "passed": false, "evidence": "Workspace not initialized." },
+        { "text": "Appropriate roadmap/plan for the tier", "passed": false, "evidence": "Generic advice without governance." }
+      ]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 1.0, "stddev": 0.0},
+      "time_seconds": {"mean": 30.3, "stddev": 21.07},
+      "tokens": {"mean": 11485, "stddev": 9850}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 0.0, "stddev": 0.0},
+      "time_seconds": {"mean": 6.77, "stddev": 7.39},
+      "tokens": {"mean": 2421, "stddev": 2233}
+    },
+    "delta": {
+      "pass_rate": "+1.00",
+      "time_seconds": "+23.53",
+      "tokens": "+9064"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "eval_id": 2,
+  "eval_name": "custom-field-workflow-tier-3",
+  "prompt": "I want to add a simple custom field to the Item record and a basic workflow to notify the warehouse manager when a field is changed. This is a brand new NetSuite account with no legacy data. What is the plan?",
+  "assertions": [
+    "Recommends Tier 3 classification and explains why (isolated field + single workflow is a tiny enhancement)",
+    "Identifies Greenfield origin because there is no legacy data or system to migrate",
+    "Explicitly asks for user confirmation before proceeding",
+    "Mentions the simplified 3-folder structure (Discovery_Design, Build_Test, Deployment)",
+    "Mentions a 1-page functional spec rather than a full BRD"
+  ]
+}

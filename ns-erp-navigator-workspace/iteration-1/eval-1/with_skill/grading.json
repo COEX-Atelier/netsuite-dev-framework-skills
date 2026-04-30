@@ -1,0 +1,24 @@
+{
+  "expectations": [
+    {
+      "text": "Correct Tier/Origin identification",
+      "passed": true,
+      "evidence": "Identified as Tier 1 Brownfield in both PLAN.md ('Tier: 1', 'Origin: Brownfield') and response.md."
+    },
+    {
+      "text": "Created PLAN.md",
+      "passed": true,
+      "evidence": "PLAN.md exists at the root of the output directory with the required governance and next steps sections."
+    },
+    {
+      "text": "Scaffolded folder tree correctly",
+      "passed": true,
+      "evidence": "Created folders 01_Discovery through 07_GoLive, matching the Tier 1 requirement."
+    },
+    {
+      "text": "Appropriate roadmap/plan for the tier",
+      "passed": true,
+      "evidence": "Plan focuses on Discovery phase (interviews, BRD, system landscape) which is appropriate for a Tier 1 Brownfield implementation."
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "expectations": [
+    {
+      "text": "References or loads BRD_Template.md as the working document",
+      "passed": true,
+      "evidence": "The output file 'BRD_Sage300_Migration.md' follows the structure, headers, and formatting of 'BRD_Template.md' exactly, including sections 1 through 6 and specific placeholders like 'Tier' and 'Origin'."
+    },
+    {
+      "text": "Produces requirement rows with ID (e.g. FR-01), Category, Description, and Priority columns",
+      "passed": true,
+      "evidence": "Sections 4 (Functional Requirements) and 5 (Technical Requirements) contain tables with columns: ID, Category, Requirement Description, and Priority (H/M/L). ID format follows FR-XX and TR-XX."
+    },
+    {
+      "text": "Includes at least one requirement for Order-to-Cash and one for Procure-to-Pay",
+      "passed": true,
+      "evidence": "Functional requirements include Order-to-Cash (FR-01: O2C real-time inventory, FR-02: credit checks) and Procure-to-Pay (FR-04: PO approval routing, FR-05: 3-way match)."
+    },
+    {
+      "text": "Includes a Scope Boundaries section distinguishing In-Scope from Out-of-Scope items",
+      "passed": true,
+      "evidence": "Section 6 (Scope Boundaries) contains explicit lists for 'In-Scope', 'Out-of-Scope', and 'Deferred to Phase 2'."
+    },
+    {
+      "text": "Assigns priorities (H/M/L) to requirements based on the scoping heuristics (GL-touching = High)",
+      "passed": true,
+      "evidence": "Critical financial/GL-impacting requirements (e.g., credit checks, 3-way matching, data migration of balances) are assigned 'H' (High) priority, while non-essential reports or work order tracking are assigned 'M' (Medium)."
+    },
+    {
+      "text": "Populates the Stakeholders table with roles mentioned (manufacturing company context)",
+      "passed": true,
+      "evidence": "The stakeholders table in Section 2 includes roles relevant to manufacturing: Operations Manager (Production lead) and Warehouse Manager (Inventory owner)."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0
+  },
+  "execution_metrics": {
+    "output_chars": 5466,
+    "transcript_chars": 509
+  },
+  "claims": [
+    {
+      "claim": "The project involves migrating from Sage 300 to NetSuite for a mid-size manufacturing company.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Confirmed in the BRD Header and Section 1 (Executive Summary)."
+    },
+    {
+      "claim": "The implementation supports approximately 80 users within a single subsidiary.",
+      "type": "factual",
+      "verified": true,
+      "evidence": "Stated in Section 1 and Section 6 of the output."
+    },
+    {
+      "claim": "The BRD addresses inventory inaccuracy and manual re-entry pain points.",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Section 3 documents these pain points, and FR-01/FR-05 provide corresponding functional solutions."
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "References or loads BRD_Template.md as the working document",
+        "reason": "This assertion passes because the output matches the template perfectly, but a stronger assertion would verify the tool call in the transcript (if available) to ensure it wasn't just a high-quality generation that happened to match."
+      },
+      {
+        "reason": "No assertion checks for consistency between the 'Current State Analysis' (pain points) and the 'Functional Requirements'. An agent could produce a generic list of requirements that doesn't solve the specific problems identified in Section 3."
+      }
+    ],
+    "overall": "The evaluation successfully verifies structure and basic coverage. Adding logic to check 'solution fit' for identified pain points would make it more discriminating."
+  }
+}

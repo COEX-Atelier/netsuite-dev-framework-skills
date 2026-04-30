@@ -1,0 +1,24 @@
+{
+  "expectations": [
+    {
+      "text": "Correct Tier/Origin identification",
+      "passed": false,
+      "evidence": "Did not formally identify project Tier or Origin using the skill's framework."
+    },
+    {
+      "text": "Created PLAN.md",
+      "passed": false,
+      "evidence": "No PLAN.md file was created."
+    },
+    {
+      "text": "Scaffolded folder tree correctly",
+      "passed": false,
+      "evidence": "No folder structure was created."
+    },
+    {
+      "text": "Appropriate roadmap/plan for the tier",
+      "passed": false,
+      "evidence": "The response jumps directly into technical UI steps instead of establishing a project governance and workspace structure."
+    }
+  ]
+}

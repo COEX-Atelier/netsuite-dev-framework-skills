@@ -1,0 +1,43 @@
+{
+  "expectations": [
+    {
+      "text": "Recommends Tier 3 classification and explains why (isolated field + single workflow is a tiny enhancement)",
+      "passed": false,
+      "evidence": "The transcript shows the agent immediately provided a solution without any tier classification or explanation of the project's scale."
+    },
+    {
+      "text": "Identifies Greenfield origin because there is no legacy data or system to migrate",
+      "passed": false,
+      "evidence": "There is no mention of project origin (Greenfield vs. Migration) in the transcript or the provided summary."
+    },
+    {
+      "text": "Explicitly asks for user confirmation before proceeding",
+      "passed": false,
+      "evidence": "The agent proceeded to create the plan directly ('I have created...') instead of seeking confirmation first."
+    },
+    {
+      "text": "Mentions the simplified 3-folder structure (Discovery_Design, Build_Test, Deployment)",
+      "passed": false,
+      "evidence": "The summary does not mention any specific folder structure or project organization standards."
+    },
+    {
+      "text": "Mentions a 1-page functional spec rather than a full BRD",
+      "passed": false,
+      "evidence": "The agent refers to a 'detailed NetSuite implementation plan' rather than a 1-page functional specification."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 5,
+    "total": 5,
+    "pass_rate": 0.0
+  },
+  "execution_metrics": {
+    "total_steps": 1,
+    "errors_encountered": 0,
+    "transcript_chars": 1007
+  },
+  "eval_feedback": {
+    "overall": "The 'without_skill' run failed all expectations as it behaved as a general assistant rather than following the specialized ERP Navigator protocol. It jumped straight to implementation without classification, discovery, or confirmation."
+  }
+}

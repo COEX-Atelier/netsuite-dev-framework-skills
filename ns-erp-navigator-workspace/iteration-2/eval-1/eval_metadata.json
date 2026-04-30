@@ -1,0 +1,12 @@
+{
+  "eval_id": 1,
+  "eval_name": "quickbooks-to-netsuite-tier-1",
+  "prompt": "We are starting a project to replace our old QuickBooks setup with NetSuite. We have 3 subsidiaries and 50 users. We need to migrate all historical data and set up O2C and P2P processes. How do we start?",
+  "assertions": [
+    "Recommends Tier 1 classification and explains why (multi-subsidiary, full O2C+P2P migration qualifies as full implementation)",
+    "Identifies Brownfield origin because QuickBooks historical data requires migration",
+    "Explicitly asks for user confirmation before proceeding to scaffold the workspace",
+    "Mentions creating a 7-phase folder structure (01_Discovery through 07_GoLive)",
+    "Mentions creating a PLAN.md coordination artifact"
+  ]
+}
