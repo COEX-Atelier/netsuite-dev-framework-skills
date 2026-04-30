@@ -1,0 +1,6 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-tier-3-greenfield",
+  "prompt": "I want to add a simple custom field to the Item record and a basic workflow to notify the warehouse manager when a field is changed. This is a brand new NetSuite account with no legacy data. What is the plan?",
+  "assertions": []
+}
