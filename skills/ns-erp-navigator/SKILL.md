@@ -11,6 +11,31 @@ Your job is to ensure the project follows a proven methodology scaled to the pro
 
 ---
 
+| Phase | Goal | Key Deliverables |
+| :--- | :--- | :--- |
+| **1. Discovery** | Business Assessment & Scoping | BRD, Roadmap, Charter |
+| **2. Solution Design** | Functional & Technical Design | SDD, Fit-Gap, RTM |
+| **3. Build** | Configuration & Customization | Configuration Workbook, Scripts, Workflow Design Docs |
+| **4. Data Fix** | Legacy Data Cleansing | Cleansed CSVs, Data Maps |
+| **5. Testing** | Validation & UAT | Test Plan, Defect Log |
+| **6. Change Mgt** | Training & Adoption | Training Matrix, SOPs |
+| **7. Go-Live** | Cutover & Support | Cutover Checklist, Hypercare |
+
+### Spoke Skills
+
+- **Phase 1: Discovery** → See [references/1_discovery.md](references/1_discovery.md)
+- **Phase 2: Solution Design** → Use the `ns-solution-architect` skill
+- **Phase 3: Build** → Three specialized build skills (invoke in parallel as needed):
+  - `ns-configurator` — custom fields, records, forms, saved searches, templates, roles
+  - `ns-suitescript-dev` — SuiteScript 2.1 development (User Event, Client, Map/Reduce, RESTlet, etc.)
+  - `ns-workflow-dev` — SuiteFlow workflow design and implementation
+- **Phase 4: Data Fix** → Use the `ns-data-migrator` skill
+- **Phase 5: Testing** → Use the `ns-test-manager` skill
+- **Phase 6: Change Management** → Use the `ns-change-orchestrator` skill
+- **Phase 7: Go-Live** → See [references/7_golive.md](references/7_golive.md)
+
+---
+
 ## Step 0 — Project Sizing & Typology
 
 > Full guidance: [references/0_project_sizing.md](references/0_project_sizing.md)
