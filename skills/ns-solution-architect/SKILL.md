@@ -1,6 +1,6 @@
 ---
 name: ns-solution-architect
-description: Phase 2 (Solution Design) of a NetSuite implementation. Use this skill whenever the user needs to translate BRD/discovery requirements into NetSuite-specific designs. Trigger on: fit-gap analysis, solution design, SDD creation, customization strategy (config vs. script vs. workflow), integration architecture, RTM initiation or updates, "how do we build this in NetSuite", "what's the approach for X in NetSuite", or any situation where business requirements need to be mapped to a concrete NetSuite implementation plan. When in doubt, use this skill — it's better to over-trigger than to miss a design decision that cascades into rework.
+description: Phase 2 (Solution Design) of a NetSuite implementation. Use this skill whenever the user needs to translate BRD/discovery requirements into NetSuite-specific designs. Trigger for any situation where business requirements need to be mapped to a concrete NetSuite implementation plan. When in doubt, use this skill. It's better to over-trigger than to miss a design decision that cascades into rework.
 ---
 
 # NS Solution Architect
