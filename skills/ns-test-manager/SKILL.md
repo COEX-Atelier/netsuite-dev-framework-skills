@@ -11,9 +11,29 @@ Testing rigor must match project scope. A two-week script fix and a 14-month ERP
 
 ---
 
-## Step 0 — Gather Context Before Producing Anything
+## Step 0 — Detect Workspace Context
 
-Before producing any deliverable, confirm these if not already stated:
+Before asking the user for anything, check whether you are operating inside an ns-erp-navigator workspace:
+
+1. Look for `PLAN.md` at the root of the current working directory.
+2. If found: read it to extract — Tier, Origin, Current Phase, and all Reference Artifact links.
+3. Then read `02_Design/RTM.csv` (if present) to load the requirements and solution ID mapping from Phase 2 — this is your primary coverage source for SIT test case planning.
+4. Optionally read any `02_Design/SDD_[Area].md` files for process context and exception paths.
+5. Proceed to Step 1 with this context pre-loaded. Only ask for information not already available.
+
+If no PLAN.md is found, you are in **standalone mode**. Proceed to Step 1 and gather all context from the user as normal.
+
+---
+
+## Step 1 — Gather Context Before Producing Anything
+
+**In workspace mode** (PLAN.md found): Tier, project type (Greenfield/Brownfield from Origin), and whether BRD/RTM/SDD exist are all known. Confirm only what is missing:
+
+1. **What deliverable is needed right now?** Full test plan, UAT script for a specific scenario, defect triage, go-live gate assessment, or a full Phase 5 run.
+2. **Phase 3 and Phase 4 status?** Has the build been signed off? Is data migration complete, in progress, or not applicable? (Check PLAN.md Next Steps — if Phase 3/4 items are unchecked, flag before proceeding.)
+3. **Who runs testing?** Consultant team running SIT and facilitating UAT, or client BPOs running independently?
+
+**In standalone mode** (no PLAN.md): confirm all five items before producing anything:
 
 1. **Project type?** Greenfield (new NetSuite from scratch), Brownfield Full Migration (replacing another ERP), Brownfield Partial (refactoring a specific workflow or module), or Isolated Change (single script fix, minor addition).
 2. **What already exists?** Is there a BRD, RTM, or SDD from Phase 2? Is a test environment provisioned and accessible?
@@ -22,6 +42,14 @@ Before producing any deliverable, confirm these if not already stated:
 5. **Who runs testing?** Consultant team running SIT and facilitating UAT, or client BPOs running independently?
 
 After answering, **determine the Scope Tier explicitly** and state it before proceeding. Use [references/test_scope_decision_guide.md](references/test_scope_decision_guide.md) for the full decision logic.
+
+---
+
+## Output Path
+
+- **Workspace mode** (PLAN.md found): write all Phase 5 deliverables to the `05_Testing/` subfolder.
+  - `05_Testing/Test_Plan.md`, `05_Testing/UAT_[Area].md`, `05_Testing/Defect_Log.csv`, `05_Testing/Test_Summary_Report.md`
+- **Standalone mode** (no PLAN.md): write deliverables to the current working directory (existing behavior).
 
 ### Scope Tiers
 
@@ -170,6 +198,26 @@ Production environment:
 - [ ] Configuration verified against Configuration Workbook in production
 
 Complete `assets/Test_Summary_Report.md` as the evidence record. The Test Summary Report is required for the Go-Live Gate Review — a verbal "everything is fine" is not sufficient.
+
+---
+
+## Stage 6 — Update PLAN.md (Workspace Mode Only)
+
+After the Go-Live Gate checklist passes and the Test Summary Report is complete, update the `PLAN.md` coordination artifact:
+
+1. **Governance section** — set `Current Phase` to `Phase 5 - Testing (Complete)`.
+2. **Reference Artifacts section** — add a link for every deliverable produced:
+   - `[Test Plan]: 05_Testing/Test_Plan.md`
+   - `[UAT Scripts]: 05_Testing/UAT_[Area].md` (one line per functional area)
+   - `[Defect Log]: 05_Testing/Defect_Log.csv`
+   - `[Test Summary Report]: 05_Testing/Test_Summary_Report.md`
+   - `[RTM (updated)]: 02_Design/RTM.csv`
+3. **Strategic Decisions section** — add a timestamped entry for the 2–3 most consequential testing decisions (e.g., any defect accepted and deferred by the sponsor, any parallel run variance approved, brownfield regression scope boundary).
+4. **Next Steps section** — replace Phase 5 items with Phase 6/7 activities:
+   - `[ ] Confirm training completion rate ≥ 90% (Phase 6 gate)`
+   - `[ ] Finalize cutover runbook (delegate to ns-erp-navigator Phase 7)`
+   - `[ ] Confirm production environment readiness`
+   - `[ ] Schedule Go/No-Go decision meeting with sponsor`
 
 ---
 
