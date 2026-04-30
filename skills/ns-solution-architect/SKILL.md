@@ -1,6 +1,6 @@
 ---
 name: ns-solution-architect
-description: Phase 2 (Solution Design) of a NetSuite implementation. Use this skill whenever the user needs to translate BRD/discovery requirements into NetSuite-specific designs. Trigger on: fit-gap analysis, solution design, SDD creation, customization strategy (config vs. script vs. workflow), integration architecture, RTM initiation or updates, "how do we build this in NetSuite", "what's the approach for X in NetSuite", or any situation where business requirements need to be mapped to a concrete NetSuite implementation plan. When in doubt, use this skill — it's better to over-trigger than to miss a design decision that cascades into rework.
+description: Phase 2 (Solution Design) of a NetSuite implementation. Use this skill whenever the user needs to translate BRD/discovery requirements into NetSuite-specific designs. Trigger for any situation where business requirements need to be mapped to a concrete NetSuite implementation plan. When in doubt, use this skill. It's better to over-trigger than to miss a design decision that cascades into rework.
 ---
 
 # NS Solution Architect
@@ -11,9 +11,28 @@ Every design decision you make here has a multiplier effect: a vague spec means 
 
 ---
 
+## Step 0 — Detect Workspace Context
+
+Before asking the user for anything, check whether you are operating inside an ns-erp-navigator workspace:
+
+1. Look for `PLAN.md` at the root of the current working directory.
+2. If found: read it to extract — Tier, Origin, Current Phase, and all Reference Artifact links.
+3. Then read `01_Discovery/BRD.md` to load the full requirements list (Requirement IDs, descriptions, priorities, functional areas, system landscape, and any in-scope integration candidates).
+4. Proceed to Step 1 with this context pre-loaded. Only ask the user for information not already available in PLAN.md or the BRD.
+
+If no PLAN.md is found, you are in **standalone mode**. Proceed to Step 1 and gather all context from the user as normal.
+
+---
+
 ## Step 1 — Gather Context Before Producing Anything
 
-Before producing any deliverable, confirm these if not already stated:
+**In workspace mode** (PLAN.md found): most context comes from PLAN.md and the BRD. Confirm only what is missing:
+
+1. **What deliverable is needed?** Full Phase 2 run, or one specific artifact (Fit-Gap, SDD, Customization Spec, Integration Spec, RTM)?
+2. **NetSuite edition/modules licensed?** (e.g., OneWorld, Advanced Inventory, SuiteProjects, SuiteCommerce) — determines what is "Standard" vs. a real gap. Only ask if not stated in the BRD.
+3. **Any additional constraints?** (customization budget cap, specific third-party systems not yet in the BRD)
+
+**In standalone mode** (no PLAN.md): confirm all five items before producing anything:
 
 1. **Functional area?** (Order-to-Cash, Procure-to-Pay, Record-to-Report, Inventory, HR, Projects, etc.)
 2. **Requirements source?** Ask the user to share the BRD or requirement list. If none exists, offer to draft requirements jointly before proceeding.
@@ -22,6 +41,14 @@ Before producing any deliverable, confirm these if not already stated:
 5. **Any known constraints?** (Go-live date, restricted customization budget, specific third-party systems to integrate)
 
 If the user wants the full Phase 2 workflow, follow the stages below in order. If they need one specific deliverable, jump to that stage.
+
+---
+
+## Output Path
+
+- **Workspace mode** (PLAN.md found): write all Phase 2 deliverables to the `02_Design/` subfolder.
+  - `02_Design/FGA_[Area].md`, `02_Design/SDD_[Area].md`, `02_Design/CUST-[Area]-[NN].md`, `02_Design/INT-[System]-[NN].md`, `02_Design/RTM.csv`
+- **Standalone mode** (no PLAN.md): write deliverables to the current working directory (existing behavior).
 
 ---
 
@@ -133,6 +160,27 @@ Use `assets/RTM_Template.csv`. Rules:
 - Test Case ID and UAT Status are filled in during Phase 4 — leave blank for now but include the columns.
 
 The RTM is the project's audit backbone. Never close Phase 2 with requirements that have no solution mapping.
+
+---
+
+## Stage 6 — Update PLAN.md (Workspace Mode Only)
+
+After all Phase 2 deliverables are complete and the Stage 2 quality gate checklist passes, update the `PLAN.md` coordination artifact so the navigator and all spoke skills see the current project state.
+
+1. **Governance section** — set `Current Phase` to `Phase 2 - Design (Complete)`.
+2. **Reference Artifacts section** — add a link for every deliverable produced:
+   - `[Fit-Gap Analysis]: 02_Design/FGA_[Area].md`
+   - `[Solution Design Document]: 02_Design/SDD_[Area].md`
+   - `[Customization Specs]: 02_Design/CUST-[Area]-[NN].md` (one line per spec)
+   - `[Integration Specs]: 02_Design/INT-[System]-[NN].md` (one line per spec, if any)
+   - `[RTM]: 02_Design/RTM.csv`
+3. **Strategic Decisions section** — add a timestamped entry for the 2–3 most consequential design choices made during Phase 2 (e.g., why a requirement was classified X instead of C, which integration pattern was selected and why, any requirement deferred to a later phase).
+4. **Next Steps section** — replace Phase 2 items with Phase 3 (Build) activities:
+   - `[ ] Provision NetSuite Sandbox for build`
+   - `[ ] Developer kickoff — walk through all Customization Specs`
+   - `[ ] Configuration lead — begin standard config per SDD`
+   - `[ ] Data team — begin data mapping (delegate to ns-data-migrator)`
+   - `[ ] Schedule Phase 3 gate review`
 
 ---
 
