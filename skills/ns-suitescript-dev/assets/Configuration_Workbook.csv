@@ -1,0 +1,12 @@
+Item Type,Label,Internal ID,Field Type,Record Type / Applied To,Description / Purpose,Required?,Default Value,Created By,Date Created,Notes
+Custom Field (Body),,,,"[e.g., Sales Order]",,Yes/No,,,,[e.g., Links to custom approval record]
+Custom Field (Column / Line),,,,"[e.g., Item sublist on Sales Order]",,Yes/No,,,,
+Custom Field (Entity),,,,Customer / Vendor,,Yes/No,,,,
+Custom Field (Item),,,,Item,,Yes/No,,,,
+Custom Record Type,,customrecord_[proj]_[name],,"N/A (record type itself)",,,,,,
+Custom Record Field,,,,"[e.g., customrecord_o2c_approval_log]",,Yes/No,,,,
+Custom Form,,,,"[e.g., Sales Order]",,N/A,,,,
+Custom List / Dropdown,,customlist_[proj]_[name],,N/A (list type itself),,,,,,
+Saved Search,,customsearch_[proj]_[name],,,[Purpose of the search],,,,,[Public/Private]
+Script Deployment,,customscript_[proj]_[name]_[type],,,"Entry point script deployed to the record type",,,,,[Testing/Released]
+Workflow,,customworkflow_[proj]_[name],,,[Record type the workflow runs on],,,,,[Active/Inactive]
