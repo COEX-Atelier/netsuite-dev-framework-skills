@@ -11,9 +11,29 @@ SuiteFlow workflows are not a fallback from "real" code — they are the correct
 
 ---
 
-## Step 0 — Gather Context Before Opening Workflow Manager
+## Step 0 — Detect Workspace Context
 
-Before designing any workflow, confirm:
+Before asking the user for anything, check whether you are operating inside an ns-erp-navigator workspace:
+
+1. Look for `PLAN.md` at the root of the current working directory.
+2. If found: read it to extract — Tier, Origin, Current Phase, project code (derive a 2-4 letter prefix from the project name), and reference links to Phase 2 design artifacts.
+3. If a Customization Spec ID is mentioned (e.g., CUST-O2C-01), read `02_Design/CUST-[Area]-[NN].md` automatically — do not ask the user to paste the spec. Filter for specs that describe SuiteFlow workflows (check the "Script Type" or "Implementation Type" field in the spec header).
+4. Optionally read `02_Design/SDD_[Area].md` files for the process context, exception paths, and overlap notes for the relevant functional area.
+5. Proceed to Step 1 with this context pre-loaded. Only ask for information not already available.
+
+If no PLAN.md is found, you are in **standalone mode**. Proceed to Step 1 and gather all context from the user as normal.
+
+---
+
+## Step 1 — Gather Context Before Opening Workflow Manager
+
+**In workspace mode** (PLAN.md found): the spec and project code are pre-loaded. Confirm only what is missing:
+
+1. **Which CUST spec to implement?** If multiple workflow specs exist in `02_Design/`, confirm which one (or which set) to work on now.
+2. **New or existing workflow?** For brownfield projects — is there an existing workflow on this record type that this spec modifies, or is it a net-new workflow?
+3. **Overlap check?** Is there an existing script or workflow on this record type already deployed to the sandbox? Verify before building — a workflow and a User Event on the same field change can create infinite loops.
+
+**In standalone mode** (no PLAN.md): confirm all seven items before designing anything:
 
 1. **Workflow spec?** Get the CUST-XX-NN or SDD section that defines this workflow. Do not design from verbal description alone.
 2. **Record type?** Which NetSuite record type does this workflow run on?
@@ -22,6 +42,15 @@ Before designing any workflow, confirm:
 5. **Who takes action?** Identify which roles trigger transitions vs. which are automated.
 6. **SuiteScript dependency?** Does any transition or action need logic too complex for a workflow condition? If yes, coordinate with ns-suitescript-dev to build a custom action or User Event.
 7. **Overlap check?** Is there an existing script or workflow on this record type? A workflow and a User Event running simultaneously on the same field change can create infinite loops. Verify before building.
+
+---
+
+## Output Path
+
+- **Workspace mode** (PLAN.md found): write all workflow deliverables to the `03_Build/` subfolder.
+  - Workflow design document: `03_Build/Workflows/[WorkflowName]_Design.md`
+  - Update `03_Build/Configuration_Workbook.csv` with every workflow, custom button, and email template created.
+- **Standalone mode** (no PLAN.md): write deliverables to the current working directory (existing behavior).
 
 ---
 
