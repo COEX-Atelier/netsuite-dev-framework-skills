@@ -1,6 +1,6 @@
 ---
 name: ns-workflow-dev
-description: Build phase skill for SuiteFlow workflow design and implementation. Use this skill whenever a business process requires state-based automation, approval routing, field defaulting, notifications, or record creation that can be achieved without SuiteScript. Trigger on: approval workflows, multi-step routing, automated email notifications, deadline escalations, field defaulting on record creation, status change automation, or any situation where the Solution Architect has specified a SuiteFlow workflow (rather than a script). When in doubt, use this skill — SuiteFlow is the right choice more often than developers assume, and choosing it over SuiteScript reduces long-term maintenance cost.
+description: Build phase skill for SuiteFlow workflow design and implementation. Use for state-based automation, approvals, notifications, or record creation without SuiteScript. Trigger on: approval workflows, routing, automated emails, escalations, field defaulting, or status automation. Use when specified in the SDD or for any declarative automation. SuiteFlow is often the optimal choice over SuiteScript, providing better visibility and lower maintenance costs.
 ---
 
 # NS Workflow Developer

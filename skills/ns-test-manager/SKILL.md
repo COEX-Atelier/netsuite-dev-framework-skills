@@ -1,6 +1,6 @@
 ---
 name: ns-test-manager
-description: Phase 5 (Testing) of a NetSuite implementation. Use this skill whenever the user mentions test plan, UAT, SIT, defect log, defect triage, testing phase, go-live readiness, regression testing, test cases, test scripts, validate solution, sign-off, user acceptance, parallel run, or QA. Also trigger when someone asks "are we ready to go live?" or "what's left before go-live?" — the go-live gate lives here. When in doubt, trigger: untested NetSuite is a production incident waiting to happen.
+description: Phase 5 (Testing) skill. Use for test plans, UAT, SIT, defect logs/triage, go-live readiness, regression testing, and test cases. Trigger on mentions of 'validation', 'sign-off', 'user acceptance', or 'parallel run'. Also applies to 'are we ready to go live?' or 'what's left before cutover?'. This skill acts as the go-live gatekeeper. When in doubt, trigger: untested NetSuite logic is a production risk.
 ---
 
 # NS Test Manager
