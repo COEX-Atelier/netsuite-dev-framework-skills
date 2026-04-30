@@ -1,5 +1,6 @@
 .claude/
 .gemini/
+.agents/
 *.log
 node_modules/
 dist/
