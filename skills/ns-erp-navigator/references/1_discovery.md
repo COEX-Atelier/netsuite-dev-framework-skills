@@ -4,7 +4,20 @@
 
 Understand the business deeply enough to scope the project accurately, write requirements that reflect real business needs (not IT wishes), and produce a delivery plan that the sponsor will stand behind.
 
-The single biggest risk in a NetSuite implementation is starting Phase 2 (Solution Design) with a BRD that doesn't reflect what the business actually needs. Discovery done well saves weeks of rework in every subsequent phase.
+Discovery done well saves weeks of rework in every subsequent phase.
+
+---
+
+## Methodology Scaling
+
+Before starting activities, check `PLAN.md` for the confirmed **Tier** and **Origin**.
+
+| Activity | Tier 1 (Full) | Tier 2 (Module) | Tier 3 (Tiny) |
+| :--- | :--- | :--- | :--- |
+| **Stakeholder Interviews** | Full role coverage | Focused on module owners | Single owner interview |
+| **As-Is Process Review** | Full swimlane diagrams | Narrative flow only | Skip (focus on To-Be) |
+| **System Landscape** | Mandatory (if Brownfield) | Integration points only | Skip |
+| **Deliverable** | Full `BRD_Template.md` | Focused BRD sections | Simplified Functional Spec |
 
 ---
 
@@ -45,6 +58,11 @@ Cover all roles that will own, use, or be affected by NetSuite. A missing stakeh
 - Log all open questions with an owner and due date.
 - Tag every pain point and requirement with the stakeholder who raised it — traceability matters.
 
+### Brownfield vs. Greenfield Branching
+
+- **Brownfield:** Focus on "What is broken in the current system?" and "How is this data stored today?"
+- **Greenfield:** Focus on "How do you envision this working?" and "What are the industry standard requirements you expect?" Skip legacy system comparisons.
+
 ### Red Flags to Watch For
 
 - Stakeholder says "the system will figure it out" — means they haven't thought through the process.
@@ -81,9 +99,12 @@ Describe each process as a numbered narrative at minimum. A swimlane diagram is 
 
 - **Scope creep starts here.** Every "As-Is" process review will surface improvement ideas. Log them but don't commit to them. Everything beyond the base requirement goes through a change request.
 - **"That's how we've always done it" ≠ a requirement.** Question legacy steps that exist only because of limitations in the old system.
-- **Excel is almost always hiding a requirement.** When you see a spreadsheet in daily use, ask what it does and why the system doesn't do it.
+Excel is almost always hiding a requirement. When you see a spreadsheet in daily use, ask what it does and why the system doesn't do it.
+
+> **Note:** Skip Activity 2 for **Greenfield** projects or **Tier 3** enhancements.
 
 ---
+
 
 ## Activity 3 — System Landscape Analysis
 
@@ -111,6 +132,8 @@ For every system marked "Integrate", capture:
 - **Complexity estimate:** Low (standard connector exists) / Medium / High (custom build required)
 
 This feeds directly into the Phase 2 Integration Architecture design.
+
+> **Note:** Skip Activity 3 for **Greenfield** projects. For **Tier 2**, only map systems that interface with the specific module in scope.
 
 ---
 
@@ -180,6 +203,18 @@ A one-page "Solution Architecture Overview" diagram or table. This is the refere
 | Current-State Process Maps | (per process) | Business Analyst | All in-scope processes documented; volume/frequency captured |
 | System Landscape Map | (inline in BRD §5) | IT Lead | All systems mapped; integration requirements identified |
 | Scope Statement | (in BRD §6 and Charter) | Project Manager + Sponsor | Formally signed off by sponsor |
+
+---
+
+## Phase 1 Quality Gate — before proceeding to Phase 2
+
+- [ ] BRD (or Simplified Spec for Tier 3) completed with all requirements prioritized and Requirement IDs assigned
+- [ ] Every in-scope process has at least one requirement
+- [ ] System landscape documented (if Brownfield Tier 1/2)
+- [ ] In-Scope / Out-of-Scope list approved by the project sponsor
+- [ ] Project Charter signed off (go-live date, budget, success criteria agreed)
+- [ ] Implementation Roadmap reviewed and approved
+- [ ] **PLAN.md updated with links to signed-off deliverables and Phase 1 gate status**
 
 ---
 

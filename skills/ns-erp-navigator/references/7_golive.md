@@ -8,6 +8,19 @@ Go-live is not the finish line — it's the start of the most critical support w
 
 ---
 
+## Methodology Scaling
+
+Before starting activities, check `PLAN.md` for the confirmed **Tier** and **Origin**.
+
+| Activity | Tier 1 (Full) | Tier 2 (Module) | Tier 3 (Tiny) |
+| :--- | :--- | :--- | :--- |
+| **Go/No-Go Meeting** | Formal meeting with full project team | Senior stakeholders + Project Lead | Email confirmation from sponsor |
+| **Cutover Runbook** | Minute-by-minute with full team war room | Task-based with clear owners | Simple Deployment Checklist |
+| **Data Migration** | Full Master + Transactional | Delta/Master updates only | Smoke test configuration only |
+| **Hypercare** | 4–8 weeks; daily stand-ups | 2 weeks; triage queue only | 1 week; point-of-contact only |
+
+---
+
 ## Pre-Launch Checklist (2 Weeks Before Cutover)
 
 Run this checklist at the formal Go/No-Go meeting. Every item must be green before cutover weekend is confirmed.
@@ -37,12 +50,17 @@ Run this checklist at the formal Go/No-Go meeting. Every item must be green befo
 - [ ] Data owners have signed off on migrated data accuracy
 - [ ] Delta migration strategy defined (what changes between dry-run and cutover?)
 
+> **Note:** Skip Data Migration Readiness for **Greenfield** projects (unless loading opening balances from external sheets).
+
 ### Operational Readiness
 
 - [ ] Cutover runbook finalized (minute-by-minute schedule with owners and durations)
 - [ ] Cutover runbook dry-run completed or walk-through conducted with the full cutover team
 - [ ] Legacy system freeze timeline communicated to all stakeholders
 - [ ] Rollback plan documented and sponsor-approved
+
+> **Note:** Skip "Legacy system freeze" for **Greenfield** projects.
+
 - [ ] Rollback trigger criteria defined (e.g., "if production validation fails by Sunday 18:00, rollback")
 - [ ] Hypercare team roster confirmed (names, roles, on-call coverage)
 - [ ] Help desk / support channel activated (email, Teams/Slack channel, ticket system)
@@ -97,9 +115,11 @@ This provides a ~60-hour working window with a safety buffer. Never plan a weekd
 
 **Phase G — Enable Users & Go-Live (Sunday)**
 - Create/activate user logins (or confirm single sign-on is working)
-- Send "You are now live on NetSuite" communication to all users
-- Reactivate integrations in sequence, verify data flows
-- Monitor transaction activity in real time for the first hours
+- [ ] Send "You are now live on NetSuite" communication to all users
+- [ ] Reactivate integrations in sequence, verify data flows
+- [ ] Monitor transaction activity in real time for the first hours
+- [ ] **Update `PLAN.md` to reflect 'Live' status and Hypercare phase**
+
 
 ---
 
