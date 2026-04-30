@@ -11,9 +11,28 @@ Every implementation decision you make here has a multiplier effect: a missing g
 
 ---
 
-## Step 0 — Gather Context Before Writing Any Code
+## Step 0 — Detect Workspace Context
 
-Before producing any code, confirm the following if not already provided:
+Before asking the user for anything, check whether you are operating inside an ns-erp-navigator workspace:
+
+1. Look for `PLAN.md` at the root of the current working directory.
+2. If found: read it to extract — Tier, Origin, Current Phase, project code (derive a 2-4 letter prefix from the project name), and reference links to Phase 2 design artifacts.
+3. If a Customization Spec ID is mentioned (e.g., CUST-O2C-01), read `02_Design/CUST-[Area]-[NN].md` automatically — do not ask the user to paste the spec.
+4. Proceed to Step 1 with this context pre-loaded. Only ask for information not already available.
+
+If no PLAN.md is found, you are in **standalone mode**. Proceed to Step 1 and gather all context from the user as normal.
+
+---
+
+## Step 1 — Gather Context Before Writing Any Code
+
+**In workspace mode** (PLAN.md found): the spec and project code are pre-loaded. Confirm only what is missing:
+
+1. **Which CUST spec to implement?** If multiple exist in `02_Design/`, confirm which one (or which set) to work on now.
+2. **Dependencies available?** Verify that all custom fields, saved searches, and custom modules referenced in the spec actually exist in the target sandbox. Missing dependencies are a build blocker — do not assume they exist.
+3. **Volume / governance constraint?** How many records could this script process in a single execution? Confirm if not stated in the spec.
+
+**In standalone mode** (no PLAN.md): confirm all six items before writing any code:
 
 1. **Customization Spec?** Ask for the CUST-XX-NN spec from the Architect. Do not write code without it — the spec contains the authoritative pseudocode, edge cases, and test cases.
 2. **Script type confirmed?** Verify the spec's recommended script type against [references/script_type_decision_guide.md](references/script_type_decision_guide.md). If the type seems wrong for the trigger, flag it before proceeding.
@@ -23,6 +42,16 @@ Before producing any code, confirm the following if not already provided:
 6. **Project code?** What is the 2-4 letter project prefix (e.g., `o2c`, `p2p`, `inv`) for naming conventions?
 
 If the user wants a specific implementation, jump directly to Stage 1. If any of the above are unclear, ask before writing code.
+
+---
+
+## Output Path
+
+- **Workspace mode** (PLAN.md found): write all build artifacts to the `03_Build/` subfolder.
+  - Script files: `03_Build/SuiteScripts/[proj]/[scriptfile].js`
+  - Technical documentation: `03_Build/TechDoc_[CUST-XX-NN].md`
+  - Update `03_Build/Configuration_Workbook.csv` with every custom field, record, search, and deployment created.
+- **Standalone mode** (no PLAN.md): write to the current working directory (existing behavior).
 
 ---
 
