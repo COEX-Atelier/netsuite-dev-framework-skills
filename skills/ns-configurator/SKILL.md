@@ -17,10 +17,27 @@ Before creating any configuration object, confirm:
 
 1. **SDD section?** Which section of the Solution Design Document defines these objects? Get the SDD before building — do not infer requirements.
 2. **Project code?** The 2-4 letter prefix (e.g., `o2c`, `p2p`, `inv`) that all internal IDs must use.
-3. **Record type(s)?** Which NetSuite record type(s) are the fields or forms applied to?
-4. **Environment?** Are you building in Sandbox first (required) or directly in Production (never acceptable without a change process)?
-5. **Dependencies?** Are any of these objects dependencies for scripts or workflows that are already deployed? If yes, the object must exist before those scripts are deployed.
-6. **Custom record vs. existing record?** If the data doesn't belong on a standard NetSuite record type, a custom record may be needed — confirm this with the Architect before building.
+3. **Naming conventions?** Determine how to handle naming before writing a single internal ID — follow the procedure below.
+4. **Record type(s)?** Which NetSuite record type(s) are the fields or forms applied to?
+5. **Environment?** Are you building in Sandbox first (required) or directly in Production (never acceptable without a change process)?
+6. **Dependencies?** Are any of these objects dependencies for scripts or workflows that are already deployed? If yes, the object must exist before those scripts are deployed.
+7. **Custom record vs. existing record?** If the data doesn't belong on a standard NetSuite record type, a custom record may be needed — confirm this with the Architect before building.
+
+### Naming Convention Discovery (step 3 above)
+
+Internal IDs are permanent — they cannot be changed after data is entered against them. Establish the convention before building anything.
+
+**Greenfield project** (new NetSuite account, no existing configuration):
+- Ask the user whether they want to adopt the standard conventions in [references/naming_conventions.md](references/naming_conventions.md) or define custom preferences.
+- If they have preferences, capture them and create a `Naming_Conventions.md` artifact in `03_Build/` before proceeding.
+- If they have no preference, apply the standard conventions from the reference document.
+
+**Brownfield project** (existing NetSuite account with configuration already in place):
+- Scan existing configuration objects (custom fields, records, scripts) for the naming pattern in use.
+- Report your findings to the user: "I found the following naming pattern in the existing account: [pattern]. Is this the convention I should follow?"
+- If the user confirms: create a `Naming_Conventions.md` artifact documenting the observed pattern, then build to that convention.
+- If the user rejects: fall back to [references/naming_conventions.md](references/naming_conventions.md) and flag any existing objects that deviate.
+- Partial in-house conventions are acceptable — adopt what exists and fill gaps with the standard reference document.
 
 ---
 

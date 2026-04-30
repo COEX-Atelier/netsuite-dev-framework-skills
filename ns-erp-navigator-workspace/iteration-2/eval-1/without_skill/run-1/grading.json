@@ -1,0 +1,38 @@
+{
+  "expectations": [
+    {
+      "text": "Recommends Tier 1 classification and explains why (multi-subsidiary, full O2C+P2P migration qualifies as full implementation)",
+      "passed": false,
+      "evidence": "The transcript does not mention Tier 1 classification or explain the classification logic."
+    },
+    {
+      "text": "Identifies Brownfield origin because QuickBooks historical data requires migration",
+      "passed": false,
+      "evidence": "The transcript discusses data migration but does not identify the project as 'Brownfield'."
+    },
+    {
+      "text": "Explicitly asks for user confirmation before proceeding to scaffold the workspace",
+      "passed": false,
+      "evidence": "The agent did not propose scaffolding a workspace or ask for confirmation."
+    },
+    {
+      "text": "Mentions creating a 7-phase folder structure (01_Discovery through 07_GoLive)",
+      "passed": false,
+      "evidence": "The agent provided a 5-step roadmap instead of the required 7-phase structure."
+    },
+    {
+      "text": "Mentions creating a PLAN.md coordination artifact",
+      "passed": false,
+      "evidence": "No mention of a PLAN.md file was found in the output."
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "failed": 5,
+    "total": 5,
+    "pass_rate": 0.0
+  },
+  "eval_feedback": {
+    "overall": "The agent provided a helpful but generic implementation guide. Since this was a 'without_skill' run, it correctly failed to follow the specialized protocols defined in the ERP Navigator skill, confirming the skill's necessity for this task."
+  }
+}

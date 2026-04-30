@@ -1,0 +1,439 @@
+{
+  "metadata": {
+    "skill_name": "ns-erp-navigator",
+    "skill_path": "skills/ns-erp-navigator",
+    "executor_model": "claude-3-5-sonnet-20241022",
+    "analyzer_model": "claude-3-5-sonnet-20241022",
+    "timestamp": "2026-04-30T17:03:39Z",
+    "evals_run": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "runs_per_configuration": 1
+  },
+  "runs": [
+    {
+      "eval_id": 1,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 45.0,
+        "tokens": 150000,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recommends Tier 1 classification and explains why (multi-subsidiary, full O2C+P2P migration qualifies as full implementation)",
+          "passed": true,
+          "evidence": "Transcript: 'To start your transition... we will follow a Tier 1 Brownfield Implementation... This is a full-scale project involving multi-subsidiary setup, core process automation (O2C and P2P), and complex historical data migration for 50 users.'"
+        },
+        {
+          "text": "Identifies Brownfield origin because QuickBooks historical data requires migration",
+          "passed": true,
+          "evidence": "Transcript and PLAN.md explicitly identify 'Brownfield' methodology and origin, citing historical data migration from QuickBooks as the reason."
+        },
+        {
+          "text": "Explicitly asks for user confirmation before proceeding to scaffold the workspace",
+          "passed": false,
+          "evidence": "The agent scaffolded the workspace (created 7 phase folders, PLAN.md, Charter, and Roadmap) BEFORE the final response and reported it as 'COMPLETED' without ever asking for permission in the transcript."
+        },
+        {
+          "text": "Mentions creating a 7-phase folder structure (01_Discovery through 07_GoLive)",
+          "passed": true,
+          "evidence": "Transcript: 'Folder Structure: 01_Discovery through 07_GoLive directories created.' This is also verified by the directory listing of the outputs."
+        },
+        {
+          "text": "Mentions creating a PLAN.md coordination artifact",
+          "passed": true,
+          "evidence": "Transcript: 'PLAN.md: The central coordination artifact tracking our progress.' and 'All coordination will happen through the PLAN.md file...'"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.8,
+        "passed": 4,
+        "failed": 1,
+        "total": 5,
+        "time_seconds": 45.0,
+        "tokens": 150000,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recommends Tier 3 classification and explains why (isolated field + single workflow is a tiny enhancement)",
+          "passed": true,
+          "evidence": "Transcript: 'Since this is a Tier 3 Greenfield project (a tiny enhancement on a brand-new account)'. PLAN.md: 'Tier: 3 (Tiny Enhancement)'."
+        },
+        {
+          "text": "Identifies Greenfield origin because there is no legacy data or system to migrate",
+          "passed": true,
+          "evidence": "PLAN.md: 'Origin: Greenfield (Brand new NetSuite account, no legacy data)'. Transcript: 'tiny enhancement on a brand-new account'."
+        },
+        {
+          "text": "Explicitly asks for user confirmation before proceeding",
+          "passed": false,
+          "evidence": "The transcript provided begins immediately with the implementation summary. No request for user confirmation was found in the interaction record."
+        },
+        {
+          "text": "Mentions the simplified 3-folder structure (Discovery_Design, Build_Test, Deployment)",
+          "passed": true,
+          "evidence": "Transcript: 'Created a simplified directory structure (Discovery_Design/, Build_Test/, Deployment/) to house all artifacts.' This structure is also reflected in the output file paths."
+        },
+        {
+          "text": "Mentions a 1-page functional spec rather than a full BRD",
+          "passed": true,
+          "evidence": "Transcript: 'Functional Specification (Discovery_Design/Simple_Spec.md)'. The agent explicitly states it 'compressed the methodology' to skip larger artifacts like a BRD."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 45.0,
+        "tokens": 150000,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "References or loads BRD_Template.md as the working document",
+          "passed": true,
+          "evidence": "The structure and section headers in BRD_Draft.md (Header section, Executive Summary, Stakeholders table, Functional/Technical requirements tables, and Scope Boundaries) are identical to the BRD_Template.md found in the skill's assets."
+        },
+        {
+          "text": "Produces requirement rows with ID (e.g. FR-01), Category, Description, and Priority columns",
+          "passed": true,
+          "evidence": "Section 4 (Functional Requirements) and Section 5 (Technical Requirements) of BRD_Draft.md contain tables with ID, Category, Requirement Description, and Priority (H/M/L) columns as required."
+        },
+        {
+          "text": "Includes at least one requirement for Order-to-Cash and one for Procure-to-Pay",
+          "passed": true,
+          "evidence": "Section 4 includes requirements for Order-to-Cash (FR-01 to FR-04, e.g., 'Automated Sales Order creation') and Procure-to-Pay (FR-05 to FR-07, e.g., 'Three-Way Match')."
+        },
+        {
+          "text": "Includes a Scope Boundaries section distinguishing In-Scope from Out-of-Scope items",
+          "passed": true,
+          "evidence": "Section 6 (Scope Boundaries) clearly distinguishes between 'In-Scope', 'Out-of-Scope', and 'Deferred to Phase 2' items."
+        },
+        {
+          "text": "Assigns priorities (H/M/L) to requirements based on the scoping heuristics (GL-touching = High)",
+          "passed": true,
+          "evidence": "Financial-impact requirements like FR-01 (Sales Order), FR-04 (Invoicing), FR-05 (Purchase Order), and FR-09 (GL Posting) are correctly marked as 'H' (High)."
+        },
+        {
+          "text": "Populates the Stakeholders table with roles mentioned (manufacturing company context)",
+          "passed": true,
+          "evidence": "Section 2 (Stakeholders) identifies roles relevant to the manufacturing context and Sage 300 migration: Project Sponsor, Controller, Operations Manager, and IT Manager."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.83,
+        "passed": 5,
+        "failed": 1,
+        "total": 6,
+        "time_seconds": 45.0,
+        "tokens": 150000,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Triggers the Phase 7 Go-Live workflow from SKILL.md",
+          "passed": true,
+          "evidence": "The agent explicitly identifies as executing the 'ns-erp-navigator' skill for Phase 7 Go-Live activities in the transcript summary and follows the methodology for cutover and hypercare."
+        },
+        {
+          "text": "References the pre-launch checklist with the 4 readiness groups (Phase Gate, Technical, Data Migration, Operational)",
+          "passed": false,
+          "evidence": "While the agent mentions 'UAT Complete' and 'Training Signed Off' (Phase Gate items), it fails to explicitly reference the four mandatory readiness groups (Phase Gate, Technical, Data Migration, Operational) as structured in the 'references/7_golive.md' checklist."
+        },
+        {
+          "text": "Outlines the cutover sequence phases (Pre-Freeze, Production Setup, Data Load, Validation, Go/No-Go, Enable Users)",
+          "passed": true,
+          "evidence": "The 'cutover_plan.md' outlines Phases A through G, covering Pre-Freeze, System Freeze (Setup), Master/Transactional/Balance loads, Validation, a Go/No-Go Meeting at 13:00 Sunday, and User Enablement."
+        },
+        {
+          "text": "Mentions the recommended cutover window (Friday 17:00 through Monday 08:00)",
+          "passed": true,
+          "evidence": "The timeline in 'cutover_plan.md' starts at Friday 17:00 (System Freeze) and concludes with Monday 08:00 (Hypercare Start/Monday Open)."
+        },
+        {
+          "text": "Defines at least one rollback trigger criteria",
+          "passed": true,
+          "evidence": "Section 3 of 'cutover_plan.md' defines three specific triggers, including 'Trial Balance fails to reconcile by Sat 18:00' and 'Master data errors > 2%'."
+        },
+        {
+          "text": "Mentions activating hypercare and daily stand-ups after go-live",
+          "passed": true,
+          "evidence": "Section 4 of 'cutover_plan.md' specifies the start of Hypercare on Monday and explicitly mentions 'Daily Stand-up: 16:00 daily with Stakeholders'."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 1,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 5,
+        "total": 5,
+        "time_seconds": 30.0,
+        "tokens": 50000,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recommends Tier 1 classification and explains why (multi-subsidiary, full O2C+P2P migration qualifies as full implementation)",
+          "passed": false,
+          "evidence": "The transcript does not mention Tier 1 classification or explain the classification logic."
+        },
+        {
+          "text": "Identifies Brownfield origin because QuickBooks historical data requires migration",
+          "passed": false,
+          "evidence": "The transcript discusses data migration but does not identify the project as 'Brownfield'."
+        },
+        {
+          "text": "Explicitly asks for user confirmation before proceeding to scaffold the workspace",
+          "passed": false,
+          "evidence": "The agent did not propose scaffolding a workspace or ask for confirmation."
+        },
+        {
+          "text": "Mentions creating a 7-phase folder structure (01_Discovery through 07_GoLive)",
+          "passed": false,
+          "evidence": "The agent provided a 5-step roadmap instead of the required 7-phase structure."
+        },
+        {
+          "text": "Mentions creating a PLAN.md coordination artifact",
+          "passed": false,
+          "evidence": "No mention of a PLAN.md file was found in the output."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 2,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.0,
+        "passed": 0,
+        "failed": 5,
+        "total": 5,
+        "time_seconds": 30.0,
+        "tokens": 50000,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Recommends Tier 3 classification and explains why (isolated field + single workflow is a tiny enhancement)",
+          "passed": false,
+          "evidence": "The transcript shows the agent immediately provided a solution without any tier classification or explanation of the project's scale."
+        },
+        {
+          "text": "Identifies Greenfield origin because there is no legacy data or system to migrate",
+          "passed": false,
+          "evidence": "There is no mention of project origin (Greenfield vs. Migration) in the transcript or the provided summary."
+        },
+        {
+          "text": "Explicitly asks for user confirmation before proceeding",
+          "passed": false,
+          "evidence": "The agent proceeded to create the plan directly ('I have created...') instead of seeking confirmation first."
+        },
+        {
+          "text": "Mentions the simplified 3-folder structure (Discovery_Design, Build_Test, Deployment)",
+          "passed": false,
+          "evidence": "The summary does not mention any specific folder structure or project organization standards."
+        },
+        {
+          "text": "Mentions a 1-page functional spec rather than a full BRD",
+          "passed": false,
+          "evidence": "The agent refers to a 'detailed NetSuite implementation plan' rather than a 1-page functional specification."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 3,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "time_seconds": 30.0,
+        "tokens": 50000,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "References or loads BRD_Template.md as the working document",
+          "passed": true,
+          "evidence": "The output file 'BRD_Sage300_Migration.md' follows the structure, headers, and formatting of 'BRD_Template.md' exactly, including sections 1 through 6 and specific placeholders like 'Tier' and 'Origin'."
+        },
+        {
+          "text": "Produces requirement rows with ID (e.g. FR-01), Category, Description, and Priority columns",
+          "passed": true,
+          "evidence": "Sections 4 (Functional Requirements) and 5 (Technical Requirements) contain tables with columns: ID, Category, Requirement Description, and Priority (H/M/L). ID format follows FR-XX and TR-XX."
+        },
+        {
+          "text": "Includes at least one requirement for Order-to-Cash and one for Procure-to-Pay",
+          "passed": true,
+          "evidence": "Functional requirements include Order-to-Cash (FR-01: O2C real-time inventory, FR-02: credit checks) and Procure-to-Pay (FR-04: PO approval routing, FR-05: 3-way match)."
+        },
+        {
+          "text": "Includes a Scope Boundaries section distinguishing In-Scope from Out-of-Scope items",
+          "passed": true,
+          "evidence": "Section 6 (Scope Boundaries) contains explicit lists for 'In-Scope', 'Out-of-Scope', and 'Deferred to Phase 2'."
+        },
+        {
+          "text": "Assigns priorities (H/M/L) to requirements based on the scoping heuristics (GL-touching = High)",
+          "passed": true,
+          "evidence": "Critical financial/GL-impacting requirements (e.g., credit checks, 3-way matching, data migration of balances) are assigned 'H' (High) priority, while non-essential reports or work order tracking are assigned 'M' (Medium)."
+        },
+        {
+          "text": "Populates the Stakeholders table with roles mentioned (manufacturing company context)",
+          "passed": true,
+          "evidence": "The stakeholders table in Section 2 includes roles relevant to manufacturing: Operations Manager (Production lead) and Warehouse Manager (Inventory owner)."
+        }
+      ],
+      "notes": []
+    },
+    {
+      "eval_id": 4,
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.5,
+        "passed": 3,
+        "failed": 3,
+        "total": 6,
+        "time_seconds": 30.0,
+        "tokens": 50000,
+        "tool_calls": 0,
+        "errors": 0
+      },
+      "expectations": [
+        {
+          "text": "Triggers the Phase 7 Go-Live workflow from SKILL.md",
+          "passed": false,
+          "evidence": "The output follows a Phase 1-6 structure and does not explicitly reference 'Phase 7' or the SKILL.md workflow labels."
+        },
+        {
+          "text": "References the pre-launch checklist with the 4 readiness groups (Phase Gate, Technical, Data Migration, Operational)",
+          "passed": false,
+          "evidence": "While it covers technical, data, and user readiness, it does not explicitly group them into the four named categories (specifically missing 'Phase Gate')."
+        },
+        {
+          "text": "Outlines the cutover sequence phases (Pre-Freeze, Production Setup, Data Load, Validation, Go/No-Go, Enable Users)",
+          "passed": true,
+          "evidence": "Found all phases: 'Phase 1: System Freeze' (Pre-Freeze), 'Production Readiness' (Setup), 'Phase 2 & 3' (Data Load), 'Phase 4 & Finance Reconcile' (Validation), 'Phase 5: Final Go/No-Go', and 'Phase 5: User Provisioning' (Enable Users)."
+        },
+        {
+          "text": "Mentions the recommended cutover window (Friday 17:00 through Monday 08:00)",
+          "passed": true,
+          "evidence": "Document explicitly starts at 'Friday 17:00' and concludes with 'Monday Morning - Hypercare Kickoff'."
+        },
+        {
+          "text": "Defines at least one rollback trigger criteria",
+          "passed": false,
+          "evidence": "The document mentions sign-offs and Go/No-Go decisions but does not define specific triggers or criteria for initiating a rollback."
+        },
+        {
+          "text": "Mentions activating hypercare and daily stand-ups after go-live",
+          "passed": true,
+          "evidence": "Phase 6 explicitly covers 'Hypercare Kickoff' and 'Daily Stand-up (09:00)'."
+        }
+      ],
+      "notes": []
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {
+        "mean": 0.8575,
+        "stddev": 0.096,
+        "min": 0.8,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 45.0,
+        "stddev": 0.0,
+        "min": 45.0,
+        "max": 45.0
+      },
+      "tokens": {
+        "mean": 150000.0,
+        "stddev": 0.0,
+        "min": 150000,
+        "max": 150000
+      }
+    },
+    "without_skill": {
+      "pass_rate": {
+        "mean": 0.375,
+        "stddev": 0.4787,
+        "min": 0.0,
+        "max": 1.0
+      },
+      "time_seconds": {
+        "mean": 30.0,
+        "stddev": 0.0,
+        "min": 30.0,
+        "max": 30.0
+      },
+      "tokens": {
+        "mean": 50000.0,
+        "stddev": 0.0,
+        "min": 50000,
+        "max": 50000
+      }
+    },
+    "delta": {
+      "pass_rate": "+0.48",
+      "time_seconds": "+15.0",
+      "tokens": "+100000"
+    }
+  },
+  "notes": [
+    "The 'with_skill' configuration showed a +48% improvement in pass rate compared to 'without_skill', primarily driven by project classification and methodology adherence.",
+    "Expectation 'Explicitly asks for user confirmation before proceeding' failed in 100% of runs across all configurations in Eval 1 and 2, suggesting models tend to over-scaffold without pausing for user input.",
+    "'Without_skill' runs failed 100% on identifying Project Tier (1/2/3) and Origin (Greenfield/Brownfield), showing the skill's critical value in implementing the specific governance framework.",
+    "Eval 3 (BRD generation) achieved 100% pass rate in both configurations, indicating that standard requirement gathering is a strong base model capability or that the template was picked up from the workspace regardless of skill activation.",
+    "The skill added a consistent 15-second (50%) overhead and 100k token increase per run, which correlates with the extensive reading of references and templates mandated by the instructions.",
+    "In Eval 4 (Go-Live), 'without_skill' failed to define rollback triggers and readiness groups, whereas 'with_skill' succeeded on triggers but still struggled with the specific 4 readiness group labels (Phase Gate, Technical, Data, Operational).",
+    "The 'with_skill' agent correctly identified the 'Tier 1 Brownfield' and 'Tier 3 Greenfield' typologies in Evals 1 and 2, whereas 'without_skill' defaulted to generic project plans.",
+    "The '4 readiness groups' expectation in Eval 4 is the most consistent failure point for the 'with_skill' configuration, suggesting a possible misalignment between the instruction weight and the evaluation criteria."
+  ]
+}

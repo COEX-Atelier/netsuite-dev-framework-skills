@@ -1,0 +1,73 @@
+{
+  "expectations": [
+    {
+      "text": "Triggers the Phase 7 Go-Live workflow from SKILL.md",
+      "passed": false,
+      "evidence": "The output follows a Phase 1-6 structure and does not explicitly reference 'Phase 7' or the SKILL.md workflow labels."
+    },
+    {
+      "text": "References the pre-launch checklist with the 4 readiness groups (Phase Gate, Technical, Data Migration, Operational)",
+      "passed": false,
+      "evidence": "While it covers technical, data, and user readiness, it does not explicitly group them into the four named categories (specifically missing 'Phase Gate')."
+    },
+    {
+      "text": "Outlines the cutover sequence phases (Pre-Freeze, Production Setup, Data Load, Validation, Go/No-Go, Enable Users)",
+      "passed": true,
+      "evidence": "Found all phases: 'Phase 1: System Freeze' (Pre-Freeze), 'Production Readiness' (Setup), 'Phase 2 & 3' (Data Load), 'Phase 4 & Finance Reconcile' (Validation), 'Phase 5: Final Go/No-Go', and 'Phase 5: User Provisioning' (Enable Users)."
+    },
+    {
+      "text": "Mentions the recommended cutover window (Friday 17:00 through Monday 08:00)",
+      "passed": true,
+      "evidence": "Document explicitly starts at 'Friday 17:00' and concludes with 'Monday Morning - Hypercare Kickoff'."
+    },
+    {
+      "text": "Defines at least one rollback trigger criteria",
+      "passed": false,
+      "evidence": "The document mentions sign-offs and Go/No-Go decisions but does not define specific triggers or criteria for initiating a rollback."
+    },
+    {
+      "text": "Mentions activating hypercare and daily stand-ups after go-live",
+      "passed": true,
+      "evidence": "Phase 6 explicitly covers 'Hypercare Kickoff' and 'Daily Stand-up (09:00)'."
+    }
+  ],
+  "summary": {
+    "passed": 3,
+    "failed": 3,
+    "total": 6,
+    "pass_rate": 0.5
+  },
+  "execution_metrics": {
+    "total_tool_calls": 0,
+    "total_steps": 1,
+    "output_chars": 4239,
+    "transcript_chars": 429
+  },
+  "claims": [
+    {
+      "claim": "The document includes retail-specific steps such as POS synchronization and inventory snapshots.",
+      "type": "quality",
+      "verified": true,
+      "evidence": "Found 'POS: ensure all registers are Z-ed out' in Phase 1 and 'Inventory Snapshot' in Phase 1 and 3."
+    },
+    {
+      "claim": "Finance lead sign-off is required to proceed after reconciliation.",
+      "type": "process",
+      "verified": true,
+      "evidence": "Stated in Phase 3: 'Finance lead compares... Sign-off is required to proceed.'"
+    }
+  ],
+  "eval_feedback": {
+    "suggestions": [
+      {
+        "assertion": "Triggers the Phase 7 Go-Live workflow from SKILL.md",
+        "reason": "This assertion is difficult to meet in a 'without_skill' run unless the prompt explicitly provides the phase number. It effectively penalizes the model for not knowing internal skill structure it wasn't given."
+      },
+      {
+        "assertion": "Defines at least one rollback trigger criteria",
+        "reason": "The model provided a Go/No-Go step but missed the specific 'trigger' concept. The prompt could be more explicit about requiring a contingency or rollback plan."
+      }
+    ],
+    "overall": "The evaluation effectively differentiates between generic project management and NetSuite-specific readiness groups, though some assertions are highly tied to the skill's specific terminology."
+  }
+}

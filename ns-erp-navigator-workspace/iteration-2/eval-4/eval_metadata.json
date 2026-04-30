@@ -1,0 +1,23 @@
+{
+  "eval_id": 4,
+  "eval_name": "go-live-cutover-plan",
+  "prompt": "Our NetSuite go-live is this Friday for a mid-size retail company. We've completed UAT and training. Walk me through what needs to happen between now and Monday morning.",
+  "assertions": [
+    {
+      "text": "The response includes a chronological cutover timeline from Friday to Monday.",
+      "passed": null
+    },
+    {
+      "text": "The response mentions data migration or final data loads (e.g., trial balances, open AR/AP).",
+      "passed": null
+    },
+    {
+      "text": "The response addresses user access and system lockdown (blackout period).",
+      "passed": null
+    },
+    {
+      "text": "The response includes post-go-live support or 'war room' details.",
+      "passed": null
+    }
+  ]
+}

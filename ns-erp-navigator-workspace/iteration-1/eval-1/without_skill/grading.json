@@ -1,0 +1,24 @@
+{
+  "expectations": [
+    {
+      "text": "Correct Tier/Origin identification",
+      "passed": false,
+      "evidence": "Did not formally identify project Tier or Origin using the skill's framework."
+    },
+    {
+      "text": "Created PLAN.md",
+      "passed": false,
+      "evidence": "No PLAN.md file was created."
+    },
+    {
+      "text": "Scaffolded folder tree correctly",
+      "passed": false,
+      "evidence": "No folder structure was created."
+    },
+    {
+      "text": "Appropriate roadmap/plan for the tier",
+      "passed": false,
+      "evidence": "While the textual response provides a general phased approach, it does not follow the standardized methodology or deliverables required by the ns-erp-navigator skill."
+    }
+  ]
+}

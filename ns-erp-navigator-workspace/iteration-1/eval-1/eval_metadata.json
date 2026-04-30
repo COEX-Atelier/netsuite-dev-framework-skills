@@ -1,0 +1,6 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-tier-1-brownfield",
+  "prompt": "We are starting a project to replace our old QuickBooks setup with NetSuite. We have 3 subsidiaries and 50 users. We need to migrate all historical data and set up O2C and P2P processes. How do we start?",
+  "assertions": []
+}

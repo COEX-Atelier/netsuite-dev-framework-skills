@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha384-EnyY0/GSHQGSxSgMwaIPzSESbqoOLSexfnSMN2AP+39Ckmn92stwABZynq1JyzdT" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg: #faf9f5;
+      --surface: #ffffff;
+      --border: #e8e6dc;
+      --text: #141413;
+      --text-muted: #b0aea5;
+      --accent: #d97757;
+      --accent-hover: #c4613f;
+      --green: #788c5d;
+      --green-bg: #eef2e8;
+      --red: #c44;
+      --red-bg: #fceaea;
+      --header-bg: #141413;
+      --header-text: #faf9f5;
+      --radius: 6px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lora', Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ---- Header ---- */
+    .header {
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .header .instructions {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin-top: 0.25rem;
+    }
+    .header .progress {
+      font-size: 0.875rem;
+      opacity: 0.8;
+      text-align: right;
+    }
+
+    /* ---- Main content ---- */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ---- Sections ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      flex-shrink: 0;
+    }
+    .section-header {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.75rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+    .section-body {
+      padding: 1rem;
+    }
+
+    /* ---- Config badge ---- */
+    .config-badge {
+      display: inline-block;
+      padding: 0.2rem 0.625rem;
+      border-radius: 9999px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-left: 0.75rem;
+      vertical-align: middle;
+    }
+    .config-badge.config-primary {
+      background: rgba(33, 150, 243, 0.12);
+      color: #1976d2;
+    }
+    .config-badge.config-baseline {
+      background: rgba(255, 193, 7, 0.15);
+      color: #f57f17;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt-text {
+      white-space: pre-wrap;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+    }
+
+    /* ---- Outputs ---- */
+    .output-file {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .output-file + .output-file {
+      margin-top: 1rem;
+    }
+    .output-file-header {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .output-file-header .dl-btn {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+    .output-file-header .dl-btn:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .output-file-content {
+      padding: 0.75rem;
+      overflow-x: auto;
+    }
+    .output-file-content pre {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+    }
+    .output-file-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    .output-file-content iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .output-file-content table {
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      width: 100%;
+    }
+    .output-file-content table td,
+    .output-file-content table th {
+      border: 1px solid var(--border);
+      padding: 0.375rem 0.5rem;
+      text-align: left;
+    }
+    .output-file-content table th {
+      background: var(--bg);
+      font-weight: 600;
+    }
+    .output-file-content .download-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .output-file-content .download-link:hover {
+      background: var(--border);
+    }
+    .empty-state {
+      color: var(--text-muted);
+      font-style: italic;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* ---- Feedback ---- */
+    .prev-feedback {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 0.625rem 0.75rem;
+      margin-top: 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .prev-feedback-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+      color: var(--text-muted);
+    }
+    .feedback-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      resize: vertical;
+      color: var(--text);
+    }
+    .feedback-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .feedback-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+      min-height: 1.1em;
+    }
+
+    /* ---- Grades (collapsible) ---- */
+    .grades-toggle {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .grades-toggle:hover {
+      color: var(--accent);
+    }
+    .grades-toggle .arrow {
+      margin-right: 0.5rem;
+      transition: transform 0.15s;
+      font-size: 0.75rem;
+    }
+    .grades-toggle .arrow.open {
+      transform: rotate(90deg);
+    }
+    .grades-content {
+      display: none;
+      margin-top: 0.75rem;
+    }
+    .grades-content.open {
+      display: block;
+    }
+    .grades-summary {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .grade-badge {
+      display: inline-block;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .grade-pass { background: var(--green-bg); color: var(--green); }
+    .grade-fail { background: var(--red-bg); color: var(--red); }
+    .assertion-list {
+      list-style: none;
+    }
+    .assertion-item {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.8125rem;
+    }
+    .assertion-item:last-child { border-bottom: none; }
+    .assertion-status {
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    .assertion-status.pass { color: var(--green); }
+    .assertion-status.fail { color: var(--red); }
+    .assertion-evidence {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      padding-left: 1.5rem;
+    }
+
+    /* ---- View tabs ---- */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      padding: 0 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .view-tab {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.625rem 1.25rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: var(--text); }
+    .view-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .view-panel { display: none; }
+    .view-panel.active { display: flex; flex-direction: column; flex: 1; overflow: hidden; }
+
+    /* ---- Benchmark view ---- */
+    .benchmark-view {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .benchmark-table {
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.8125rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+    .benchmark-table th, .benchmark-table td {
+      padding: 0.625rem 0.75rem;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .benchmark-table th {
+      font-family: 'Poppins', sans-serif;
+      background: var(--header-bg);
+      color: var(--header-text);
+      font-weight: 500;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .benchmark-table tr:hover { background: var(--bg); }
+    .benchmark-table tr.benchmark-row-with { background: rgba(33, 150, 243, 0.06); }
+    .benchmark-table tr.benchmark-row-without { background: rgba(255, 193, 7, 0.06); }
+    .benchmark-table tr.benchmark-row-with:hover { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-without:hover { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-table tr.benchmark-row-avg { font-weight: 600; border-top: 2px solid var(--border); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-with { background: rgba(33, 150, 243, 0.12); }
+    .benchmark-table tr.benchmark-row-avg.benchmark-row-without { background: rgba(255, 193, 7, 0.12); }
+    .benchmark-delta-positive { color: var(--green); font-weight: 600; }
+    .benchmark-delta-negative { color: var(--red); font-weight: 600; }
+    .benchmark-notes {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .benchmark-notes h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+    .benchmark-notes ul {
+      list-style: disc;
+      padding-left: 1.25rem;
+    }
+    .benchmark-notes li {
+      font-size: 0.8125rem;
+      line-height: 1.6;
+      margin-bottom: 0.375rem;
+    }
+    .benchmark-empty {
+      color: var(--text-muted);
+      font-style: italic;
+      text-align: center;
+      padding: 3rem;
+    }
+
+    /* ---- Navigation ---- */
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+    .nav-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .done-btn {
+      font-family: 'Poppins', sans-serif;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .done-btn:hover {
+      background: var(--bg);
+      border-color: var(--text-muted);
+    }
+    .done-btn.ready {
+      border: none;
+      background: var(--accent);
+      color: white;
+      font-weight: 600;
+    }
+    .done-btn.ready:hover {
+      background: var(--accent-hover);
+    }
+    /* ---- Done overlay ---- */
+    .done-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+    }
+    .done-overlay.visible {
+      display: flex;
+    }
+    .done-card {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+    }
+    .done-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .done-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    .done-card .btn-row {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+    .done-card button {
+      padding: 0.5rem 1.25rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .done-card button:hover {
+      background: var(--bg);
+    }
+    /* ---- Toast ---- */
+    .toast {
+      position: fixed;
+      bottom: 5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--header-bg);
+      color: var(--header-text);
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 200;
+    }
+    .toast.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div id="app" style="height:100vh; display:flex; flex-direction:column;">
+    <div class="header">
+      <div>
+        <h1>Eval Review: <span id="skill-name"></span></h1>
+        <div class="instructions">Review each output and leave feedback below. Navigate with arrow keys or buttons. When done, copy feedback and paste into Claude Code.</div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </div>
+
+    <!-- View tabs (only shown when benchmark data exists) -->
+    <div class="view-tabs" id="view-tabs" style="display:none;">
+      <button class="view-tab active" onclick="switchView('outputs')">Outputs</button>
+      <button class="view-tab" onclick="switchView('benchmark')">Benchmark</button>
+    </div>
+
+    <!-- Outputs panel (qualitative review) -->
+    <div class="view-panel active" id="panel-outputs">
+    <div class="main">
+      <!-- Prompt -->
+      <div class="section">
+        <div class="section-header">Prompt <span class="config-badge" id="config-badge" style="display:none;"></span></div>
+        <div class="section-body">
+          <div class="prompt-text" id="prompt-text"></div>
+        </div>
+      </div>
+
+      <!-- Outputs -->
+      <div class="section">
+        <div class="section-header">Output</div>
+        <div class="section-body" id="outputs-body">
+          <div class="empty-state">No output files found</div>
+        </div>
+      </div>
+
+      <!-- Previous Output (collapsible) -->
+      <div class="section" id="prev-outputs-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="togglePrevOutputs()">
+            <span class="arrow" id="prev-outputs-arrow">&#9654;</span>
+            Previous Output
+          </div>
+        </div>
+        <div class="grades-content" id="prev-outputs-content"></div>
+      </div>
+
+      <!-- Grades (collapsible) -->
+      <div class="section" id="grades-section" style="display:none;">
+        <div class="section-header">
+          <div class="grades-toggle" onclick="toggleGrades()">
+            <span class="arrow" id="grades-arrow">&#9654;</span>
+            Formal Grades
+          </div>
+        </div>
+        <div class="grades-content" id="grades-content"></div>
+      </div>
+
+      <!-- Feedback -->
+      <div class="section">
+        <div class="section-header">Your Feedback</div>
+        <div class="section-body">
+          <textarea
+            class="feedback-textarea"
+            id="feedback"
+            placeholder="What do you think of this output? Any issues, suggestions, or things that look great?"
+          ></textarea>
+          <div class="feedback-status" id="feedback-status"></div>
+          <div class="prev-feedback" id="prev-feedback" style="display:none;">
+            <div class="prev-feedback-label">Previous feedback</div>
+            <div id="prev-feedback-text"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav" id="outputs-nav">
+      <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">&#8592; Previous</button>
+      <button class="done-btn" id="done-btn" onclick="showDoneDialog()">Submit All Reviews</button>
+      <button class="nav-btn" id="next-btn" onclick="navigate(1)">Next &#8594;</button>
+    </div>
+    </div><!-- end panel-outputs -->
+
+    <!-- Benchmark panel (quantitative stats) -->
+    <div class="view-panel" id="panel-benchmark">
+      <div class="benchmark-view" id="benchmark-content">
+        <div class="benchmark-empty">No benchmark data available. Run a benchmark to see quantitative results here.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Done overlay -->
+  <div class="done-overlay" id="done-overlay">
+    <div class="done-card">
+      <h2>Review Complete</h2>
+      <p>Your feedback has been saved. Go back to your Claude Code session and tell Claude you're done reviewing.</p>
+      <div class="btn-row">
+        <button onclick="closeDoneDialog()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ---- Embedded data (injected by generate_review.py) ----
+    const EMBEDDED_DATA = {"skill_name": "ns-erp-navigator", "runs": [{"id": "eval-1-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "PLAN.md", "type": "text", "content": "# Project Plan: QuickBooks to NetSuite Migration\n\n## 1. Governance\n- **Tier:** 1 (Full Implementation)\n- **Origin:** Brownfield (Replacing QuickBooks)\n- **Current Phase:** Phase 1 - Discovery\n\n## 2. Strategic Decisions\n- [2026-04-30]: Project classified as Tier 1 Brownfield due to historical data migration from QuickBooks, multi-subsidiary setup (3), and core O2C/P2P process implementation.\n\n## 3. Reference Artifacts (Official Deliverables)\n- [BRD]: [01_Discovery/BRD.md](01_Discovery/BRD.md)\n- [Charter]: [01_Discovery/Project_Charter.md](01_Discovery/Project_Charter.md)\n- [Roadmap]: [01_Discovery/Implementation_Roadmap.md](01_Discovery/Implementation_Roadmap.md)\n\n## 4. Next Steps\n- [ ] Conduct Stakeholder Interviews (Finance, Sales, Operations)\n- [ ] Document \"As-Is\" processes in QuickBooks\n- [ ] Define \"To-Be\" O2C and P2P processes in NetSuite\n- [ ] Finalize and sign off BRD\n- [ ] Approve Project Charter and Roadmap\n"}], "grading": {"expectations": [{"text": "Recommends Tier 1 classification and explains why (multi-subsidiary, full O2C+P2P migration qualifies as full implementation)", "passed": true, "evidence": "Transcript: 'To start your transition... we will follow a Tier 1 Brownfield Implementation... This is a full-scale project involving multi-subsidiary setup, core process automation (O2C and P2P), and complex historical data migration for 50 users.'"}, {"text": "Identifies Brownfield origin because QuickBooks historical data requires migration", "passed": true, "evidence": "Transcript and PLAN.md explicitly identify 'Brownfield' methodology and origin, citing historical data migration from QuickBooks as the reason."}, {"text": "Explicitly asks for user confirmation before proceeding to scaffold the workspace", "passed": false, "evidence": "The agent scaffolded the workspace (created 7 phase folders, PLAN.md, Charter, and Roadmap) BEFORE the final response and reported it as 'COMPLETED' without ever asking for permission in the transcript."}, {"text": "Mentions creating a 7-phase folder structure (01_Discovery through 07_GoLive)", "passed": true, "evidence": "Transcript: 'Folder Structure: 01_Discovery through 07_GoLive directories created.' This is also verified by the directory listing of the outputs."}, {"text": "Mentions creating a PLAN.md coordination artifact", "passed": true, "evidence": "Transcript: 'PLAN.md: The central coordination artifact tracking our progress.' and 'All coordination will happen through the PLAN.md file...'"}], "summary": {"passed": 4, "failed": 1, "total": 5, "pass_rate": 0.8}, "execution_metrics": {"total_tool_calls": 0, "errors_encountered": 0, "output_chars": 4457, "transcript_chars": 2123}, "timing": {"executor_duration_seconds": 0, "grader_duration_seconds": 0, "total_duration_seconds": 0}, "claims": [{"claim": "The project is Tier 1 Brownfield.", "type": "factual", "verified": true, "evidence": "Confirmed by prompt (3 subsidiaries, 50 users, full O2C/P2P, historical migration from legacy system)."}, {"claim": "A 7-phase folder structure was created.", "type": "factual", "verified": true, "evidence": "Verified by directory listing of the outputs directory."}, {"claim": "Project Charter and Roadmap were drafted in 01_Discovery/.", "type": "factual", "verified": true, "evidence": "Verified presence and content of files in outputs/01_Discovery/."}], "eval_feedback": {"suggestions": [{"assertion": "Explicitly asks for user confirmation before proceeding to scaffold the workspace", "reason": "This is a critical safety and governance check. The agent's failure to follow this highlights the value of this assertion in testing agent autonomy vs. user control."}], "overall": "The expectations effectively measure both technical correctness (Tiering, methodology) and process compliance (governance artifacts, confirmation gates). Only one failure noted regarding user confirmation."}}}, {"id": "eval-1-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "response.md", "type": "text", "content": "# NetSuite Implementation Strategy: QuickBooks Replacement\n\nMoving from QuickBooks to NetSuite for an organization with 3 subsidiaries and 50 users is a significant step forward. This transition requires a structured approach focusing on multi-subsidiary architecture (OneWorld), data integrity, and process optimization for Order-to-Cash (O2C) and Procure-to-Pay (P2P).\n\n## Phase 1: Project Initiation & Team Alignment\nThe foundation of a successful implementation is the project team.\n- **Identify Key Stakeholders:** Executive Sponsor, Project Manager, and Subject Matter Experts (SMEs) for Finance, Sales (O2C), and Purchasing (P2P).\n- **Define Goals:** Beyond \"replacing QuickBooks,\" identify specific KPIs (e.g., reduce month-end close by 3 days, automate intercompany eliminations).\n- **Establish a Timeline:** A typical 3-subsidiary implementation can take 3\u00e2\u20ac\u201c6 months.\n\n## Phase 2: Global Design & Multi-Subsidiary Architecture\nSince you have 3 subsidiaries, you will utilize NetSuite **OneWorld**.\n- **Subsidiary Hierarchy:** Define the parent-child relationship between subsidiaries.\n- **Chart of Accounts (CoA):** Do not simply mirror QuickBooks. NetSuite's strength is its multi-dimensional reporting using **Departments, Classes, and Locations**. Aim for a lean CoA with rich segments.\n- **Currency & Taxation:** Set up base currencies for each subsidiary and configure the tax nexus for your regions.\n\n## Phase 3: Process Design (Leading Practices)\nLeverage NetSuite\u00e2\u20ac\u2122s \"SuiteSuccess\" leading practices to avoid over-customizing.\n- **Order-to-Cash (O2C):** Map the flow from Sales Order to Fulfillment, Invoicing, and Cash Application. Define how your 50 users will interact with customer records and inventory.\n- **Procure-to-Pay (P2P):** Establish the workflow for Purchase Requisitions, Approvals, Purchase Orders, Receiving, and Bill Payment. Ensure clear segregation of duties.\n\n## Phase 4: Data Migration Strategy\nMigrating historical data is the most critical and time-consuming task.\n- **Master Data (Cleanse & Load):** Import Customers, Vendors, Items, and Employees. This is the time to remove duplicates and fix formatting issues from QuickBooks.\n- **Historical Data Strategy:**\n    - **Summarized History:** Generally, it is best practice to import monthly trial balance summaries for the last 2-3 years for comparative reporting.\n    - **Open Transactions:** Import only *open* Sales Orders, Purchase Orders, AR (Invoices), and AP (Bills) as of the go-live date.\n    - **Full Detail:** Avoid importing every single historical transaction line-by-line; it is costly and adds unnecessary noise. Retain QuickBooks as a read-only archive for deep historical audits.\n\n## Phase 5: Configuration & Testing\n- **Sandbox Environment:** Perform all configuration in a sandbox or development environment first.\n- **User Acceptance Testing (UAT):** Have your 50 users (or representative power users) walk through end-to-end scenarios (e.g., \"Create a Sales Order in Subsidiary A, fulfill it from Location B\").\n- **Training:** Conduct role-based training so users only learn what is relevant to their specific job function.\n\n## Phase 6: Cutover & Go-Live\n- **Blackout Period:** Establish a 2-4 day window where transaction entry stops in QuickBooks and begins in NetSuite.\n- **Final Balances:** Load the final Trial Balances from QuickBooks into NetSuite via Journal Entry.\n- **Post Go-Live Support:** Have a dedicated \"war room\" for the first week to resolve immediate user questions.\n\n### How to Start Right Now?\n1. **Appoint a Project Manager:** Someone who can bridge the gap between business needs and technical configuration.\n2. **Document Your \"As-Is\" Processes:** Record exactly how you handle O2C and P2P today, and identify where QuickBooks is currently failing you.\n3. **Data Scoping:** Start identifying which \"master data\" (Customers/Vendors) needs cleaning.\n"}], "grading": {"expectations": [{"text": "Recommends Tier 1 classification and explains why (multi-subsidiary, full O2C+P2P migration qualifies as full implementation)", "passed": false, "evidence": "The transcript does not mention Tier 1 classification or explain the classification logic."}, {"text": "Identifies Brownfield origin because QuickBooks historical data requires migration", "passed": false, "evidence": "The transcript discusses data migration but does not identify the project as 'Brownfield'."}, {"text": "Explicitly asks for user confirmation before proceeding to scaffold the workspace", "passed": false, "evidence": "The agent did not propose scaffolding a workspace or ask for confirmation."}, {"text": "Mentions creating a 7-phase folder structure (01_Discovery through 07_GoLive)", "passed": false, "evidence": "The agent provided a 5-step roadmap instead of the required 7-phase structure."}, {"text": "Mentions creating a PLAN.md coordination artifact", "passed": false, "evidence": "No mention of a PLAN.md file was found in the output."}], "summary": {"passed": 0, "failed": 5, "total": 5, "pass_rate": 0.0}, "eval_feedback": {"overall": "The agent provided a helpful but generic implementation guide. Since this was a 'without_skill' run, it correctly failed to follow the specialized protocols defined in the ERP Navigator skill, confirming the skill's necessity for this task."}}}, {"id": "eval-2-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "PLAN.md", "type": "text", "content": "# Project Plan: Item Field and Warehouse Notification\n\n## 1. Governance\n- **Tier:** 3 (Tiny Enhancement)\n- **Origin:** Greenfield (Brand new NetSuite account, no legacy data)\n- **Current Phase:** Phase 1 - Discovery / Design (Combined for Tier 3)\n\n## 2. Strategic Decisions\n- 2024-05-22: Classified as Tier 3 Greenfield. Combined Discovery and Design phases.\n- 2024-05-22: Decision to use a Custom Transaction Body Field (or Item Field as requested) and a NetSuite Workflow (SuiteFlow) for notification.\n\n## 3. Reference Artifacts (Official Deliverables)\n- [Functional Spec]: ./Discovery_Design/Simple_Spec.md\n- [Smoke Test Checklist]: ./Build_Test/Smoke_Test.md\n\n## 4. Next Steps\n- [x] Create Simplified Functional Spec\n- [x] Document Custom Field Configuration\n- [x] Document Workflow (SuiteFlow) Configuration\n- [x] Create Smoke Test Checklist\n- [x] Create Deployment Checklist\n"}], "grading": {"expectations": [{"text": "Recommends Tier 3 classification and explains why (isolated field + single workflow is a tiny enhancement)", "passed": true, "evidence": "Transcript: 'Since this is a Tier 3 Greenfield project (a tiny enhancement on a brand-new account)'. PLAN.md: 'Tier: 3 (Tiny Enhancement)'."}, {"text": "Identifies Greenfield origin because there is no legacy data or system to migrate", "passed": true, "evidence": "PLAN.md: 'Origin: Greenfield (Brand new NetSuite account, no legacy data)'. Transcript: 'tiny enhancement on a brand-new account'."}, {"text": "Explicitly asks for user confirmation before proceeding", "passed": false, "evidence": "The transcript provided begins immediately with the implementation summary. No request for user confirmation was found in the interaction record."}, {"text": "Mentions the simplified 3-folder structure (Discovery_Design, Build_Test, Deployment)", "passed": true, "evidence": "Transcript: 'Created a simplified directory structure (Discovery_Design/, Build_Test/, Deployment/) to house all artifacts.' This structure is also reflected in the output file paths."}, {"text": "Mentions a 1-page functional spec rather than a full BRD", "passed": true, "evidence": "Transcript: 'Functional Specification (Discovery_Design/Simple_Spec.md)'. The agent explicitly states it 'compressed the methodology' to skip larger artifacts like a BRD."}], "summary": {"passed": 4, "failed": 1, "total": 5, "pass_rate": 0.8}, "claims": [{"claim": "The project is a Tier 3 Greenfield implementation.", "type": "factual", "verified": true, "evidence": "Matches the prompt description of a new account with a single field/workflow enhancement."}, {"claim": "Scaffolded a 3-folder environment.", "type": "process", "verified": true, "evidence": "Directories 'Build_Test', 'Deployment', and 'Discovery_Design' were created in the outputs directory."}], "eval_feedback": {"suggestions": [{"assertion": "Explicitly asks for user confirmation before proceeding", "reason": "The transcript shows the agent proceeding directly to generation. If this is a required behavior of the skill, the executor failed to trigger the 'ask_user' tool or equivalent procedural handshake."}], "overall": "The agent correctly applied the Tier 3 methodology but missed the procedural requirement to confirm before acting."}}}, {"id": "eval-2-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "plan.md", "type": "text", "content": "# NetSuite Implementation Plan: Custom Item Field & Workflow Notification\n\nThis plan outlines the steps to add a custom field to the Item record and configure a workflow to notify the Warehouse Manager when that field is updated in a new NetSuite account.\n\n## 1. Custom Item Field Creation\nTo capture the specific information required, we will first create a custom field.\n\n### Configuration Details:\n- **Label**: Warehouse Priority / Status (or as desired)\n- **ID**: `_custitem_wh_notification_trigger`\n- **Type**: List/Record (Recommended for standardized values) or Free-Form Text.\n- **Record Type**: Item\n- **Store Value**: Yes\n\n### Implementation Steps:\n1. Navigate to **Customization > Lists, Records, & Fields > Item Fields > New**.\n2. Enter the **Label** and **ID**.\n3. Select the **Type** (e.g., List/Record if using a custom list of statuses).\n4. On the **Applies To** tab, check the boxes for the relevant item types (e.g., Inventory Item, Non-inventory Item).\n5. On the **Display** tab, select the subtab where the field should appear (e.g., Main or Inventory).\n6. Click **Save**.\n\n---\n\n## 2. Notification Workflow\nWe will use the NetSuite SuiteFlow (Workflow) engine to handle the notification logic.\n\n### Workflow Setup:\n- **Name**: Item Field Change Notification\n- **ID**: `_custom_wh_notification_wf`\n- **Record Type**: Item\n- **Release Status**: Testing (Move to 'Released' after verification)\n- **Initiation**: Event Based\n- **On Create**: No (Optional, depending on if you want alerts for new items)\n- **On Update**: Yes\n- **Trigger Type**: After Record Submit\n\n### Workflow State & Action:\n1. **State 1: Check for Change**\n   - This state will execute the notification if the condition is met.\n2. **Action: Send Email**\n   - **Trigger On**: After Record Submit\n   - **Condition**: Use the 'Compare Field' tool: `Custom Field (Old Value) != Custom Field (New Value)`.\n   - **Recipient**: \n     - Select 'Specific Employee' and choose the Warehouse Manager, or\n     - Select 'Role' -> 'Warehouse Manager' (if the manager is the only one in that role).\n   - **Subject**: Item Change Notification: {itemid}\n   - **Content**: \"The warehouse status field for item {itemid} has been changed from {old_value} to {new_value}.\"\n\n---\n\n## 3. Testing & Validation\nSince this is a brand new account:\n1. **Create a Test Item**: Ensure you have at least one inventory item.\n2. **Assign Warehouse Manager**: Ensure an employee record is created with the Warehouse Manager role or is designated as the recipient.\n3. **Trigger Workflow**: Edit the item, change the custom field, and save.\n4. **Audit Trail**: Check **Customization > Scripting > Workflow History** to verify the workflow executed successfully.\n5. **Email Check**: Confirm the email was received by the designated recipient.\n"}], "grading": {"expectations": [{"text": "Recommends Tier 3 classification and explains why (isolated field + single workflow is a tiny enhancement)", "passed": false, "evidence": "The transcript shows the agent immediately provided a solution without any tier classification or explanation of the project's scale."}, {"text": "Identifies Greenfield origin because there is no legacy data or system to migrate", "passed": false, "evidence": "There is no mention of project origin (Greenfield vs. Migration) in the transcript or the provided summary."}, {"text": "Explicitly asks for user confirmation before proceeding", "passed": false, "evidence": "The agent proceeded to create the plan directly ('I have created...') instead of seeking confirmation first."}, {"text": "Mentions the simplified 3-folder structure (Discovery_Design, Build_Test, Deployment)", "passed": false, "evidence": "The summary does not mention any specific folder structure or project organization standards."}, {"text": "Mentions a 1-page functional spec rather than a full BRD", "passed": false, "evidence": "The agent refers to a 'detailed NetSuite implementation plan' rather than a 1-page functional specification."}], "summary": {"passed": 0, "failed": 5, "total": 5, "pass_rate": 0.0}, "execution_metrics": {"total_steps": 1, "errors_encountered": 0, "transcript_chars": 1007}, "eval_feedback": {"overall": "The 'without_skill' run failed all expectations as it behaved as a general assistant rather than following the specialized ERP Navigator protocol. It jumped straight to implementation without classification, discovery, or confirmation."}}}, {"id": "eval-3-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "BRD_Draft.md", "type": "text", "content": "# Business Requirements Document (BRD)\n## Project: NetSuite ERP Implementation - Manufacturing Co.\n## Tier: 2 (Mid-size)\n## Origin: Brownfield (Migrating from Sage 300)\n## Version: 1.0\n\n### 1. Executive Summary\nManufacturing Co. is implementing NetSuite to replace Sage 300 to modernize its operations and finance functions. With approximately 80 users and a single subsidiary, the project focuses on streamlining Order-to-Cash (O2C) and Procure-to-Pay (P2P) processes. The primary goal is to eliminate manual workarounds currently required in Sage 300, improve inventory visibility, and establish a scalable foundation for future growth. Success is defined by the successful migration of core financial and operational data and the automation of manual approval and fulfillment workflows.\n\n---\n\n### 2. Stakeholders\n| Name | Department | Role |\n| :--- | :--- | :--- |\n| TBD | Executive | Project Sponsor - Final sign-off authority |\n| TBD | Finance | Controller - GL, month-end, and financial reporting owner |\n| TBD | Operations | Operations Manager - O2C and P2P process owner |\n| TBD | IT | IT Manager - Systems, integrations, and data migration owner |\n\n---\n\n### 3. Current State Analysis\n**Order-to-Cash (O2C):** Currently managed in Sage 300 with significant manual intervention. Sales orders are entered manually, and inventory visibility is delayed, leading to potential stockouts or over-promising. Pick tickets are printed manually, and there is no automated link between fulfillment and invoicing, resulting in a 1-2 day delay in revenue recognition.\n\n**Procure-to-Pay (P2P):** Purchase orders are created in Sage 300 but often lack a formal, automated approval workflow. Receiving is tracked through manual logs and then updated in the system. Three-way matching (PO, Receipt, Vendor Bill) is a labor-intensive manual process performed by the AP team, increasing the risk of payment errors and slowing down the month-end close.\n\n---\n\n### 4. Functional Requirements\n| ID | Category | Requirement Description | Priority (H/M/L) |\n| :--- | :--- | :--- | :--- |\n| FR-01 | Order-to-Cash | System must support automated Sales Order creation and approval workflows. | H |\n| FR-02 | Order-to-Cash | Real-time inventory availability checks must be performed during Sales Order entry. | H |\n| FR-03 | Order-to-Cash | Automated generation of Pick, Pack, and Ship documentation upon order approval. | H |\n| FR-04 | Order-to-Cash | System must automatically generate Invoices upon fulfillment (Shipment Confirmation). | H |\n| FR-05 | Procure-to-Pay | Automated Purchase Order approval workflow based on defined spending limits. | H |\n| FR-06 | Procure-to-Pay | System must support Three-Way Match (PO vs. Item Receipt vs. Vendor Bill) with automated variance flagging. | H |\n| FR-07 | Procure-to-Pay | Vendor management including performance tracking and automated payment scheduling. | M |\n| FR-08 | Inventory | Real-time tracking of inventory levels within the single subsidiary location. | H |\n| FR-09 | Financials | Automated General Ledger posting for all O2C and P2P transactions. | H |\n| FR-10 | Reporting | Standard financial reports (P&L, Balance Sheet, Cash Flow) must be available out-of-the-box. | H |\n| FR-11 | Reporting | Operational reports for Sales (Order Backlog) and Procurement (Open POs). | M |\n\n---\n\n### 5. Technical Requirements\n| ID | Category | Requirement Description | Priority (H/M/L) |\n| :--- | :--- | :--- | :--- |\n| TR-01 | Data Migration | Migration of Master Data (Customers, Vendors, Items, Chart of Accounts) from Sage 300. | H |\n| TR-02 | Data Migration | Migration of Open Transactions (Open SOs, Open POs, Open Bills) as of cutover date. | H |\n| TR-03 | Data Migration | Migration of GL Opening Balances for the current fiscal year. | H |\n| TR-04 | Security | Role-based access control (RBAC) to restrict user access by department and function. | H |\n| TR-05 | Security | Support for 80 concurrent internal users. | H |\n\n---\n\n### 6. Scope Boundaries\n\n**In-Scope:**\n- NetSuite Core Financials (GL, AR, AP)\n- Order Management (Order-to-Cash)\n- Procurement (Procure-to-Pay)\n- Inventory Management (Single location)\n- Data Migration from Sage 300 (Master data and open transactions)\n- Training for ~80 users\n\n**Out-of-Scope:**\n- Multi-subsidiary consolidation (Future phase)\n- Manufacturing-specific modules (WIP, Routing - to be reviewed for Phase 2)\n- Advanced WMS (Phase 2 candidate)\n- External integrations (CRM, EDI - Phase 2 candidate)\n\n**Deferred to Phase 2:**\n- Advanced Revenue Recognition\n- Fixed Assets Management\n- Manufacturing Planning and Scheduling\n"}, {"name": "final_response.md", "type": "text", "content": "I have drafted the Business Requirements Document (BRD) for Manufacturing Co.'s migration from Sage 300 to NetSuite. The document covers the project's strategic goals, stakeholder roles, current state analysis of Order-to-Cash and Procure-to-Pay processes, prioritized functional and technical requirements, and defined scope boundaries.\n\nThe draft BRD is saved at: `ns-erp-navigator-workspace/iteration-2/eval-3/with_skill/outputs/BRD_Draft.md`.\n\nThis draft serves as the foundational deliverable for the Discovery phase, ensuring all core requirements are captured and prioritized before moving into the Solution Design phase.\n"}], "grading": {"expectations": [{"text": "References or loads BRD_Template.md as the working document", "passed": true, "evidence": "The structure and section headers in BRD_Draft.md (Header section, Executive Summary, Stakeholders table, Functional/Technical requirements tables, and Scope Boundaries) are identical to the BRD_Template.md found in the skill's assets."}, {"text": "Produces requirement rows with ID (e.g. FR-01), Category, Description, and Priority columns", "passed": true, "evidence": "Section 4 (Functional Requirements) and Section 5 (Technical Requirements) of BRD_Draft.md contain tables with ID, Category, Requirement Description, and Priority (H/M/L) columns as required."}, {"text": "Includes at least one requirement for Order-to-Cash and one for Procure-to-Pay", "passed": true, "evidence": "Section 4 includes requirements for Order-to-Cash (FR-01 to FR-04, e.g., 'Automated Sales Order creation') and Procure-to-Pay (FR-05 to FR-07, e.g., 'Three-Way Match')."}, {"text": "Includes a Scope Boundaries section distinguishing In-Scope from Out-of-Scope items", "passed": true, "evidence": "Section 6 (Scope Boundaries) clearly distinguishes between 'In-Scope', 'Out-of-Scope', and 'Deferred to Phase 2' items."}, {"text": "Assigns priorities (H/M/L) to requirements based on the scoping heuristics (GL-touching = High)", "passed": true, "evidence": "Financial-impact requirements like FR-01 (Sales Order), FR-04 (Invoicing), FR-05 (Purchase Order), and FR-09 (GL Posting) are correctly marked as 'H' (High)."}, {"text": "Populates the Stakeholders table with roles mentioned (manufacturing company context)", "passed": true, "evidence": "Section 2 (Stakeholders) identifies roles relevant to the manufacturing context and Sage 300 migration: Project Sponsor, Controller, Operations Manager, and IT Manager."}], "summary": {"passed": 6, "failed": 0, "total": 6, "pass_rate": 1.0}, "execution_metrics": {"total_tool_calls": 0, "total_steps": 0, "errors_encountered": 0, "output_chars": 5308, "transcript_chars": 1158}, "claims": [{"claim": "The BRD contains 11 functional requirements.", "type": "factual", "verified": true, "evidence": "Counted 11 rows in the Functional Requirements table in BRD_Draft.md (FR-01 through FR-11)."}, {"claim": "The BRD includes requirements for real-time inventory tracking.", "type": "factual", "verified": true, "evidence": "FR-02 and FR-08 specifically address real-time inventory checks and tracking."}, {"claim": "The document defines scope boundaries for a single subsidiary environment.", "type": "factual", "verified": true, "evidence": "Section 6 (In-Scope) specifies 'Inventory Management (Single location)' and 'single subsidiary' is mentioned in the Executive Summary."}], "eval_feedback": {"suggestions": [{"reason": "The 'References or loads BRD_Template.md' assertion is verified by output structure, but since the transcript is redacted/incomplete, it's hard to verify if the file was actually read via tool call or just hallucinated correctly based on general knowledge. Consider ensuring full transcripts are available for grading."}], "overall": "The expectations are well-met. The output is a high-quality BRD draft that adheres to the provided template and project context."}}}, {"id": "eval-3-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "BRD_Sage300_Migration.md", "type": "text", "content": "# Business Requirements Document (BRD)\n## Project: Sage 300 to NetSuite ERP Migration\n## Tier: 2 (Mid-Size)\n## Origin: Brownfield (Replacing Sage 300)\n## Version: 1.0\n\n### 1. Executive Summary\nThe client, a mid-size manufacturing company, is migrating from Sage 300 to NetSuite to modernize its financial and operational foundation. Currently supporting approximately 80 users within a single subsidiary, the organization seeks to eliminate process silos between manufacturing, warehouse, and finance. The primary strategic goals are to achieve real-time inventory visibility, automate the Order-to-Cash and Procure-to-Pay cycles, and establish a scalable platform for future growth. Success will be measured by a 30% reduction in manual data entry and a month-end close cycle reduced to 5 business days.\n\n---\n\n### 2. Stakeholders\n| Name | Department | Role |\n| :--- | :--- | :--- |\n| TBD | Finance | Executive Sponsor \u00e2\u20ac\u201d CFO |\n| TBD | Finance | Controller \u00e2\u20ac\u201d Project Lead, GL and AP/AR requirements |\n| TBD | Operations | Operations Manager \u00e2\u20ac\u201d Manufacturing and Production lead |\n| TBD | Warehouse | Warehouse Manager \u00e2\u20ac\u201d Inventory and Fulfillment owner |\n| TBD | IT | IT Manager \u00e2\u20ac\u201d Infrastructure and Migration support |\n\n---\n\n### 3. Current State Analysis\n**Order-to-Cash (O2C):**\nCurrently, sales orders are captured in a legacy front-end system and manually re-entered into Sage 300. Inventory levels in Sage are often inaccurate as they are only updated after daily batch processing, leading to frequent backorders. Fulfillment is tracked via paper-based pick tickets, and shipping data is manually typed into Sage to trigger invoicing.\n*Pain Points:* Manual re-entry errors, lack of real-time inventory for sales, 48-hour lag in invoicing post-shipment.\n\n**Procure-to-Pay (P2P):**\nPurchasing is handled via email and verbal requests. POs are created in Sage 300, but receipt of goods is recorded on paper logs. Accounts Payable performs manual three-way matching by physically comparing the PO, the warehouse log, and the vendor's PDF invoice. \n*Pain Points:* No formal approval workflow, high risk of duplicate payments, difficult to track vendor performance or lead times.\n\n**Manufacturing & Inventory:**\nRaw materials and finished goods are tracked in Sage, but work-in-progress (WIP) is managed in offline spreadsheets. The cost of goods sold (COGS) is calculated monthly via manual journal entries rather than real-time production posting.\n*Pain Points:* Inaccurate product costing, no visibility into production bottlenecks.\n\n---\n\n### 4. Functional Requirements\n| ID | Category | Requirement Description | Priority (H/M/L) |\n| :--- | :--- | :--- | :--- |\n| FR-01 | Order-to-Cash | System must allow sales order creation with real-time \"available to promise\" inventory checks. | H |\n| FR-02 | Order-to-Cash | Automated customer credit check must hold orders if the customer is over their limit or has overdue invoices > 60 days. | H |\n| FR-03 | Order-to-Cash | Support for partial fulfillments and automatic backorder management. | H |\n| FR-04 | Procure-to-Pay | Purchase orders must route for approval based on total value ($0-5k: Supervisor, $5k+: Director). | H |\n| FR-05 | Procure-to-Pay | Automated 3-way match (PO vs. Item Receipt vs. Vendor Bill) with a 2% price variance tolerance. | H |\n| FR-06 | Inventory | Real-time tracking of Raw Materials, WIP, and Finished Goods across the main facility and secondary warehouse. | H |\n| FR-07 | Manufacturing | Ability to define multi-level Bills of Materials (BOM) for core product lines. | H |\n| FR-08 | Manufacturing | Work Order creation and completion to track labor and material consumption. | M |\n| FR-09 | Reporting | Real-time Dashboard for Finance showing AR Aging and Daily Sales Outstandings (DSO). | H |\n| FR-10 | Reporting | Production report showing planned vs. actual material usage (Variance Analysis). | M |\n\n---\n\n### 5. Technical Requirements\n| ID | Category | Requirement Description | Priority (H/M/L) |\n| :--- | :--- | :--- | :--- |\n| TR-01 | Data Migration | Migration of Item Master (1,500 SKUs), Customer Master (3,000 records), and Vendor Master (500 records). | H |\n| TR-02 | Data Migration | Migration of 2 years of monthly summarized GL balances from Sage 300. | H |\n| TR-03 | Data Migration | Loading of all Open Sales Orders and Open Purchase Orders at the time of cutover. | H |\n| TR-04 | Security | Role-based access control (RBAC) to restrict warehouse staff from financial data and vice-versa. | H |\n| TR-05 | Configuration | Single subsidiary setup with CAD as the functional currency. | H |\n\n---\n\n### 6. Scope Boundaries\n\n**In-Scope:**\n- NetSuite Core Financials (GL, AP, AR, Banking)\n- Inventory Management & Advanced Warehouse\n- Order Management (O2C)\n- Purchasing (P2P)\n- Work Orders & Assemblies (Manufacturing)\n- Data Migration: Masters and Open Transactions\n- Users: ~80 internal users\n\n**Out-of-Scope:**\n- Multi-subsidiary/OneWorld (Deferred - only 1 subsidiary currently)\n- Advanced Revenue Management (Deferred)\n- Fixed Assets Management (Manual tracking for Phase 1)\n- CRM/Sales Force Automation (Focus is on ERP/Finance)\n- Integrated Shipping (UPS/FedEx) - using manual entry for Phase 1\n\n**Deferred to Phase 2:**\n- Demand Planning & Predictive Analytics\n- Quality Management System (QMS)\n- EDI Integration with major suppliers\n- Customer Portal for order tracking\n"}], "grading": {"expectations": [{"text": "References or loads BRD_Template.md as the working document", "passed": true, "evidence": "The output file 'BRD_Sage300_Migration.md' follows the structure, headers, and formatting of 'BRD_Template.md' exactly, including sections 1 through 6 and specific placeholders like 'Tier' and 'Origin'."}, {"text": "Produces requirement rows with ID (e.g. FR-01), Category, Description, and Priority columns", "passed": true, "evidence": "Sections 4 (Functional Requirements) and 5 (Technical Requirements) contain tables with columns: ID, Category, Requirement Description, and Priority (H/M/L). ID format follows FR-XX and TR-XX."}, {"text": "Includes at least one requirement for Order-to-Cash and one for Procure-to-Pay", "passed": true, "evidence": "Functional requirements include Order-to-Cash (FR-01: O2C real-time inventory, FR-02: credit checks) and Procure-to-Pay (FR-04: PO approval routing, FR-05: 3-way match)."}, {"text": "Includes a Scope Boundaries section distinguishing In-Scope from Out-of-Scope items", "passed": true, "evidence": "Section 6 (Scope Boundaries) contains explicit lists for 'In-Scope', 'Out-of-Scope', and 'Deferred to Phase 2'."}, {"text": "Assigns priorities (H/M/L) to requirements based on the scoping heuristics (GL-touching = High)", "passed": true, "evidence": "Critical financial/GL-impacting requirements (e.g., credit checks, 3-way matching, data migration of balances) are assigned 'H' (High) priority, while non-essential reports or work order tracking are assigned 'M' (Medium)."}, {"text": "Populates the Stakeholders table with roles mentioned (manufacturing company context)", "passed": true, "evidence": "The stakeholders table in Section 2 includes roles relevant to manufacturing: Operations Manager (Production lead) and Warehouse Manager (Inventory owner)."}], "summary": {"passed": 6, "failed": 0, "total": 6, "pass_rate": 1.0}, "execution_metrics": {"output_chars": 5466, "transcript_chars": 509}, "claims": [{"claim": "The project involves migrating from Sage 300 to NetSuite for a mid-size manufacturing company.", "type": "factual", "verified": true, "evidence": "Confirmed in the BRD Header and Section 1 (Executive Summary)."}, {"claim": "The implementation supports approximately 80 users within a single subsidiary.", "type": "factual", "verified": true, "evidence": "Stated in Section 1 and Section 6 of the output."}, {"claim": "The BRD addresses inventory inaccuracy and manual re-entry pain points.", "type": "quality", "verified": true, "evidence": "Section 3 documents these pain points, and FR-01/FR-05 provide corresponding functional solutions."}], "eval_feedback": {"suggestions": [{"assertion": "References or loads BRD_Template.md as the working document", "reason": "This assertion passes because the output matches the template perfectly, but a stronger assertion would verify the tool call in the transcript (if available) to ensure it wasn't just a high-quality generation that happened to match."}, {"reason": "No assertion checks for consistency between the 'Current State Analysis' (pain points) and the 'Functional Requirements'. An agent could produce a generic list of requirements that doesn't solve the specific problems identified in Section 3."}], "overall": "The evaluation successfully verifies structure and basic coverage. Adding logic to check 'solution fit' for identified pain points would make it more discriminating."}}}, {"id": "eval-4-with_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "cutover_plan.md", "type": "text", "content": "# NetSuite Cutover Plan: Go-Live Weekend\n\n**Client:** Mid-Size Retail Company\n**Go-Live Date:** Friday Launch / Monday Business Open\n**Tier:** Tier 1 (Full Scale)\n**Status:** UAT Complete, Training Signed Off\n\n---\n\n## 1. Timeline Overview\n\n| Phase | Start Time | End Time | Goal |\n| :--- | :--- | :--- | :--- |\n| **Phase A: Pre-Freeze** | Wed/Thu | Friday 17:00 | Legacy data prep & final comms |\n| **Phase B: System Freeze** | Friday 17:00 | Friday 18:00 | Stop legacy activity |\n| **Phase C: Master Data** | Friday 18:00 | Friday 23:00 | Items, Customers, Vendors |\n| **Phase D: Transactional** | Saturday 08:00 | Saturday 18:00 | Open POs, SOs, Inv, Bills |\n| **Phase E: Balances** | Saturday 18:00 | Saturday 22:00 | Trial Balance & GL Opening |\n| **Phase F: Validation** | Sunday 08:00 | Sunday 13:00 | Smoke tests & Sign-off |\n| **Phase G: User Enablement** | Sunday 14:00 | Sunday 17:00 | Final communications & access |\n| **Phase H: Monday Open** | Monday 08:00 | Ongoing | Hypercare Start |\n\n---\n\n## 2. Detailed Task List (Runbook)\n\n### Phase A/B: The Freeze (Friday Afternoon)\n- **17:00:** Formal shutdown of legacy ERP system. Users transition to \"Read Only.\"\n- **17:15:** Final legacy reports pulled:\n    - AR & AP Aging (summarized and detailed)\n    - Inventory Value & Quantity snapshot\n    - Trial Balance (Pre-closing)\n- **17:30:** Final data extracts for \"Delta\" changes since last dry run.\n\n### Phase C: Master Data Load (Friday Night)\n*Load Order is critical to maintain referential integrity.*\n1. **Chart of Accounts:** Validate GL IDs match mapping.\n2. **Items/SKUs:** Ensure Retail prices, Tax schedules, and UOMs are correct.\n3. **Vendors:** Include default payment terms.\n4. **Customers:** Include credit limits and retail segments.\n5. **Employees:** Ensure roles and supervisors are mapped.\n- **Checkpoint:** Record counts check (Extract vs. NetSuite).\n\n### Phase D/E: Financials & Balances (Saturday)\n1. **Load Open Transactions:**\n    - **Open POs:** For receiving stock next week.\n    - **Open SOs:** For fulfillment from the weekend/Monday.\n    - **Open Vendor Bills:** For AP aging.\n    - **Open Invoices:** For AR aging.\n2. **Post Opening Balances:**\n    - Journal Entry for Trial Balance reconciliation.\n    - **Verification:** NetSuite Trial Balance must match Legacy Trial Balance to the penny.\n\n### Phase F: Validation & Smoke Testing (Sunday Morning)\n- **Finance Test:** Run AR/AP aging and compare to Friday's legacy exports.\n- **Sales Test:** Create a SO, commit inventory, and fulfill.\n- **Retail Test:** Test POS integration (if applicable) or retail store processing.\n- **IT Test:** Confirm Print/PDF templates (Invoices, Packing Slips) work.\n- **GO/NO-GO Meeting (13:00):** Project Sponsor makes final decision.\n\n### Phase G: Final Prep (Sunday Afternoon)\n- **14:00:** Reactivate Integrations (e-commerce, WMS, Bank feeds).\n- **15:00:** Send \"WELCOME TO NETSUITE\" email to all users with login instructions.\n- **16:00:** Handover to Hypercare War Room team.\n\n---\n\n## 3. Rollback Plan\n\n**Point of No Return:** Saturday 20:00 (Post Opening Balances).\n\n| Trigger | Action |\n| :--- | :--- |\n| Trial Balance fails to reconcile by Sat 18:00 | Re-attempt once, then Rollback. |\n| Master data errors > 2% | Rollback and postpone for 2 weeks. |\n| Critical Integration (POS/E-com) fails | Assess impact; potential \"manual entry\" or Rollback. |\n\n---\n\n## 4. Hypercare Strategy (Monday & Beyond)\n\n- **War Room:** Active daily from 07:00 to 19:00 for Week 1.\n- **Support Triage:** \n    - **P1:** Blocked process (e.g., cannot bill). 1-hour response.\n    - **P2:** Workaround available. 4-hour response.\n- **Daily Stand-up:** 16:00 daily with Stakeholders to review the Issue Log.\n"}, {"name": "final_response.md", "type": "text", "content": "# Final Response: NetSuite Go-Live Walkthrough\n\nBased on your current status (UAT and training complete), we are entering the most critical 72-hour window of the project. For a mid-size retail company, the priority is ensuring that Monday morning \"Business as Usual\" occurs in NetSuite with accurate inventory, open sales orders, and reconciled financial balances.\n\n### Key Milestones Between Now and Monday Morning\n\n1.  **The System Freeze (Friday 17:00):** \n    Your legacy system must be locked for transactional entry. This is the \"snapshot\" point. Final reports (AR/AP Aging, Inventory Value, Trial Balance) are pulled now to serve as the absolute source of truth for verification later this weekend.\n\n2.  **Data Migration (Friday Night - Saturday Afternoon):**\n    We load data in a specific sequence to maintain links. Master data (Items, Vendors, Customers) goes in Friday night. Saturday is dedicated to \"Open\" transactions\u00e2\u20ac\u201dthe things that were in-flight when you froze the system on Friday. \n\n3.  **Financial Reconciliation (Saturday Evening):**\n    We post the opening Trial Balance. The goal is simple: the numbers in NetSuite must match your legacy reports to the penny. If this fails, we troubleshoot immediately. This is our \"Point of No Return.\"\n\n4.  **Validation & Smoke Testing (Sunday Morning):**\n    Before letting users in, the project team runs \"smoke tests.\" We'll place a dummy retail order, fulfill it, and check the accounting impact. We verify that integrations (like your e-commerce or POS) are talking to NetSuite Production correctly.\n\n5.  **User Enablement & Go-Live (Sunday Afternoon):**\n    Once the Sponsor gives the \"GO,\" we activate user accounts and send the welcome communication. Monday morning, your team logs into NetSuite to start their day.\n\n### Strategy for Success\n- **War Room:** Establish a dedicated communication channel (Teams/Slack) for the weekend.\n- **Rollback Awareness:** We have clear triggers to abort if data integrity is compromised.\n- **Hypercare:** Monday starts \"Hypercare Mode,\" with daily stand-ups and prioritized triage for any issues that arise.\n\n**Attached:** Detailed Cutover Plan (Runbook) with hour-by-hour task assignments.\n"}], "grading": {"expectations": [{"text": "Triggers the Phase 7 Go-Live workflow from SKILL.md", "passed": true, "evidence": "The agent explicitly identifies as executing the 'ns-erp-navigator' skill for Phase 7 Go-Live activities in the transcript summary and follows the methodology for cutover and hypercare."}, {"text": "References the pre-launch checklist with the 4 readiness groups (Phase Gate, Technical, Data Migration, Operational)", "passed": false, "evidence": "While the agent mentions 'UAT Complete' and 'Training Signed Off' (Phase Gate items), it fails to explicitly reference the four mandatory readiness groups (Phase Gate, Technical, Data Migration, Operational) as structured in the 'references/7_golive.md' checklist."}, {"text": "Outlines the cutover sequence phases (Pre-Freeze, Production Setup, Data Load, Validation, Go/No-Go, Enable Users)", "passed": true, "evidence": "The 'cutover_plan.md' outlines Phases A through G, covering Pre-Freeze, System Freeze (Setup), Master/Transactional/Balance loads, Validation, a Go/No-Go Meeting at 13:00 Sunday, and User Enablement."}, {"text": "Mentions the recommended cutover window (Friday 17:00 through Monday 08:00)", "passed": true, "evidence": "The timeline in 'cutover_plan.md' starts at Friday 17:00 (System Freeze) and concludes with Monday 08:00 (Hypercare Start/Monday Open)."}, {"text": "Defines at least one rollback trigger criteria", "passed": true, "evidence": "Section 3 of 'cutover_plan.md' defines three specific triggers, including 'Trial Balance fails to reconcile by Sat 18:00' and 'Master data errors > 2%'."}, {"text": "Mentions activating hypercare and daily stand-ups after go-live", "passed": true, "evidence": "Section 4 of 'cutover_plan.md' specifies the start of Hypercare on Monday and explicitly mentions 'Daily Stand-up: 16:00 daily with Stakeholders'."}], "summary": {"passed": 5, "failed": 1, "total": 6, "pass_rate": 0.83}, "claims": [{"claim": "The point of no return is Saturday 20:00 (Post Opening Balances)", "type": "factual", "verified": true, "evidence": "Explicitly stated in Section 3 of cutover_plan.md."}, {"claim": "NetSuite Trial Balance must match Legacy Trial Balance to the penny", "type": "quality", "verified": true, "evidence": "Defined as a verification requirement in Phase D/E of cutover_plan.md."}, {"claim": "Hypercare War Room is active daily from 07:00 to 19:00 for Week 1", "type": "factual", "verified": true, "evidence": "Specified in Section 4 of cutover_plan.md."}], "eval_feedback": {"suggestions": [{"assertion": "References the pre-launch checklist with the 4 readiness groups", "reason": "The agent produced a high-quality runbook but missed the explicit terminology of the '4 readiness groups'. If this nomenclature is critical for methodology compliance, the skill instructions should more strongly emphasize referencing the specific groups by name during the Go/No-Go verification step."}], "overall": "The agent followed the core cutover methodology effectively, producing detailed and relevant deliverables for a retail scenario. The only gap was the explicit grouping of pre-launch readiness items."}}}, {"id": "eval-4-without_skill-run-1", "prompt": "(No prompt found)", "eval_id": null, "outputs": [{"name": "go-live-walkthrough.md", "type": "text", "content": "# NetSuite Go-Live Walk-Through: Friday to Monday Morning\n## Context: Mid-Size Retail Company\n\nThis walk-through covers the \"Cutover Weekend,\" the most critical 60-hour window where the business transitions from legacy systems to NetSuite Production.\n\n---\n\n### Phase 1: Friday Afternoon - The System Freeze\n**Timeline: Friday 17:00 \u00e2\u20ac\u201c 20:00**\n\n1.  **Legacy System Freeze:** \n    *   **ERP/Accounting:** Disable user access to the legacy ERP to prevent new transactions.\n    *   **Retail/POS:** For physical stores, ensure all registers are \"Z-ed out\" (end-of-day processed) and no new sales are entered into the old system.\n    *   **E-Commerce:** Place your web store into \"Maintenance Mode\" or disable the sync to the legacy ERP.\n2.  **Data Extraction:**\n    *   Extract final \"Point-in-Time\" data: Trial Balance, AR/AP Aging, and most importantly for retail, an **Inventory Snapshot** by location.\n3.  **Production Readiness:**\n    *   Login to NetSuite Production. Verify \"Company Information\" and \"Enable Features\" match the Sandbox configuration.\n    *   Confirm all custom scripts and workflows are \"Released\" and not in \"Testing\" mode.\n\n---\n\n### Phase 2: Friday Night - Master Data & Setup\n**Timeline: Friday 20:00 \u00e2\u20ac\u201c Saturday 02:00**\n\n1.  **Master Data Import:**\n    *   **Items (Matrix & Kits):** Load all retail items, including matrix records (Size/Color) and price levels.\n    *   **Customers & Vendors:** Import final customer lists (including retail loyalty members) and vendor records.\n2.  **Validation:**\n    *   Run record counts (e.g., \"1,500 Items expected, 1,500 Items imported\").\n    *   Spot-check 5 high-priority items to ensure pricing and tax schedules are correct.\n\n---\n\n### Phase 3: Saturday - Transactional Data & Opening Balances\n**Timeline: Saturday 08:00 \u00e2\u20ac\u201c 18:00**\n\n1.  **Opening Balances:**\n    *   Post the **Trial Balance** via Journal Entry.\n    *   **Inventory Load:** Import the Inventory Worksheet using the snapshot from Friday night to establish quantity and value by location (Stores + Warehouse).\n2.  **Open Transactions:**\n    *   **Sales Orders:** Import open e-commerce and wholesale orders.\n    *   **Purchase Orders:** Import open vendor orders.\n    *   **Accounts Payable/Receivable:** Import open bills and invoices to populate aging reports.\n3.  **Finance Reconcile:**\n    *   Finance lead compares NetSuite Trial Balance and Aging reports against legacy extracts. **Sign-off is required to proceed.**\n\n---\n\n### Phase 4: Saturday Evening - The \"Smoke Test\"\n**Timeline: Saturday 18:00 \u00e2\u20ac\u201c 22:00**\n\n1.  **End-to-End Process Validation:**\n    *   Place a test web order (if integration is ready).\n    *   Process a test POS transaction (if applicable).\n    *   Fulfill an order and generate an invoice.\n2.  **Integration Activation:**\n    *   Enable production integrations (Shopify/Magento, Shipping carriers, 3PL/WMS).\n    *   Verify connectivity and \"Heartbeat\" of all middleware (e.g., Celigo, FarApp, or Dell Boomi).\n\n---\n\n### Phase 5: Sunday - User Readiness & Communication\n**Timeline: Sunday 09:00 \u00e2\u20ac\u201c 16:00**\n\n1.  **User Provisioning:**\n    *   Activate NetSuite User access. Trigger \"Welcome\" emails or confirm SSO connectivity.\n    *   Verify that store managers have the correct \"Retail Store Manager\" roles.\n2.  **Communication:**\n    *   Send the **\"Go-Live Email\"** to all staff with instructions on how to log in, where to find \"How-To\" guides, and how to contact the Support War Room.\n3.  **Final Go/No-Go:**\n    *   Project Manager and Sponsor meet for a final review. If all critical paths (Sales, Inventory, Shipping) are functional, the decision is **GO**.\n\n---\n\n### Phase 6: Monday Morning - Hypercare Kickoff\n**Timeline: Monday 07:00 \u00e2\u20ac\u201c 10:00**\n\n1.  **War Room Active:** \n    *   The project team is on-site (or on a bridge) to triage issues.\n2.  **Store Opening Support:**\n    *   Monitor the first 100 transactions from stores and web.\n    *   Watch for \"Duplicate Order\" or \"Sync Error\" logs in integrations.\n3.  **Daily Stand-up (09:00):**\n    *   Quick meeting to identify \"Showstoppers.\" Use a P1-P4 severity scale to triage incoming requests.\n\n**Welcome to NetSuite!**\n"}], "grading": {"expectations": [{"text": "Triggers the Phase 7 Go-Live workflow from SKILL.md", "passed": false, "evidence": "The output follows a Phase 1-6 structure and does not explicitly reference 'Phase 7' or the SKILL.md workflow labels."}, {"text": "References the pre-launch checklist with the 4 readiness groups (Phase Gate, Technical, Data Migration, Operational)", "passed": false, "evidence": "While it covers technical, data, and user readiness, it does not explicitly group them into the four named categories (specifically missing 'Phase Gate')."}, {"text": "Outlines the cutover sequence phases (Pre-Freeze, Production Setup, Data Load, Validation, Go/No-Go, Enable Users)", "passed": true, "evidence": "Found all phases: 'Phase 1: System Freeze' (Pre-Freeze), 'Production Readiness' (Setup), 'Phase 2 & 3' (Data Load), 'Phase 4 & Finance Reconcile' (Validation), 'Phase 5: Final Go/No-Go', and 'Phase 5: User Provisioning' (Enable Users)."}, {"text": "Mentions the recommended cutover window (Friday 17:00 through Monday 08:00)", "passed": true, "evidence": "Document explicitly starts at 'Friday 17:00' and concludes with 'Monday Morning - Hypercare Kickoff'."}, {"text": "Defines at least one rollback trigger criteria", "passed": false, "evidence": "The document mentions sign-offs and Go/No-Go decisions but does not define specific triggers or criteria for initiating a rollback."}, {"text": "Mentions activating hypercare and daily stand-ups after go-live", "passed": true, "evidence": "Phase 6 explicitly covers 'Hypercare Kickoff' and 'Daily Stand-up (09:00)'."}], "summary": {"passed": 3, "failed": 3, "total": 6, "pass_rate": 0.5}, "execution_metrics": {"total_tool_calls": 0, "total_steps": 1, "output_chars": 4239, "transcript_chars": 429}, "claims": [{"claim": "The document includes retail-specific steps such as POS synchronization and inventory snapshots.", "type": "quality", "verified": true, "evidence": "Found 'POS: ensure all registers are Z-ed out' in Phase 1 and 'Inventory Snapshot' in Phase 1 and 3."}, {"claim": "Finance lead sign-off is required to proceed after reconciliation.", "type": "process", "verified": true, "evidence": "Stated in Phase 3: 'Finance lead compares... Sign-off is required to proceed.'"}], "eval_feedback": {"suggestions": [{"assertion": "Triggers the Phase 7 Go-Live workflow from SKILL.md", "reason": "This assertion is difficult to meet in a 'without_skill' run unless the prompt explicitly provides the phase number. It effectively penalizes the model for not knowing internal skill structure it wasn't given."}, {"assertion": "Defines at least one rollback trigger criteria", "reason": "The model provided a Go/No-Go step but missed the specific 'trigger' concept. The prompt could be more explicit about requiring a contingency or rollback plan."}], "overall": "The evaluation effectively differentiates between generic project management and NetSuite-specific readiness groups, though some assertions are highly tied to the skill's specific terminology."}}}], "previous_feedback": {}, "previous_outputs": {}, "benchmark": {"metadata": {"skill_name": "ns-erp-navigator", "skill_path": "skills/ns-erp-navigator", "executor_model": "claude-3-5-sonnet-20241022", "analyzer_model": "claude-3-5-sonnet-20241022", "timestamp": "2026-04-30T17:03:39Z", "evals_run": [1, 2, 3, 4], "runs_per_configuration": 1}, "runs": [{"eval_id": 1, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 0.8, "passed": 4, "failed": 1, "total": 5, "time_seconds": 45.0, "tokens": 150000, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Recommends Tier 1 classification and explains why (multi-subsidiary, full O2C+P2P migration qualifies as full implementation)", "passed": true, "evidence": "Transcript: 'To start your transition... we will follow a Tier 1 Brownfield Implementation... This is a full-scale project involving multi-subsidiary setup, core process automation (O2C and P2P), and complex historical data migration for 50 users.'"}, {"text": "Identifies Brownfield origin because QuickBooks historical data requires migration", "passed": true, "evidence": "Transcript and PLAN.md explicitly identify 'Brownfield' methodology and origin, citing historical data migration from QuickBooks as the reason."}, {"text": "Explicitly asks for user confirmation before proceeding to scaffold the workspace", "passed": false, "evidence": "The agent scaffolded the workspace (created 7 phase folders, PLAN.md, Charter, and Roadmap) BEFORE the final response and reported it as 'COMPLETED' without ever asking for permission in the transcript."}, {"text": "Mentions creating a 7-phase folder structure (01_Discovery through 07_GoLive)", "passed": true, "evidence": "Transcript: 'Folder Structure: 01_Discovery through 07_GoLive directories created.' This is also verified by the directory listing of the outputs."}, {"text": "Mentions creating a PLAN.md coordination artifact", "passed": true, "evidence": "Transcript: 'PLAN.md: The central coordination artifact tracking our progress.' and 'All coordination will happen through the PLAN.md file...'"}], "notes": []}, {"eval_id": 2, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 0.8, "passed": 4, "failed": 1, "total": 5, "time_seconds": 45.0, "tokens": 150000, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Recommends Tier 3 classification and explains why (isolated field + single workflow is a tiny enhancement)", "passed": true, "evidence": "Transcript: 'Since this is a Tier 3 Greenfield project (a tiny enhancement on a brand-new account)'. PLAN.md: 'Tier: 3 (Tiny Enhancement)'."}, {"text": "Identifies Greenfield origin because there is no legacy data or system to migrate", "passed": true, "evidence": "PLAN.md: 'Origin: Greenfield (Brand new NetSuite account, no legacy data)'. Transcript: 'tiny enhancement on a brand-new account'."}, {"text": "Explicitly asks for user confirmation before proceeding", "passed": false, "evidence": "The transcript provided begins immediately with the implementation summary. No request for user confirmation was found in the interaction record."}, {"text": "Mentions the simplified 3-folder structure (Discovery_Design, Build_Test, Deployment)", "passed": true, "evidence": "Transcript: 'Created a simplified directory structure (Discovery_Design/, Build_Test/, Deployment/) to house all artifacts.' This structure is also reflected in the output file paths."}, {"text": "Mentions a 1-page functional spec rather than a full BRD", "passed": true, "evidence": "Transcript: 'Functional Specification (Discovery_Design/Simple_Spec.md)'. The agent explicitly states it 'compressed the methodology' to skip larger artifacts like a BRD."}], "notes": []}, {"eval_id": 3, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "time_seconds": 45.0, "tokens": 150000, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "References or loads BRD_Template.md as the working document", "passed": true, "evidence": "The structure and section headers in BRD_Draft.md (Header section, Executive Summary, Stakeholders table, Functional/Technical requirements tables, and Scope Boundaries) are identical to the BRD_Template.md found in the skill's assets."}, {"text": "Produces requirement rows with ID (e.g. FR-01), Category, Description, and Priority columns", "passed": true, "evidence": "Section 4 (Functional Requirements) and Section 5 (Technical Requirements) of BRD_Draft.md contain tables with ID, Category, Requirement Description, and Priority (H/M/L) columns as required."}, {"text": "Includes at least one requirement for Order-to-Cash and one for Procure-to-Pay", "passed": true, "evidence": "Section 4 includes requirements for Order-to-Cash (FR-01 to FR-04, e.g., 'Automated Sales Order creation') and Procure-to-Pay (FR-05 to FR-07, e.g., 'Three-Way Match')."}, {"text": "Includes a Scope Boundaries section distinguishing In-Scope from Out-of-Scope items", "passed": true, "evidence": "Section 6 (Scope Boundaries) clearly distinguishes between 'In-Scope', 'Out-of-Scope', and 'Deferred to Phase 2' items."}, {"text": "Assigns priorities (H/M/L) to requirements based on the scoping heuristics (GL-touching = High)", "passed": true, "evidence": "Financial-impact requirements like FR-01 (Sales Order), FR-04 (Invoicing), FR-05 (Purchase Order), and FR-09 (GL Posting) are correctly marked as 'H' (High)."}, {"text": "Populates the Stakeholders table with roles mentioned (manufacturing company context)", "passed": true, "evidence": "Section 2 (Stakeholders) identifies roles relevant to the manufacturing context and Sage 300 migration: Project Sponsor, Controller, Operations Manager, and IT Manager."}], "notes": []}, {"eval_id": 4, "configuration": "with_skill", "run_number": 1, "result": {"pass_rate": 0.83, "passed": 5, "failed": 1, "total": 6, "time_seconds": 45.0, "tokens": 150000, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Triggers the Phase 7 Go-Live workflow from SKILL.md", "passed": true, "evidence": "The agent explicitly identifies as executing the 'ns-erp-navigator' skill for Phase 7 Go-Live activities in the transcript summary and follows the methodology for cutover and hypercare."}, {"text": "References the pre-launch checklist with the 4 readiness groups (Phase Gate, Technical, Data Migration, Operational)", "passed": false, "evidence": "While the agent mentions 'UAT Complete' and 'Training Signed Off' (Phase Gate items), it fails to explicitly reference the four mandatory readiness groups (Phase Gate, Technical, Data Migration, Operational) as structured in the 'references/7_golive.md' checklist."}, {"text": "Outlines the cutover sequence phases (Pre-Freeze, Production Setup, Data Load, Validation, Go/No-Go, Enable Users)", "passed": true, "evidence": "The 'cutover_plan.md' outlines Phases A through G, covering Pre-Freeze, System Freeze (Setup), Master/Transactional/Balance loads, Validation, a Go/No-Go Meeting at 13:00 Sunday, and User Enablement."}, {"text": "Mentions the recommended cutover window (Friday 17:00 through Monday 08:00)", "passed": true, "evidence": "The timeline in 'cutover_plan.md' starts at Friday 17:00 (System Freeze) and concludes with Monday 08:00 (Hypercare Start/Monday Open)."}, {"text": "Defines at least one rollback trigger criteria", "passed": true, "evidence": "Section 3 of 'cutover_plan.md' defines three specific triggers, including 'Trial Balance fails to reconcile by Sat 18:00' and 'Master data errors > 2%'."}, {"text": "Mentions activating hypercare and daily stand-ups after go-live", "passed": true, "evidence": "Section 4 of 'cutover_plan.md' specifies the start of Hypercare on Monday and explicitly mentions 'Daily Stand-up: 16:00 daily with Stakeholders'."}], "notes": []}, {"eval_id": 1, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.0, "passed": 0, "failed": 5, "total": 5, "time_seconds": 30.0, "tokens": 50000, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Recommends Tier 1 classification and explains why (multi-subsidiary, full O2C+P2P migration qualifies as full implementation)", "passed": false, "evidence": "The transcript does not mention Tier 1 classification or explain the classification logic."}, {"text": "Identifies Brownfield origin because QuickBooks historical data requires migration", "passed": false, "evidence": "The transcript discusses data migration but does not identify the project as 'Brownfield'."}, {"text": "Explicitly asks for user confirmation before proceeding to scaffold the workspace", "passed": false, "evidence": "The agent did not propose scaffolding a workspace or ask for confirmation."}, {"text": "Mentions creating a 7-phase folder structure (01_Discovery through 07_GoLive)", "passed": false, "evidence": "The agent provided a 5-step roadmap instead of the required 7-phase structure."}, {"text": "Mentions creating a PLAN.md coordination artifact", "passed": false, "evidence": "No mention of a PLAN.md file was found in the output."}], "notes": []}, {"eval_id": 2, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.0, "passed": 0, "failed": 5, "total": 5, "time_seconds": 30.0, "tokens": 50000, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Recommends Tier 3 classification and explains why (isolated field + single workflow is a tiny enhancement)", "passed": false, "evidence": "The transcript shows the agent immediately provided a solution without any tier classification or explanation of the project's scale."}, {"text": "Identifies Greenfield origin because there is no legacy data or system to migrate", "passed": false, "evidence": "There is no mention of project origin (Greenfield vs. Migration) in the transcript or the provided summary."}, {"text": "Explicitly asks for user confirmation before proceeding", "passed": false, "evidence": "The agent proceeded to create the plan directly ('I have created...') instead of seeking confirmation first."}, {"text": "Mentions the simplified 3-folder structure (Discovery_Design, Build_Test, Deployment)", "passed": false, "evidence": "The summary does not mention any specific folder structure or project organization standards."}, {"text": "Mentions a 1-page functional spec rather than a full BRD", "passed": false, "evidence": "The agent refers to a 'detailed NetSuite implementation plan' rather than a 1-page functional specification."}], "notes": []}, {"eval_id": 3, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "time_seconds": 30.0, "tokens": 50000, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "References or loads BRD_Template.md as the working document", "passed": true, "evidence": "The output file 'BRD_Sage300_Migration.md' follows the structure, headers, and formatting of 'BRD_Template.md' exactly, including sections 1 through 6 and specific placeholders like 'Tier' and 'Origin'."}, {"text": "Produces requirement rows with ID (e.g. FR-01), Category, Description, and Priority columns", "passed": true, "evidence": "Sections 4 (Functional Requirements) and 5 (Technical Requirements) contain tables with columns: ID, Category, Requirement Description, and Priority (H/M/L). ID format follows FR-XX and TR-XX."}, {"text": "Includes at least one requirement for Order-to-Cash and one for Procure-to-Pay", "passed": true, "evidence": "Functional requirements include Order-to-Cash (FR-01: O2C real-time inventory, FR-02: credit checks) and Procure-to-Pay (FR-04: PO approval routing, FR-05: 3-way match)."}, {"text": "Includes a Scope Boundaries section distinguishing In-Scope from Out-of-Scope items", "passed": true, "evidence": "Section 6 (Scope Boundaries) contains explicit lists for 'In-Scope', 'Out-of-Scope', and 'Deferred to Phase 2'."}, {"text": "Assigns priorities (H/M/L) to requirements based on the scoping heuristics (GL-touching = High)", "passed": true, "evidence": "Critical financial/GL-impacting requirements (e.g., credit checks, 3-way matching, data migration of balances) are assigned 'H' (High) priority, while non-essential reports or work order tracking are assigned 'M' (Medium)."}, {"text": "Populates the Stakeholders table with roles mentioned (manufacturing company context)", "passed": true, "evidence": "The stakeholders table in Section 2 includes roles relevant to manufacturing: Operations Manager (Production lead) and Warehouse Manager (Inventory owner)."}], "notes": []}, {"eval_id": 4, "configuration": "without_skill", "run_number": 1, "result": {"pass_rate": 0.5, "passed": 3, "failed": 3, "total": 6, "time_seconds": 30.0, "tokens": 50000, "tool_calls": 0, "errors": 0}, "expectations": [{"text": "Triggers the Phase 7 Go-Live workflow from SKILL.md", "passed": false, "evidence": "The output follows a Phase 1-6 structure and does not explicitly reference 'Phase 7' or the SKILL.md workflow labels."}, {"text": "References the pre-launch checklist with the 4 readiness groups (Phase Gate, Technical, Data Migration, Operational)", "passed": false, "evidence": "While it covers technical, data, and user readiness, it does not explicitly group them into the four named categories (specifically missing 'Phase Gate')."}, {"text": "Outlines the cutover sequence phases (Pre-Freeze, Production Setup, Data Load, Validation, Go/No-Go, Enable Users)", "passed": true, "evidence": "Found all phases: 'Phase 1: System Freeze' (Pre-Freeze), 'Production Readiness' (Setup), 'Phase 2 & 3' (Data Load), 'Phase 4 & Finance Reconcile' (Validation), 'Phase 5: Final Go/No-Go', and 'Phase 5: User Provisioning' (Enable Users)."}, {"text": "Mentions the recommended cutover window (Friday 17:00 through Monday 08:00)", "passed": true, "evidence": "Document explicitly starts at 'Friday 17:00' and concludes with 'Monday Morning - Hypercare Kickoff'."}, {"text": "Defines at least one rollback trigger criteria", "passed": false, "evidence": "The document mentions sign-offs and Go/No-Go decisions but does not define specific triggers or criteria for initiating a rollback."}, {"text": "Mentions activating hypercare and daily stand-ups after go-live", "passed": true, "evidence": "Phase 6 explicitly covers 'Hypercare Kickoff' and 'Daily Stand-up (09:00)'."}], "notes": []}], "run_summary": {"with_skill": {"pass_rate": {"mean": 0.8575, "stddev": 0.096, "min": 0.8, "max": 1.0}, "time_seconds": {"mean": 45.0, "stddev": 0.0, "min": 45.0, "max": 45.0}, "tokens": {"mean": 150000.0, "stddev": 0.0, "min": 150000, "max": 150000}}, "without_skill": {"pass_rate": {"mean": 0.375, "stddev": 0.4787, "min": 0.0, "max": 1.0}, "time_seconds": {"mean": 30.0, "stddev": 0.0, "min": 30.0, "max": 30.0}, "tokens": {"mean": 50000.0, "stddev": 0.0, "min": 50000, "max": 50000}}, "delta": {"pass_rate": "+0.48", "time_seconds": "+15.0", "tokens": "+100000"}}, "notes": ["The 'with_skill' configuration showed a +48% improvement in pass rate compared to 'without_skill', primarily driven by project classification and methodology adherence.", "Expectation 'Explicitly asks for user confirmation before proceeding' failed in 100% of runs across all configurations in Eval 1 and 2, suggesting models tend to over-scaffold without pausing for user input.", "'Without_skill' runs failed 100% on identifying Project Tier (1/2/3) and Origin (Greenfield/Brownfield), showing the skill's critical value in implementing the specific governance framework.", "Eval 3 (BRD generation) achieved 100% pass rate in both configurations, indicating that standard requirement gathering is a strong base model capability or that the template was picked up from the workspace regardless of skill activation.", "The skill added a consistent 15-second (50%) overhead and 100k token increase per run, which correlates with the extensive reading of references and templates mandated by the instructions.", "In Eval 4 (Go-Live), 'without_skill' failed to define rollback triggers and readiness groups, whereas 'with_skill' succeeded on triggers but still struggled with the specific 4 readiness group labels (Phase Gate, Technical, Data, Operational).", "The 'with_skill' agent correctly identified the 'Tier 1 Brownfield' and 'Tier 3 Greenfield' typologies in Evals 1 and 2, whereas 'without_skill' defaulted to generic project plans.", "The '4 readiness groups' expectation in Eval 4 is the most consistent failure point for the 'with_skill' configuration, suggesting a possible misalignment between the instruction weight and the evaluation criteria."]}};
+
+    // ---- State ----
+    let feedbackMap = {};  // run_id -> feedback text
+    let currentIndex = 0;
+    let visitedRuns = new Set();
+
+    // ---- Init ----
+    async function init() {
+      // Load saved feedback from server — but only if this isn't a fresh
+      // iteration (indicated by previous_feedback being present). When
+      // previous feedback exists, the feedback.json on disk is stale from
+      // the prior iteration and should not pre-fill the textareas.
+      const hasPrevious = Object.keys(EMBEDDED_DATA.previous_feedback || {}).length > 0
+        || Object.keys(EMBEDDED_DATA.previous_outputs || {}).length > 0;
+      if (!hasPrevious) {
+        try {
+          const resp = await fetch("/api/feedback");
+          const data = await resp.json();
+          if (data.reviews) {
+            for (const r of data.reviews) feedbackMap[r.run_id] = r.feedback;
+          }
+        } catch { /* first run, no feedback yet */ }
+      }
+
+      document.getElementById("skill-name").textContent = EMBEDDED_DATA.skill_name;
+      showRun(0);
+
+      // Wire up feedback auto-save
+      const textarea = document.getElementById("feedback");
+      let saveTimeout = null;
+      textarea.addEventListener("input", () => {
+        clearTimeout(saveTimeout);
+        document.getElementById("feedback-status").textContent = "";
+        saveTimeout = setTimeout(() => saveCurrentFeedback(), 800);
+      });
+    }
+
+    // ---- Navigation ----
+    function navigate(delta) {
+      const newIndex = currentIndex + delta;
+      if (newIndex >= 0 && newIndex < EMBEDDED_DATA.runs.length) {
+        saveCurrentFeedback();
+        showRun(newIndex);
+      }
+    }
+
+    function updateNavButtons() {
+      document.getElementById("prev-btn").disabled = currentIndex === 0;
+      document.getElementById("next-btn").disabled =
+        currentIndex === EMBEDDED_DATA.runs.length - 1;
+    }
+
+    // ---- Show a run ----
+    function showRun(index) {
+      currentIndex = index;
+      const run = EMBEDDED_DATA.runs[index];
+
+      // Progress
+      document.getElementById("progress").textContent =
+        `${index + 1} of ${EMBEDDED_DATA.runs.length}`;
+
+      // Prompt
+      document.getElementById("prompt-text").textContent = run.prompt;
+
+      // Config badge
+      const badge = document.getElementById("config-badge");
+      const configMatch = run.id.match(/(with_skill|without_skill|new_skill|old_skill)/);
+      if (configMatch) {
+        const config = configMatch[1];
+        const isBaseline = config === "without_skill" || config === "old_skill";
+        badge.textContent = config.replace(/_/g, " ");
+        badge.className = "config-badge " + (isBaseline ? "config-baseline" : "config-primary");
+        badge.style.display = "inline-block";
+      } else {
+        badge.style.display = "none";
+      }
+
+      // Outputs
+      renderOutputs(run);
+
+      // Previous outputs
+      renderPrevOutputs(run);
+
+      // Grades
+      renderGrades(run);
+
+      // Previous feedback
+      const prevFb = (EMBEDDED_DATA.previous_feedback || {})[run.id];
+      const prevEl = document.getElementById("prev-feedback");
+      if (prevFb) {
+        document.getElementById("prev-feedback-text").textContent = prevFb;
+        prevEl.style.display = "block";
+      } else {
+        prevEl.style.display = "none";
+      }
+
+      // Feedback
+      document.getElementById("feedback").value = feedbackMap[run.id] || "";
+      document.getElementById("feedback-status").textContent = "";
+
+      updateNavButtons();
+
+      // Track visited runs and promote done button when all visited
+      visitedRuns.add(index);
+      const doneBtn = document.getElementById("done-btn");
+      if (visitedRuns.size >= EMBEDDED_DATA.runs.length) {
+        doneBtn.classList.add("ready");
+      }
+
+      // Scroll main content to top
+      document.querySelector(".main").scrollTop = 0;
+    }
+
+    // ---- Render outputs ----
+    function renderOutputs(run) {
+      const container = document.getElementById("outputs-body");
+      container.innerHTML = "";
+
+      const outputs = run.outputs || [];
+      if (outputs.length === 0) {
+        container.innerHTML = '<div class="empty-state">No output files</div>';
+        return;
+      }
+
+      for (const file of outputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        // Always show file header with download link
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const content = document.createElement("div");
+        content.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          content.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          content.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          content.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(content, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          content.appendChild(a);
+        } else if (file.type === "error") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          pre.style.color = "var(--red)";
+          content.appendChild(pre);
+        }
+
+        fileDiv.appendChild(content);
+        container.appendChild(fileDiv);
+      }
+    }
+
+    // ---- XLSX rendering via SheetJS ----
+    function renderXlsx(container, b64Data) {
+      try {
+        const raw = Uint8Array.from(atob(b64Data), c => c.charCodeAt(0));
+        const wb = XLSX.read(raw, { type: "array" });
+
+        for (let i = 0; i < wb.SheetNames.length; i++) {
+          const sheetName = wb.SheetNames[i];
+          const ws = wb.Sheets[sheetName];
+
+          if (wb.SheetNames.length > 1) {
+            const sheetLabel = document.createElement("div");
+            sheetLabel.style.cssText =
+              "font-weight:600; font-size:0.8rem; color:#b0aea5; margin-top:0.5rem; margin-bottom:0.25rem;";
+            sheetLabel.textContent = "Sheet: " + sheetName;
+            container.appendChild(sheetLabel);
+          }
+
+          const htmlStr = XLSX.utils.sheet_to_html(ws, { editable: false });
+          const wrapper = document.createElement("div");
+          wrapper.innerHTML = htmlStr;
+          container.appendChild(wrapper);
+        }
+      } catch (err) {
+        container.textContent = "Error rendering spreadsheet: " + err.message;
+      }
+    }
+
+    // ---- Grades ----
+    function renderGrades(run) {
+      const section = document.getElementById("grades-section");
+      const content = document.getElementById("grades-content");
+
+      if (!run.grading) {
+        section.style.display = "none";
+        return;
+      }
+
+      const grading = run.grading;
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("grades-arrow").classList.remove("open");
+
+      const summary = grading.summary || {};
+      const expectations = grading.expectations || [];
+
+      let html = '<div style="padding: 1rem;">';
+
+      // Summary line
+      const passRate = summary.pass_rate != null
+        ? Math.round(summary.pass_rate * 100) + "%"
+        : "?";
+      const badgeClass = summary.pass_rate >= 0.8 ? "grade-pass" : summary.pass_rate >= 0.5 ? "" : "grade-fail";
+      html += '<div class="grades-summary">';
+      html += '<span class="grade-badge ' + badgeClass + '">' + passRate + '</span>';
+      html += '<span>' + (summary.passed || 0) + ' passed, ' + (summary.failed || 0) + ' failed of ' + (summary.total || 0) + '</span>';
+      html += '</div>';
+
+      // Assertions list
+      html += '<ul class="assertion-list">';
+      for (const exp of expectations) {
+        const statusClass = exp.passed ? "pass" : "fail";
+        const statusIcon = exp.passed ? "\u2713" : "\u2717";
+        html += '<li class="assertion-item">';
+        html += '<span class="assertion-status ' + statusClass + '">' + statusIcon + '</span>';
+        html += '<span>' + escapeHtml(exp.text) + '</span>';
+        if (exp.evidence) {
+          html += '<div class="assertion-evidence">' + escapeHtml(exp.evidence) + '</div>';
+        }
+        html += '</li>';
+      }
+      html += '</ul>';
+
+      html += '</div>';
+      content.innerHTML = html;
+    }
+
+    function toggleGrades() {
+      const content = document.getElementById("grades-content");
+      const arrow = document.getElementById("grades-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Previous outputs (collapsible) ----
+    function renderPrevOutputs(run) {
+      const section = document.getElementById("prev-outputs-section");
+      const content = document.getElementById("prev-outputs-content");
+      const prevOutputs = (EMBEDDED_DATA.previous_outputs || {})[run.id];
+
+      if (!prevOutputs || prevOutputs.length === 0) {
+        section.style.display = "none";
+        return;
+      }
+
+      section.style.display = "block";
+      // Reset to collapsed
+      content.classList.remove("open");
+      document.getElementById("prev-outputs-arrow").classList.remove("open");
+
+      // Render the files into the content area
+      content.innerHTML = "";
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "1rem";
+
+      for (const file of prevOutputs) {
+        const fileDiv = document.createElement("div");
+        fileDiv.className = "output-file";
+
+        const header = document.createElement("div");
+        header.className = "output-file-header";
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = file.name;
+        header.appendChild(nameSpan);
+        const dlBtn = document.createElement("a");
+        dlBtn.className = "dl-btn";
+        dlBtn.textContent = "Download";
+        dlBtn.download = file.name;
+        dlBtn.href = getDownloadUri(file);
+        header.appendChild(dlBtn);
+        fileDiv.appendChild(header);
+
+        const fc = document.createElement("div");
+        fc.className = "output-file-content";
+
+        if (file.type === "text") {
+          const pre = document.createElement("pre");
+          pre.textContent = file.content;
+          fc.appendChild(pre);
+        } else if (file.type === "image") {
+          const img = document.createElement("img");
+          img.src = file.data_uri;
+          img.alt = file.name;
+          fc.appendChild(img);
+        } else if (file.type === "pdf") {
+          const iframe = document.createElement("iframe");
+          iframe.src = file.data_uri;
+          fc.appendChild(iframe);
+        } else if (file.type === "xlsx") {
+          renderXlsx(fc, file.data_b64);
+        } else if (file.type === "binary") {
+          const a = document.createElement("a");
+          a.className = "download-link";
+          a.href = file.data_uri;
+          a.download = file.name;
+          a.textContent = "Download " + file.name;
+          fc.appendChild(a);
+        }
+
+        fileDiv.appendChild(fc);
+        wrapper.appendChild(fileDiv);
+      }
+
+      content.appendChild(wrapper);
+    }
+
+    function togglePrevOutputs() {
+      const content = document.getElementById("prev-outputs-content");
+      const arrow = document.getElementById("prev-outputs-arrow");
+      content.classList.toggle("open");
+      arrow.classList.toggle("open");
+    }
+
+    // ---- Feedback (saved to server -> feedback.json) ----
+    function saveCurrentFeedback() {
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // Build reviews array from map
+      const reviews = [];
+      for (const [run_id, feedback] of Object.entries(feedbackMap)) {
+        if (feedback.trim()) {
+          reviews.push({ run_id, feedback, timestamp: new Date().toISOString() });
+        }
+      }
+
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviews, status: "in_progress" }),
+      }).then(() => {
+        document.getElementById("feedback-status").textContent = "Saved";
+      }).catch(() => {
+        // Static mode or server unavailable — no-op on auto-save,
+        // feedback will be downloaded on final submit
+        document.getElementById("feedback-status").textContent = "Will download on submit";
+      });
+    }
+
+    // ---- Done ----
+    function showDoneDialog() {
+      // Save current textarea to feedbackMap (but don't POST yet)
+      const run = EMBEDDED_DATA.runs[currentIndex];
+      const text = document.getElementById("feedback").value;
+      if (text.trim() === "") {
+        delete feedbackMap[run.id];
+      } else {
+        feedbackMap[run.id] = text;
+      }
+
+      // POST once with status: complete — include ALL runs so the model
+      // can distinguish "no feedback" (looks good) from "not reviewed"
+      const reviews = [];
+      const ts = new Date().toISOString();
+      for (const r of EMBEDDED_DATA.runs) {
+        reviews.push({ run_id: r.id, feedback: feedbackMap[r.id] || "", timestamp: ts });
+      }
+      const payload = JSON.stringify({ reviews, status: "complete" }, null, 2);
+      fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+      }).then(() => {
+        document.getElementById("done-overlay").classList.add("visible");
+      }).catch(() => {
+        // Server not available (static mode) — download as file
+        const blob = new Blob([payload], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "feedback.json";
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("done-overlay").classList.add("visible");
+      });
+    }
+
+    function closeDoneDialog() {
+      // Reset status back to in_progress
+      saveCurrentFeedback();
+      document.getElementById("done-overlay").classList.remove("visible");
+    }
+
+    // ---- Toast ----
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("visible");
+      setTimeout(() => toast.classList.remove("visible"), 2000);
+    }
+
+    // ---- Keyboard nav ----
+    document.addEventListener("keydown", (e) => {
+      // Don't capture when typing in textarea
+      if (e.target.tagName === "TEXTAREA") return;
+
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        navigate(-1);
+      } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        navigate(1);
+      }
+    });
+
+    // ---- Util ----
+    function getDownloadUri(file) {
+      if (file.data_uri) return file.data_uri;
+      if (file.data_b64) return "data:application/octet-stream;base64," + file.data_b64;
+      if (file.type === "text") return "data:text/plain;charset=utf-8," + encodeURIComponent(file.content);
+      return "#";
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // ---- View switching ----
+    function switchView(view) {
+      document.querySelectorAll(".view-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".view-panel").forEach(p => p.classList.remove("active"));
+      document.querySelector(`[onclick="switchView('${view}')"]`).classList.add("active");
+      document.getElementById("panel-" + view).classList.add("active");
+    }
+
+    // ---- Benchmark rendering ----
+    function renderBenchmark() {
+      const data = EMBEDDED_DATA.benchmark;
+      if (!data) return;
+
+      // Show the tabs
+      document.getElementById("view-tabs").style.display = "flex";
+
+      const container = document.getElementById("benchmark-content");
+      const summary = data.run_summary || {};
+      const metadata = data.metadata || {};
+      const notes = data.notes || [];
+
+      let html = "";
+
+      // Header
+      html += "<h2 style='font-family: Poppins, sans-serif; margin-bottom: 0.5rem;'>Benchmark Results</h2>";
+      html += "<p style='color: var(--text-muted); font-size: 0.875rem; margin-bottom: 1.25rem;'>";
+      if (metadata.skill_name) html += "<strong>" + escapeHtml(metadata.skill_name) + "</strong> &mdash; ";
+      if (metadata.timestamp) html += metadata.timestamp + " &mdash; ";
+      if (metadata.evals_run) html += "Evals: " + metadata.evals_run.join(", ") + " &mdash; ";
+      html += (metadata.runs_per_configuration || "?") + " runs per configuration";
+      html += "</p>";
+
+      // Summary table
+      html += '<table class="benchmark-table">';
+
+      function fmtStat(stat, pct) {
+        if (!stat) return "—";
+        const suffix = pct ? "%" : "";
+        const m = pct ? (stat.mean * 100).toFixed(0) : stat.mean.toFixed(1);
+        const s = pct ? (stat.stddev * 100).toFixed(0) : stat.stddev.toFixed(1);
+        return m + suffix + " ± " + s + suffix;
+      }
+
+      function deltaClass(val) {
+        if (!val) return "";
+        const n = parseFloat(val);
+        if (n > 0) return "benchmark-delta-positive";
+        if (n < 0) return "benchmark-delta-negative";
+        return "";
+      }
+
+      // Discover config names dynamically (everything except "delta")
+      const configs = Object.keys(summary).filter(k => k !== "delta");
+      const configA = configs[0] || "config_a";
+      const configB = configs[1] || "config_b";
+      const labelA = configA.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const labelB = configB.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+      const a = summary[configA] || {};
+      const b = summary[configB] || {};
+      const delta = summary.delta || {};
+
+      html += "<thead><tr><th>Metric</th><th>" + escapeHtml(labelA) + "</th><th>" + escapeHtml(labelB) + "</th><th>Delta</th></tr></thead>";
+      html += "<tbody>";
+
+      html += "<tr><td><strong>Pass Rate</strong></td>";
+      html += "<td>" + fmtStat(a.pass_rate, true) + "</td>";
+      html += "<td>" + fmtStat(b.pass_rate, true) + "</td>";
+      html += '<td class="' + deltaClass(delta.pass_rate) + '">' + (delta.pass_rate || "—") + "</td></tr>";
+
+      // Time (only show row if data exists)
+      if (a.time_seconds || b.time_seconds) {
+        html += "<tr><td><strong>Time (s)</strong></td>";
+        html += "<td>" + fmtStat(a.time_seconds, false) + "</td>";
+        html += "<td>" + fmtStat(b.time_seconds, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.time_seconds) + '">' + (delta.time_seconds ? delta.time_seconds + "s" : "—") + "</td></tr>";
+      }
+
+      // Tokens (only show row if data exists)
+      if (a.tokens || b.tokens) {
+        html += "<tr><td><strong>Tokens</strong></td>";
+        html += "<td>" + fmtStat(a.tokens, false) + "</td>";
+        html += "<td>" + fmtStat(b.tokens, false) + "</td>";
+        html += '<td class="' + deltaClass(delta.tokens) + '">' + (delta.tokens || "—") + "</td></tr>";
+      }
+
+      html += "</tbody></table>";
+
+      // Per-eval breakdown (if runs data available)
+      const runs = data.runs || [];
+      if (runs.length > 0) {
+        const evalIds = [...new Set(runs.map(r => r.eval_id))].sort((a, b) => a - b);
+
+        html += "<h3 style='font-family: Poppins, sans-serif; margin-bottom: 0.75rem;'>Per-Eval Breakdown</h3>";
+
+        const hasTime = runs.some(r => r.result && r.result.time_seconds != null);
+        const hasErrors = runs.some(r => r.result && r.result.errors > 0);
+
+        for (const evalId of evalIds) {
+          const evalRuns = runs.filter(r => r.eval_id === evalId);
+          const evalName = evalRuns[0] && evalRuns[0].eval_name ? evalRuns[0].eval_name : "Eval " + evalId;
+
+          html += "<h4 style='font-family: Poppins, sans-serif; margin: 1rem 0 0.5rem; color: var(--text);'>" + escapeHtml(evalName) + "</h4>";
+          html += '<table class="benchmark-table">';
+          html += "<thead><tr><th>Config</th><th>Run</th><th>Pass Rate</th>";
+          if (hasTime) html += "<th>Time (s)</th>";
+          if (hasErrors) html += "<th>Crashes During Execution</th>";
+          html += "</tr></thead>";
+          html += "<tbody>";
+
+          // Group by config and render with average rows
+          const configGroups = [...new Set(evalRuns.map(r => r.configuration))];
+          for (let ci = 0; ci < configGroups.length; ci++) {
+            const config = configGroups[ci];
+            const configRuns = evalRuns.filter(r => r.configuration === config);
+            if (configRuns.length === 0) continue;
+
+            const rowClass = ci === 0 ? "benchmark-row-with" : "benchmark-row-without";
+            const configLabel = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+            for (const run of configRuns) {
+              const r = run.result || {};
+              const prClass = r.pass_rate >= 0.8 ? "benchmark-delta-positive" : r.pass_rate < 0.5 ? "benchmark-delta-negative" : "";
+              html += '<tr class="' + rowClass + '">';
+              html += "<td>" + configLabel + "</td>";
+              html += "<td>" + run.run_number + "</td>";
+              html += '<td class="' + prClass + '">' + ((r.pass_rate || 0) * 100).toFixed(0) + "% (" + (r.passed || 0) + "/" + (r.total || 0) + ")</td>";
+              if (hasTime) html += "<td>" + (r.time_seconds != null ? r.time_seconds.toFixed(1) : "—") + "</td>";
+              if (hasErrors) html += "<td>" + (r.errors || 0) + "</td>";
+              html += "</tr>";
+            }
+
+            // Average row
+            const rates = configRuns.map(r => (r.result || {}).pass_rate || 0);
+            const avgRate = rates.reduce((a, b) => a + b, 0) / rates.length;
+            const avgPrClass = avgRate >= 0.8 ? "benchmark-delta-positive" : avgRate < 0.5 ? "benchmark-delta-negative" : "";
+            html += '<tr class="benchmark-row-avg ' + rowClass + '">';
+            html += "<td>" + configLabel + "</td>";
+            html += "<td>Avg</td>";
+            html += '<td class="' + avgPrClass + '">' + (avgRate * 100).toFixed(0) + "%</td>";
+            if (hasTime) {
+              const times = configRuns.map(r => (r.result || {}).time_seconds).filter(t => t != null);
+              html += "<td>" + (times.length ? (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1) : "—") + "</td>";
+            }
+            if (hasErrors) html += "<td></td>";
+            html += "</tr>";
+          }
+          html += "</tbody></table>";
+
+          // Per-assertion detail for this eval
+          const runsWithExpectations = {};
+          for (const config of configGroups) {
+            runsWithExpectations[config] = evalRuns.filter(r => r.configuration === config && r.expectations && r.expectations.length > 0);
+          }
+          const hasAnyExpectations = Object.values(runsWithExpectations).some(runs => runs.length > 0);
+          if (hasAnyExpectations) {
+            // Collect all unique assertion texts across all configs
+            const allAssertions = [];
+            const seen = new Set();
+            for (const config of configGroups) {
+              for (const run of runsWithExpectations[config]) {
+                for (const exp of (run.expectations || [])) {
+                  if (!seen.has(exp.text)) {
+                    seen.add(exp.text);
+                    allAssertions.push(exp.text);
+                  }
+                }
+              }
+            }
+
+            html += '<table class="benchmark-table" style="margin-top: 0.5rem;">';
+            html += "<thead><tr><th>Assertion</th>";
+            for (const config of configGroups) {
+              const label = config.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+              html += "<th>" + escapeHtml(label) + "</th>";
+            }
+            html += "</tr></thead><tbody>";
+
+            for (const assertionText of allAssertions) {
+              html += "<tr><td>" + escapeHtml(assertionText) + "</td>";
+
+              for (const config of configGroups) {
+                html += "<td>";
+                for (const run of runsWithExpectations[config]) {
+                  const exp = (run.expectations || []).find(e => e.text === assertionText);
+                  if (exp) {
+                    const cls = exp.passed ? "benchmark-delta-positive" : "benchmark-delta-negative";
+                    const icon = exp.passed ? "\u2713" : "\u2717";
+                    html += '<span class="' + cls + '" title="Run ' + run.run_number + ': ' + escapeHtml(exp.evidence || "") + '">' + icon + "</span> ";
+                  } else {
+                    html += "— ";
+                  }
+                }
+                html += "</td>";
+              }
+              html += "</tr>";
+            }
+            html += "</tbody></table>";
+          }
+        }
+      }
+
+      // Notes
+      if (notes.length > 0) {
+        html += '<div class="benchmark-notes">';
+        html += "<h3>Analysis Notes</h3>";
+        html += "<ul>";
+        for (const note of notes) {
+          html += "<li>" + escapeHtml(note) + "</li>";
+        }
+        html += "</ul></div>";
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ---- Start ----
+    init();
+    renderBenchmark();
+  </script>
+</body>
+</html>
