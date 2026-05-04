@@ -129,14 +129,17 @@ If a stakeholder asks "can NetSuite do X?", respond: "We will evaluate that in t
 - Requirements must describe "What" the system must do — never "How".
 - Each requirement gets a unique ID (FR-XX for functional, TR-XX for technical).
 - Priority: High = must have for go-live, Medium = important but deferrable, Low = nice to have.
+- After saving the BRD file, open `PLAN.md`, find the `[ ]` item in the Next Steps section that corresponds to the BRD, and change it to `[x]`.
 
 **6. Draft Project Charter**
 - **MANDATORY:** Before writing the Project Charter, read `assets/Project_Charter_Template.md` in full. Use the template's structure verbatim.
 - Lock in: go-live date, budget envelope, success criteria, sponsor authority.
+- After saving the Project Charter file, open `PLAN.md`, find the `[ ]` item in the Next Steps section that corresponds to the Project Charter, and change it to `[x]`.
 
 **7. Draft Implementation Roadmap**
 - Use `assets/Implementation_Roadmap.md`.
 - Map phases to calendar weeks, respecting the peak-season blackout periods.
+- After saving the Implementation Roadmap file, open `PLAN.md`, find the `[ ]` item in the Next Steps section that corresponds to the Implementation Roadmap, and change it to `[x]`.
 
 ### Phase 1 Quality Gate — before proceeding to Phase 2
 
