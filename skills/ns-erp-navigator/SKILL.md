@@ -86,8 +86,8 @@ If unclear, ask: **"Which phase are we working in, and what specific deliverable
 ### Phase 1 Activities — Step by Step
 
 **1. Stakeholder Interviews**
+- **MANDATORY:** Before running stakeholder interviews, read `assets/Interview_Questionnaire.md` in full. Use its questions as the interview script — do not generate custom questions.
 - Schedule sessions by role (Finance, Sales, Operations, IT, Management).
-- Use `assets/Interview_Questionnaire.md` to structure each session.
 - Capture pain points, workarounds, and non-negotiable requirements.
 - Read [references/1_discovery.md](references/1_discovery.md) for interview techniques.
 
@@ -107,13 +107,13 @@ If unclear, ask: **"Which phase are we working in, and what specific deliverable
 - Challenge scope creep: every "nice to have" added now delays go-live.
 
 **5. Draft BRD**
-- Use `assets/BRD_Template.md`.
+- **MANDATORY:** Before writing a single line of the BRD, read `assets/BRD_Template.md` in full. Use the template's headings, tables, and placeholders exactly as-is. Only populate the content — never alter the structure.
 - Requirements must describe "What" the system must do — never "How".
 - Each requirement gets a unique ID (FR-XX for functional, TR-XX for technical).
 - Priority: High = must have for go-live, Medium = important but deferrable, Low = nice to have.
 
 **6. Draft Project Charter**
-- Use `assets/Project_Charter_Template.md`.
+- **MANDATORY:** Before writing the Project Charter, read `assets/Project_Charter_Template.md` in full. Use the template's structure verbatim.
 - Lock in: go-live date, budget envelope, success criteria, sponsor authority.
 
 **7. Draft Implementation Roadmap**
