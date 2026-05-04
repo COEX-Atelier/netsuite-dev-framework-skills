@@ -52,11 +52,9 @@ Before doing anything else, you MUST classify the project to determine the appro
 
 ### Language Rule (applies to all phases and all deliverables)
 
-Detect the language of the user's **first message** in this session:
-- **French detected** → produce ALL deliverables (BRD, Charter, Roadmap, PLAN.md updates, cutover plans) in French. Respond conversationally in French.
-- **English detected** → produce all deliverables in English.
-- **Mixed or ambiguous** → ask the user: "Which language should I use for all deliverables in this session — French or English?"
-- **Never mix languages within a single deliverable.**
+1. **Check PLAN.md first:** If a `Language:` field exists in the Governance section, use that language for all deliverables. No question needed.
+2. **If no language is set:** Ask the user plainly — *"What language should I use for this project's deliverables?"* — then write their answer as `- **Language:** [answer]` in PLAN.md's Governance section.
+3. **Never mix languages within a single deliverable.**
 
 When invoked, first **read `PLAN.md`** at the root of the project to understand the current tier, phase, and key decisions. Then determine what the user needs:
 

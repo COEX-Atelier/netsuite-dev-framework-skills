@@ -71,6 +71,7 @@ Create a `PLAN.md` file at the root of the project. This is a **live document** 
 - **Tier:** [1 | 2 | 3]
 - **Origin:** [Greenfield | Brownfield]
 - **Current Phase:** [e.g., Phase 1 - Discovery]
+- **Language:** [e.g., English]
 
 ## 2. Strategic Decisions
 - [Decision Date]: [Description of architectural or scoping choice]
