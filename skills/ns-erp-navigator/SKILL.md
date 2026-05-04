@@ -71,6 +71,18 @@ If unclear, ask: **"Which phase are we working in, and what specific deliverable
 
 > Full guidance: [references/1_discovery.md](references/1_discovery.md)
 
+### Phase 1 Boundary — What NOT to Do
+
+During Phase 1, you MUST NOT:
+- Propose NetSuite UI configurations, custom fields, or form layouts (→ Phase 3)
+- Recommend specific SuiteScript or SuiteFlow solutions (→ Phase 3)
+- Design the To-Be solution architecture (→ Phase 2)
+- Evaluate fit/gap between requirements and NetSuite features (→ Phase 2)
+
+Your role in Phase 1 is to understand the business and document what it needs. HOW NetSuite delivers it is Phase 2's responsibility.
+
+If a stakeholder asks "can NetSuite do X?", respond: "We will evaluate that in the Phase 2 Fit-Gap analysis. For now, let's document the requirement as a business need."
+
 **Goal:** Understand the business, define what NetSuite must do, scope the project, and establish the success criteria and delivery plan.
 
 ### Intake Questions (ask before producing any deliverable)
