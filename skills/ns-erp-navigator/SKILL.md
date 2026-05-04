@@ -221,6 +221,15 @@ If a stakeholder asks "can NetSuite do X?", respond: "We will evaluate that in t
 
 For phases owned by spoke skills, your role is to run the gate review at the boundary:
 
+### Pre-Delegation Verification (run before EVERY spoke skill delegation)
+
+Before delegating to any spoke skill:
+
+1. Read `PLAN.md` to identify the Current Phase and all Reference Artifact file paths listed for the previous phase.
+2. For each deliverable listed under the previous phase's Reference Artifacts, **attempt to read the file**. Do not rely on PLAN.md text or checkboxes alone.
+3. If any listed deliverable file is missing or empty: **STOP**. Report: "Phase [N] deliverable `[filename]` is listed in PLAN.md but does not exist on disk. Phase gate cannot be passed." Do not proceed with delegation.
+4. Only if ALL files exist and are non-empty: proceed with delegation to the spoke skill.
+
 | Entering Phase | Gate Check |
 |----------------|------------|
 | Phase 2 (Solution Design) | BRD signed off, RTM initialized, all req IDs assigned → delegate to `ns-solution-architect` |
