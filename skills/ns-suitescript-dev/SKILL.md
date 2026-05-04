@@ -1,6 +1,6 @@
 ---
 name: ns-suitescript-dev
-description: Technical skill for SuiteScript 2.1 development. Use to implement Customization Specs (CUST-XX-NN). Trigger on writing/debugging SuiteScript (User Event, Client, Map/Reduce, Scheduled, RESTlet, Suitelet), governance management, or deployment prep. Essential for turning design specs into documented, tested code. When in doubt, trigger this skill; it's better to over-trigger than to deploy unreviewed code that fails UAT.
+description: "[Phase 3 — SuiteScript] Technical skill for SuiteScript 2.1 development. Use to implement Customization Specs (CUST-XX-NN). Trigger on writing/debugging SuiteScript (User Event, Client, Map/Reduce, Scheduled, RESTlet, Suitelet), governance management, or deployment prep."
 ---
 
 # NS SuiteScript Developer

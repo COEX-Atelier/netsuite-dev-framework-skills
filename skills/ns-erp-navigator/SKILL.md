@@ -1,6 +1,6 @@
 ---
 name: ns-erp-navigator
-description: Orchestrator for the 7-phase NetSuite implementation. Handles project sizing, initialization, Discovery (BRDs, scoping), and Go-Live/cutover planning. Provides Roadmaps and Project Charters. Use for 'where are we?', 'what's next?', or kickoff queries. Coordinates phases via PLAN.md and delegates to specialized skills. Use this as the primary entry point to route the project correctly across its lifecycle.
+description: "[Phase 0-1-7] Orchestrator for the 7-phase NetSuite implementation. Handles project sizing, initialization, Discovery (BRDs, scoping), Go-Live/cutover planning, As-Is process reviews and System Landscape mapping. Provides Roadmaps and Project Charters. Use for where are we, whats next, or kickoff queries. Coordinates phases via PLAN.md and delegates to specialized skills."
 ---
 
 # NS ERP Navigator

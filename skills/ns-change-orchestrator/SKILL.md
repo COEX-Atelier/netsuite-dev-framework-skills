@@ -1,6 +1,6 @@
 ---
 name: ns-change-orchestrator
-description: Phase 6 (Training & Change Management) skill. Use to develop training strategies, role-based user guides, communication plans, and adoption tracking for a NetSuite go-live. Trigger on mentions of 'training', 'user adoption', 'SOP', 'change management', 'role-based guide', 'training matrix', or 'communication plan'. Also applies to 'are users ready?' or 'what training do we still need before go-live?'. This skill is the adoption gatekeeper.
+description: "[Phase 6] Training and Change Management skill. Use to develop training strategies, role-based user guides, communication plans, and adoption tracking for a NetSuite go-live. Trigger on training, user adoption, SOP, change management, role-based guide, training matrix, or communication plan."
 ---
 
 # NS Change Orchestrator

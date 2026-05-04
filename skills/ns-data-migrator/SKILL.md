@@ -1,6 +1,6 @@
 ---
 name: ns-data-migrator
-description: Phase 4 (Fix Legacy Data) skill. Use to cleanse legacy records, map fields to NetSuite schemas, validate data quality, and execute sequenced CSV imports. Trigger on mentions of 'data mapping', 'legacy data', 'CSV import', 'data cleansing', 'external ID', 'data validation', or 'migration dry run'. Also applies to 'is our data ready?' or 'what's left before we can load data?'. This skill is the data quality gatekeeper.
+description: "[Phase 4] Phase 4 (Fix Legacy Data) skill. Use to cleanse legacy records, map fields to NetSuite schemas, validate data quality, and execute sequenced CSV imports. Trigger on data mapping, legacy data, CSV import, data cleansing, external ID, data validation, or migration dry run."
 ---
 
 # NS Data Migrator
