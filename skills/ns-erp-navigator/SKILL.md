@@ -50,6 +50,14 @@ Before doing anything else, you MUST classify the project to determine the appro
 
 ## Step 1 — Identify Where You Are
 
+### Language Rule (applies to all phases and all deliverables)
+
+Detect the language of the user's **first message** in this session:
+- **French detected** → produce ALL deliverables (BRD, Charter, Roadmap, PLAN.md updates, cutover plans) in French. Respond conversationally in French.
+- **English detected** → produce all deliverables in English.
+- **Mixed or ambiguous** → ask the user: "Which language should I use for all deliverables in this session — French or English?"
+- **Never mix languages within a single deliverable.**
+
 When invoked, first **read `PLAN.md`** at the root of the project to understand the current tier, phase, and key decisions. Then determine what the user needs:
 
 | User says / context | What to do |
@@ -151,6 +159,8 @@ If a stakeholder asks "can NetSuite do X?", respond: "We will evaluate that in t
 **Goal:** Execute the cutover from legacy systems to NetSuite Production with zero data loss, minimal downtime, and a structured hypercare program to stabilize the business post-launch.
 
 ### Intake Questions (ask before producing any deliverable)
+
+> **Apply Language Rule from Step 1** before producing any Phase 7 deliverable.
 
 1. **What is the confirmed go-live date and cutover weekend?**
 2. **What legacy systems need to be decommissioned or frozen at cutover?**
