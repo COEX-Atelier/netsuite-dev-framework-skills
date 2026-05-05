@@ -56,6 +56,37 @@ Before doing anything else, you MUST classify the project to determine the appro
 2. **If no language is set:** Ask the user plainly — *"What language should I use for this project's deliverables?"* — then write their answer as `- **Language:** [answer]` in PLAN.md's Governance section.
 3. **Never mix languages within a single deliverable.**
 
+---
+
+## Co-Writing Protocol (applies to ALL deliverables)
+
+Every deliverable is co-written with the user in three phases:
+
+### Phase A — Before Writing: Align on Structure
+Before writing a single word of the document:
+1. Present the document's sections/headings as a numbered list.
+2. For each section that requires a user decision (scope, priorities, key stakeholders, constraints), flag it explicitly: *"Section 3 — Scope: I'll need your input here."*
+3. Ask: *"Does this structure cover what you need, or should we adjust the sections before we start?"*
+4. Wait for confirmation (or adjustments) before proceeding.
+
+### Phase B — During Writing: Section-by-Section Interaction
+Work through the document one section at a time:
+1. For each section, briefly state what you are about to write and ask the 1–2 most important targeted questions for that section.
+   - Example: *"Section 2 — Business Drivers: What are the top 2–3 pain points driving this implementation?"*
+2. The user may answer in detail, give a partial answer, or say **"figure it out"** / **"proceed"** — in which case, use available context (PLAN.md, BRD, prior conversation) to complete the section autonomously.
+3. Write the section, then move to the next one. Do not batch all sections and write them at once.
+
+### Phase C — After Writing: Review and Approval
+After the full document is saved as a draft:
+1. Present a summary — 3–5 bullet points on key decisions and content highlights.
+2. Ask: *"Does this meet your expectations, or would you like changes before I finalize it?"*
+3. Apply any requested changes, re-save, and repeat steps 1–2.
+4. **Only after explicit approval:** update the PLAN.md checkbox to `[x]`. Do not advance before approval.
+
+> The document stays a draft until the user explicitly approves it.
+
+---
+
 When invoked, first **read `PLAN.md`** at the root of the project to understand the current tier, phase, and key decisions. Then determine what the user needs:
 
 | User says / context | What to do |
@@ -129,17 +160,17 @@ If a stakeholder asks "can NetSuite do X?", respond: "We will evaluate that in t
 - Requirements must describe "What" the system must do — never "How".
 - Each requirement gets a unique ID (FR-XX for functional, TR-XX for technical).
 - Priority: High = must have for go-live, Medium = important but deferrable, Low = nice to have.
-- After saving the BRD file, open `PLAN.md`, find the `[ ]` item in the Next Steps section that corresponds to the BRD, and change it to `[x]`.
+- Follow the **Co-Writing Protocol** above for the BRD: align on structure first (Phase A), write section by section with the user (Phase B), then present the draft for review (Phase C). Only after the user explicitly approves, open `PLAN.md` and change the BRD checkbox to `[x]`.
 
 **6. Draft Project Charter**
 - **MANDATORY:** Before writing the Project Charter, read `assets/Project_Charter_Template.md` in full. Use the template's structure verbatim.
 - Lock in: go-live date, budget envelope, success criteria, sponsor authority.
-- After saving the Project Charter file, open `PLAN.md`, find the `[ ]` item in the Next Steps section that corresponds to the Project Charter, and change it to `[x]`.
+- Follow the **Co-Writing Protocol** above for the Project Charter: align on structure first (Phase A), write section by section with the user (Phase B), then present the draft for review (Phase C). Only after the user explicitly approves, open `PLAN.md` and change the Project Charter checkbox to `[x]`.
 
 **7. Draft Implementation Roadmap**
 - Use `assets/Implementation_Roadmap.md`.
 - Map phases to calendar weeks, respecting the peak-season blackout periods.
-- After saving the Implementation Roadmap file, open `PLAN.md`, find the `[ ]` item in the Next Steps section that corresponds to the Implementation Roadmap, and change it to `[x]`.
+- Follow the **Co-Writing Protocol** above for the Implementation Roadmap: align on structure first (Phase A), write section by section with the user (Phase B), then present the draft for review (Phase C). Only after the user explicitly approves, open `PLAN.md` and change the Implementation Roadmap checkbox to `[x]`.
 
 ### Phase 1 Quality Gate — before proceeding to Phase 2
 

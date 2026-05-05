@@ -54,6 +54,35 @@ If no PLAN.md is found, you are in **standalone mode**. Proceed to Step 1 and ga
 
 ---
 
+## Co-Writing Protocol (applies to ALL deliverables)
+
+Every deliverable is co-written with the user in three phases:
+
+### Phase A — Before Writing: Align on Structure
+Before designing a single state or transition:
+1. Present the workflow's proposed states, transitions, and key actions as a numbered list based on the Customization Spec.
+2. For each decision point requiring user input (approval roles, escalation timing, initiation condition), flag it explicitly: *"Transition 2 — Manager Approval: What role should trigger this transition?"*
+3. Ask: *"Does this structure match the intended process, or should we adjust before I start?"*
+4. Wait for confirmation (or adjustments) before proceeding.
+
+### Phase B — During Writing: Section-by-Section Interaction
+Work through the workflow design one stage at a time (scoping → states → transitions → actions):
+1. For each stage, briefly state what you are about to design and ask the 1–2 most important targeted questions.
+   - Example: *"State — Pending Approval: Should the record be locked while in this state, or can the submitter still edit it?"*
+2. The user may answer in detail, give a partial answer, or say **"figure it out"** / **"proceed"** — in which case, use available context (Customization Spec, PLAN.md, prior conversation) to complete the section autonomously.
+3. Document the section, then move to the next one.
+
+### Phase C — After Writing: Review and Approval
+After the Workflow Design Document is saved as a draft:
+1. Present a summary — 3–5 bullet points on key design decisions (states, critical transitions, actions).
+2. Ask: *"Does this meet your expectations, or would you like changes before I finalize it?"*
+3. Apply any requested changes, re-save, and repeat steps 1–2.
+4. **Only after explicit approval:** update PLAN.md and proceed to deployment prep. Do not advance before approval.
+
+> The design document stays a draft until the user explicitly approves it.
+
+---
+
 ## Stage 1 — Workflow Scoping
 
 **Purpose:** Decide whether SuiteFlow is the right tool and define the workflow's boundaries.
@@ -306,6 +335,8 @@ After each test:
 ---
 
 ## Deliverables
+
+> Before completing each workflow deliverable, follow **Phase C** of the Co-Writing Protocol — present the design document, collect user feedback, and loop until the user explicitly approves before updating PLAN.md.
 
 For each workflow built, complete the following:
 

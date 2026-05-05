@@ -55,6 +55,35 @@ If the user wants a specific implementation, jump directly to Stage 1. If any of
 
 ---
 
+## Co-Writing Protocol (applies to ALL deliverables)
+
+Every deliverable is co-written with the user in three phases:
+
+### Phase A — Before Writing: Align on Structure
+Before writing a single line of code or documentation:
+1. Present the script's entry points, key logic blocks, and edge cases as a numbered list based on the Customization Spec.
+2. For each section that requires a user decision (governance ceiling, parameter names, error handling behavior), flag it explicitly: *"Section 3 — Error Handling: Should validation errors block the save or log silently?"*
+3. Ask: *"Does this structure match the spec, or should we adjust the approach before I start?"*
+4. Wait for confirmation (or adjustments) before proceeding.
+
+### Phase B — During Writing: Section-by-Section Interaction
+Work through the script one logical block at a time:
+1. For each block, briefly state what you are about to implement and ask the 1–2 most important targeted questions.
+   - Example: *"Governance guard: I'm using a 200-unit buffer. Is that the right ceiling for this script, or should we adjust it?"*
+2. The user may answer in detail, give a partial answer, or say **"figure it out"** / **"proceed"** — in which case, use available context (Customization Spec, PLAN.md, prior conversation) to complete the block autonomously.
+3. Write the block, then move to the next one. Do not write the entire script in one pass.
+
+### Phase C — After Writing: Review and Approval
+After the script and Technical Documentation are saved as drafts:
+1. Present a summary — 3–5 bullet points on key implementation decisions and edge cases handled.
+2. Ask: *"Does this meet the spec, or would you like changes before I run the quality gate?"*
+3. Apply any requested changes, re-save, and repeat steps 1–2.
+4. **Only after explicit approval:** run the Stage 3 Quality Gate checklist and update PLAN.md. Do not advance before approval.
+
+> The script stays a draft until the user explicitly approves it.
+
+---
+
 ## Stage 1 — Script File Setup
 
 **Purpose:** Create a correctly structured script file that passes static validation before a single line of logic is written.
@@ -190,6 +219,8 @@ The Customization Spec lists edge cases. Implement each one explicitly — do no
 ---
 
 ## Stage 3 — Quality Gate (Before Handoff to QA)
+
+> Follow **Phase C** of the Co-Writing Protocol first — present the completed script, collect user feedback, and loop until the user explicitly approves before running this checklist.
 
 **Do not mark a script complete until every item in this checklist passes.**
 

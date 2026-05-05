@@ -52,6 +52,35 @@ If the user wants the full Phase 2 workflow, follow the stages below in order. I
 
 ---
 
+## Co-Writing Protocol (applies to ALL deliverables)
+
+Every deliverable is co-written with the user in three phases:
+
+### Phase A — Before Writing: Align on Structure
+Before writing a single word of the document:
+1. Present the document's sections/headings as a numbered list.
+2. For each section that requires a user decision (scope, priorities, key stakeholders, constraints), flag it explicitly: *"Section 3 — Scope: I'll need your input here."*
+3. Ask: *"Does this structure cover what you need, or should we adjust the sections before we start?"*
+4. Wait for confirmation (or adjustments) before proceeding.
+
+### Phase B — During Writing: Section-by-Section Interaction
+Work through the document one section at a time:
+1. For each section, briefly state what you are about to write and ask the 1–2 most important targeted questions for that section.
+   - Example: *"Section 2 — Fit-Gap: For requirement FR-05, do you have a preference between a workflow or a script for the approval logic?"*
+2. The user may answer in detail, give a partial answer, or say **"figure it out"** / **"proceed"** — in which case, use available context (PLAN.md, BRD, prior conversation) to complete the section autonomously.
+3. Write the section, then move to the next one. Do not batch all sections and write them at once.
+
+### Phase C — After Writing: Review and Approval
+After the full document is saved as a draft:
+1. Present a summary — 3–5 bullet points on key decisions and content highlights.
+2. Ask: *"Does this meet your expectations, or would you like changes before I finalize it?"*
+3. Apply any requested changes, re-save, and repeat steps 1–2.
+4. **Only after explicit approval for all deliverables:** proceed to Stage 6 and update PLAN.md. Do not advance before approval.
+
+> The document stays a draft until the user explicitly approves it.
+
+---
+
 ## Stage 1 — Fit-Gap Analysis
 
 **Purpose:** Classify every business requirement by how NetSuite addresses it, identify true gaps, and establish the scope of customization work before committing to any build.
@@ -165,7 +194,7 @@ The RTM is the project's audit backbone. Never close Phase 2 with requirements t
 
 ## Stage 6 — Update PLAN.md (Workspace Mode Only)
 
-After all Phase 2 deliverables are complete and the Stage 2 quality gate checklist passes, update the `PLAN.md` coordination artifact so the navigator and all spoke skills see the current project state.
+After each Phase 2 deliverable has been co-written and explicitly approved via the **Co-Writing Protocol** (Phase C above), and the quality gate checklist passes, update the `PLAN.md` coordination artifact so the navigator and all spoke skills see the current project state.
 
 1. **Governance section** — set `Current Phase` to `Phase 2 - Design (Complete)`.
 2. **Reference Artifacts section** — add a link for every deliverable produced:
