@@ -143,7 +143,13 @@ For each skill or command type used (or notably absent):
 - What caused friction or was ambiguous
 - Suggested improvement (if any)
 
-**Per command/tool type** (file operations, GitHub tools, bash, search, etc.):
+**Per slash command** (any `/command` invoked from `.claude/commands/`):
+- Which command was used and for what purpose
+- Did it trigger the intended workflow correctly?
+- Any friction, missing step, or wording that caused confusion
+- Suggested improvement to the command's prompt (if any)
+
+**Per tool type** (file operations, GitHub tools, bash, search, etc.):
 - Usage pattern observed
 - Reliability issue (if any)
 - Mitigation or improvement suggestion
