@@ -50,7 +50,17 @@
 - **Friction or ambiguity:** [Issue — or "None"]
 - **Suggested improvement:** [Change — or "None"]
 
-### Commands and Tools
+### Slash Commands
+
+<!-- One sub-section per /command invoked. Delete this section if no slash commands were used. -->
+
+#### `/[command-name]`
+- **Used for:** [What the user was trying to accomplish]
+- **Triggered correctly:** [Yes / No — did it launch the intended workflow?]
+- **Friction or confusion:** [Any wording, missing step, or unexpected behavior — or "None"]
+- **Suggested improvement:** [Specific change to the command's prompt — or "None"]
+
+### Tools
 
 #### File Operations (read, edit, write)
 - **Pattern observed:** [e.g., "Read-before-edit was required to avoid content mismatch failures"]
