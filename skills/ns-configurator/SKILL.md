@@ -69,33 +69,6 @@ Internal IDs are permanent — they cannot be changed after data is entered agai
 
 ---
 
-## Co-Writing Protocol (applies to ALL deliverables)
-
-Every deliverable is co-written with the user in three phases:
-
-### Phase A — Before Writing: Align on Structure
-Before writing a single word of the document:
-1. Present the document's sections/headings as a numbered list.
-2. For each section that requires a user decision (field type, naming, form layout), flag it explicitly: *"Section 2 — Custom Fields: I'll need your input on field types and mandatory settings."*
-3. Ask: *"Does this structure cover what you need, or should we adjust the sections before we start?"*
-4. Wait for confirmation (or adjustments) before proceeding.
-
-### Phase B — During Writing: Section-by-Section Interaction
-Work through the document one section at a time:
-1. For each section, briefly state what you are about to configure and ask the 1–2 most important targeted questions.
-   - Example: *"Custom Record — Approval Log: Should this record be accessible from the Sales Order sublist, or only through its own list view?"*
-2. The user may answer in detail, give a partial answer, or say **"figure it out"** / **"proceed"** — in which case, use available context (PLAN.md, SDD, prior conversation) to complete the section autonomously.
-3. Write the section, then move to the next one. Do not batch all sections and write them at once.
-
-### Phase C — After Writing: Review and Approval
-After the full document is saved as a draft:
-1. Present a summary — 3–5 bullet points on key decisions and content highlights.
-2. Ask: *"Does this meet your expectations, or would you like changes before I finalize it?"*
-3. Apply any requested changes, re-save, and repeat steps 1–2.
-4. **Only after explicit approval:** proceed to the Quality Gate checklist and update PLAN.md. Do not advance before approval.
-
-> The document stays a draft until the user explicitly approves it.
-
 ---
 
 ## Stage 1 — Custom Records & Fields
@@ -335,7 +308,7 @@ For each custom record created in Stage 1:
 
 ## Quality Gate — Before Handoff to QA
 
-> Follow **Phase C** of the Co-Writing Protocol first — present the completed configuration spec, collect user feedback, and loop until the user explicitly approves before running this checklist and updating PLAN.md.
+> Collect user feedback on the completed configuration spec and loop until the user explicitly approves before running this checklist and updating PLAN.md.
 
 Do not mark configuration complete until every item passes:
 

@@ -1,0 +1,70 @@
+{
+  "skill_names": ["ns-cowrite-align", "ns-cowrite-develop", "ns-cowrite-approve"],
+  "evals": [
+    {
+      "id": "align-normal-flow",
+      "skill": "ns-cowrite-align",
+      "prompt": "I'm the ns-erp-navigator skill and I'm about to write a BRD for a NetSuite implementation at a mid-size manufacturing company. The BRD will have these sections: 1. Executive Summary, 2. Business Drivers & Pain Points, 3. Scope (in-scope and out-of-scope), 4. Stakeholder Map, 5. Functional Requirements, 6. Technical Requirements, 7. Assumptions & Constraints, 8. Appendix. Decision-required sections: Scope (what's in/out), Stakeholder Map (names and roles), Functional Requirements (priorities). Please run Phase A co-writing alignment for this BRD.",
+      "expected_output": "Presents numbered section list, flags at least 3 decision-required sections with the exact format '>  [Section N — Title]: I will need your input here —', asks the exact confirmation question 'Does this structure cover what you need, or should we adjust the sections before I start writing?', then STOPS without writing any content.",
+      "assertions": [
+        "presents a numbered list of all 8 sections",
+        "flags Scope, Stakeholder Map, and Functional Requirements as decision-required",
+        "uses the exact phrase 'Does this structure cover what you need, or should we adjust the sections before I start writing?'",
+        "does NOT write any BRD content (no Executive Summary prose, no requirement IDs)",
+        "ends the response waiting for user input — does not offer to proceed or suggest what comes next"
+      ]
+    },
+    {
+      "id": "align-ambiguous",
+      "skill": "ns-cowrite-align",
+      "prompt": "I need to write a Business Requirements Document for a NetSuite Order-to-Cash implementation. Please run the structure alignment phase. After you present the structure, I'll say 'sure, looks fine' — treat that as an ambiguous response and show me what you do next.",
+      "expected_output": "Presents structure, flags decisions, asks confirmation. When user says 'sure, looks fine', does NOT treat it as confirmation. Instead asks a follow-up clarifying question about one of the flagged decision-required sections before re-presenting.",
+      "assertions": [
+        "does not treat 'sure, looks fine' as explicit confirmation",
+        "asks at least one follow-up clarifying question after the ambiguous response",
+        "does NOT start writing BRD content after the ambiguous response",
+        "re-presents or references the structure in its follow-up"
+      ]
+    },
+    {
+      "id": "develop-one-section",
+      "skill": "ns-cowrite-develop",
+      "prompt": "Phase A is complete. The confirmed BRD structure has 5 sections: 1. Executive Summary, 2. Business Drivers, 3. Scope, 4. Functional Requirements, 5. Assumptions. Autonomous fallback sources: PLAN.md, prior conversation. The draft file is at 01_Discovery/BRD_Draft.md. Please begin Phase B — write the first section only, then stop.",
+      "expected_output": "Announces Section 1 — Executive Summary, asks 1-2 targeted questions for that section, then either writes it OR waits for user input. Does NOT write Section 2 or beyond. Does NOT ask questions for multiple sections at once.",
+      "assertions": [
+        "announces 'Section 1 — Executive Summary' explicitly before doing anything for that section",
+        "asks no more than 2 questions for Section 1",
+        "does NOT write Section 2 in the same response",
+        "does NOT ask questions for Section 2 or later sections in the same response",
+        "mentions saving to 01_Discovery/BRD_Draft.md or asks about the output path"
+      ]
+    },
+    {
+      "id": "develop-figure-it-out",
+      "skill": "ns-cowrite-develop",
+      "prompt": "We're in Phase B writing a BRD. I've confirmed all sections. We just finished Section 1 (Executive Summary). Now for Section 2 — Business Drivers — I say 'figure it out'. The fallback sources are: PLAN.md (shows Tier 2 mid-market implementation, manufacturing industry), prior conversation (user mentioned inventory accuracy and manual AP process as pain points). Please handle this 'figure it out' response for Section 2.",
+      "expected_output": "Uses the fallback sources (PLAN.md context and prior conversation pain points) to write Section 2 autonomously without asking more questions. Documents its autonomous choices inline (e.g., parenthetical note). Writes Section 2 fully, then STOPS and does NOT write Section 3.",
+      "assertions": [
+        "does not ask follow-up questions before writing Section 2",
+        "incorporates the provided fallback context (manufacturing, inventory accuracy, manual AP) into Section 2",
+        "marks or notes that this section was completed autonomously",
+        "does NOT write Section 3 in the same response",
+        "confirms 'Section 2 — Business Drivers written' or equivalent after completing it"
+      ]
+    },
+    {
+      "id": "approve-implicit-approval",
+      "skill": "ns-cowrite-approve",
+      "prompt": "Phase B is complete. The BRD draft is saved at 01_Discovery/BRD_Draft.md. Here's a summary of what's in it: It covers an Order-to-Cash implementation for Acme Manufacturing. Key decisions made: 1) Scope includes SO-to-Invoice but excludes procurement. 2) 12 functional requirements across 3 priority tiers. 3) 3 sections were completed autonomously using PLAN.md context. Please run Phase C approval. After you present the summary and ask for approval, I'll say 'it looks fine' — show me exactly how you respond to that.",
+      "expected_output": "Presents a 3-5 bullet summary, asks 'Does this meet your expectations, or would you like changes before I finalize it?', then when user says 'it looks fine', does NOT treat it as approval. Instead re-asks or seeks explicit confirmation with language like 'To confirm — are you approving this draft for finalization, or do you want to revisit it later?'",
+      "assertions": [
+        "presents a summary of 3-5 bullet points covering key decisions",
+        "uses the exact phrase 'Does this meet your expectations, or would you like changes before I finalize it?'",
+        "does NOT treat 'it looks fine' as explicit approval",
+        "asks a follow-up to confirm explicit approval after 'it looks fine'",
+        "does NOT update PLAN.md or run quality gates in this response",
+        "does NOT signal completion after 'it looks fine'"
+      ]
+    }
+  ]
+}

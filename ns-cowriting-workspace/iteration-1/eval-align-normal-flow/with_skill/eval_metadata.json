@@ -1,0 +1,7 @@
+{
+  "eval_id": "align-normal-flow",
+  "skill": "ns-cowrite-align",
+  "prompt": "BRD structure alignment for manufacturing company",
+  "result": "pass",
+  "notes": "Skill correctly executed all four steps: presented the 8-section BRD structure as a numbered list, flagged all three decision-required sections (Scope, Stakeholder Map, Functional Requirements) using the prescribed blockquote format, asked the exact confirmation question verbatim, and stopped without writing any content."
+}

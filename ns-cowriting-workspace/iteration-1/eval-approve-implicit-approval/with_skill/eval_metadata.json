@@ -1,0 +1,7 @@
+{
+  "eval_id": "approve-implicit-approval",
+  "skill": "ns-cowrite-approve",
+  "prompt": "Phase C - implicit approval 'it looks fine' must be rejected",
+  "result": "pass",
+  "notes": "Correctly rejected 'it looks fine' as implicit approval and asked the user for explicit confirmation without updating PLAN.md or signaling completion."
+}
