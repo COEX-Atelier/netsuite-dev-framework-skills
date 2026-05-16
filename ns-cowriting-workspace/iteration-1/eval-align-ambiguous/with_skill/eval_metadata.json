@@ -1,0 +1,7 @@
+{
+  "eval_id": "align-ambiguous",
+  "skill": "ns-cowrite-align",
+  "prompt": "BRD alignment with ambiguous 'sure, looks fine' response",
+  "result": "pass",
+  "notes": "The skill correctly identified 'sure, looks fine' as an ambiguous response, refused to advance to Phase B, asked one targeted clarifying question (about Section 3 Scope), and re-presented the full flagged structure as required."
+}

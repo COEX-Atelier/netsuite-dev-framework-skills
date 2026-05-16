@@ -1,0 +1,7 @@
+{
+  "eval_id": "develop-one-section",
+  "skill": "ns-cowrite-develop",
+  "prompt": "Phase B - write first section only then stop",
+  "result": "pass",
+  "notes": "Response announces Section 1 — Executive Summary, asks exactly 2 targeted questions, and stops without writing any content or mentioning Section 2."
+}
