@@ -1,6 +1,6 @@
 ---
 name: ns-init-workspace
-description: "[Workspace Init] Builds and organizes a NetSuite project workspace — scaffolds the framework folder tree (phase folders, 0_Governance, PLAN/CHANGELOG/BACKLOG docs) in a target folder, and reconciles existing loose files into place or quarantines stale ones to legacy. Use to initialize, scaffold, set up, structure, organize, restructure, clean up, or reconcile a project folder, even when the framework is not named. Not for project sizing or tier classification — that is ns-erp-navigator."
+description: "[Workspace Init] Builds and organizes a NetSuite project workspace — scaffolds the framework folder tree (phase folders, 0_Governance, PLAN/CHANGELOG/TODO docs) in a target folder, and reconciles existing loose files into place or quarantines stale ones to legacy. Use to initialize, scaffold, set up, structure, organize, restructure, clean up, or reconcile a project folder, even when the framework is not named. Not for project sizing or tier classification — that is ns-erp-navigator."
 ---
 
 # NS Init Workspace
@@ -44,7 +44,7 @@ If the user genuinely doesn't know, point them to `ns-erp-navigator` for sizing 
 
 Build the structure from [references/framework_tree.md](references/framework_tree.md). In summary:
 
-**Root (all tiers):** `PLAN.md`, `CHANGELOG.md`, `BACKLOG.md`, and `0_Governance/NAMING_CONVENTIONS.md`.
+**Root (all tiers):** `PLAN.md`, `CHANGELOG.md`, `TODO.md`, and an (empty) `0_Governance/` folder.
 
 **Phase folders:**
 - **Tier 1 & 2** → `01_Discovery/` … `07_GoLive/`
@@ -52,9 +52,11 @@ Build the structure from [references/framework_tree.md](references/framework_tre
 
 **Inside every phase folder** (uniform across all tiers): an empty `assets/` and an empty `artifacts/`. `_legacy/` is created only on demand.
 
-Seed the four coordination docs from the bundled stubs in `assets/` (`PLAN.md`, `CHANGELOG.md`, `BACKLOG.md`, `NAMING_CONVENTIONS.md`). Fill the `PLAN.md` sizing fields from what you know (Tier/Origin/Language); leave the rest as the stub's placeholders for the navigator and downstream skills to complete. For a Tier 3 project, use the 3-row phase table; for Tier 1 & 2, the 7-row table.
+Seed the three coordination docs from the bundled stubs in `assets/` (`PLAN.md`, `CHANGELOG.md`, `TODO.md`). Fill the `PLAN.md` sizing fields from what you know (Tier/Origin/Language); leave the rest as the stub's placeholders for the navigator and downstream skills to complete. For a Tier 3 project, use the 3-row/3-phase variants; for Tier 1 & 2, the 7-phase variants.
 
-> Structural folder names are **always English** and `artifacts` is spelled the **US way** — even on a French project. Only document *content* follows the project language. See the governance stub for why.
+> **`0_Governance/` is created empty.** Its `NAMING_CONVENTIONS.md` is **not** scaffolded here — naming conventions are authored *after* exploration and sizing (by the navigator/configurator flow), once the project's prefix and standards are known. Don't seed a naming doc at init; just create the folder as its future home. `PLAN.md` already points to it.
+
+> Structural folder names are **always English** and `artifacts` is spelled the **US way** — even on a French project. Only document *content* follows the project language. The skill enforces these rules itself (see [references/framework_tree.md](references/framework_tree.md)); they don't depend on a workspace governance doc existing yet.
 
 ---
 
@@ -110,7 +112,7 @@ These hold on every run. They exist because the input is a user's real, often on
 |-------|------|
 | Canonical folder tree, per-phase substructure, four-way sort | [references/framework_tree.md](references/framework_tree.md) |
 | Reconciliation procedure, classification heuristics, legacy & collision rules | [references/reconciliation_playbook.md](references/reconciliation_playbook.md) |
-| Coordination doc stubs to seed | `assets/PLAN.md`, `assets/CHANGELOG.md`, `assets/BACKLOG.md`, `assets/NAMING_CONVENTIONS.md` |
+| Coordination doc stubs to seed | `assets/PLAN.md`, `assets/CHANGELOG.md`, `assets/TODO.md` (naming conventions are authored later, after sizing) |
 
 ---
 

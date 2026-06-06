@@ -23,12 +23,13 @@ Present at every tier:
 ```text
 PLAN.md                       # slim live plan — sizing, rationale, phase status table, governance pointer
 CHANGELOG.md                  # audit trail (Keep a Changelog format); init/reconcile is the first entry
-BACKLOG.md                    # deferred / out-of-scope / parked items
-0_Governance/
-  NAMING_CONVENTIONS.md       # the governance doc PLAN.md points to
+TODO.md                       # living work-breakdown / next steps, organized by phase
+0_Governance/                 # created empty at init; NAMING_CONVENTIONS.md is authored later (see below)
 ```
 
 `0_Governance/` sorts first (the `0_` prefix) because it governs everything below it.
+
+> **`NAMING_CONVENTIONS.md` is not seeded at init.** Naming conventions are authored *after* exploration and sizing — once the project's ID prefix and standards are known (the navigator/configurator flow). At init, `ns-init-workspace` creates the empty `0_Governance/` folder as its home and `PLAN.md` points to it; the doc itself follows later. The structural rules in this file (English folder names, `artifacts` spelling, the four-way sort) are enforced by the skill regardless of whether that workspace doc exists yet.
 
 ## 2. Phase folders — Tier 1 & 2
 
@@ -54,7 +55,7 @@ Build_Test/          # Implementation notes, Smoke Test Checklist
 Deployment/          # Deployment Checklist
 ```
 
-The root coordination layer (`PLAN.md`, `CHANGELOG.md`, `BACKLOG.md`, `0_Governance/`) is identical to Tiers 1 & 2.
+The root coordination layer (`PLAN.md`, `CHANGELOG.md`, `TODO.md`, `0_Governance/`) is identical to Tiers 1 & 2.
 
 ## 4. The per-phase substructure
 
