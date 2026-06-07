@@ -1,6 +1,5 @@
 # Project Plan — [Project Name]
 
-> **Governance & naming:** `0_Governance/NAMING_CONVENTIONS.md` (authored after exploration & sizing — once the project's prefix and standards are set)
 > This is the live coordination document. Every agent reads it first; update it at each phase gate and major decision. Day-to-day work-breakdown lives in [TODO.md](TODO.md).
 
 ## Sizing & Rationale

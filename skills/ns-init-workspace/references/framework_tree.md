@@ -2,8 +2,6 @@
 
 This is the canonical folder structure `ns-init-workspace` builds and reconciles against. It is the **split/substructure** model — coordination documents are split out from the phase tree, and every phase folder carries a uniform `assets/` + `artifacts/` substructure.
 
-> **Why this shape.** The old model kept everything (plan, decisions, deliverables) tangled inside a single monolithic tree. Splitting the live coordination docs to the root and giving each phase a predictable in/out/quarantine substructure means any agent or human can find — and correctly file — work without guessing.
-
 ---
 
 ## Table of Contents
@@ -12,7 +10,6 @@ This is the canonical folder structure `ns-init-workspace` builds and reconciles
 3. [Phase folders — Tier 3](#3-phase-folders--tier-3)
 4. [The per-phase substructure](#4-the-per-phase-substructure)
 5. [The four-way sort](#5-the-four-way-sort)
-6. [Naming and language rules](#6-naming-and-language-rules)
 
 ---
 
@@ -21,15 +18,13 @@ This is the canonical folder structure `ns-init-workspace` builds and reconciles
 Present at every tier:
 
 ```text
-PLAN.md                       # slim live plan — sizing, rationale, phase status table, governance pointer
-CHANGELOG.md                  # audit trail (Keep a Changelog format); init/reconcile is the first entry
+PLAN.md                       # slim live plan — sizing, rationale, phase status table
+CHANGELOG.md                  # project log; init/reconcile is the first entry
 TODO.md                       # living work-breakdown / next steps, organized by phase
-0_Governance/                 # created empty at init; NAMING_CONVENTIONS.md is authored later (see below)
+00_Governance/                # created empty at init
 ```
 
-`0_Governance/` sorts first (the `0_` prefix) because it governs everything below it.
-
-> **`NAMING_CONVENTIONS.md` is not seeded at init.** Naming conventions are authored *after* exploration and sizing — once the project's ID prefix and standards are known (the navigator/configurator flow). At init, `ns-init-workspace` creates the empty `0_Governance/` folder as its home and `PLAN.md` points to it; the doc itself follows later. The structural rules in this file (English folder names, `artifacts` spelling, the four-way sort) are enforced by the skill regardless of whether that workspace doc exists yet.
+`00_Governance/` sorts first and governs everything below it.
 
 ## 2. Phase folders — Tier 1 & 2
 
@@ -55,7 +50,7 @@ Build_Test/          # Implementation notes, Smoke Test Checklist
 Deployment/          # Deployment Checklist
 ```
 
-The root coordination layer (`PLAN.md`, `CHANGELOG.md`, `TODO.md`, `0_Governance/`) is identical to Tiers 1 & 2.
+The root coordination layer (`PLAN.md`, `CHANGELOG.md`, `TODO.md`, `00_Governance/`) is identical to Tiers 1 & 2.
 
 ## 4. The per-phase substructure
 
@@ -85,7 +80,6 @@ Every file encountered during reconciliation lands in exactly one of four places
 
 Unmappable stale items (those that match no phase) go to a single root quarantine: `99_Legacy/` (see the reconciliation playbook).
 
-## 6. Naming and language rules
+## 6. Naming rule
 
-- **Structural folder names are always English** — `01_Discovery`, `0_Governance`, `assets`, `artifacts`, `_legacy`, `99_Legacy` — regardless of the project's content language in `PLAN.md`. Only *document content* follows the language rule. Stable English paths keep automation and cross-skill references working.
-- **Canonical spelling is `artifacts` (US)**, not `artefacts`. This matches the dominant convention in agent/CI tooling (build artifacts, `upload-artifact`, MLflow) and avoids fighting muscle memory and future automation.
+Structural folder names are always English; document content follows the project language.
