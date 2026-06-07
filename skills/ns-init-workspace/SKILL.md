@@ -5,12 +5,6 @@ description: "[Step 2 — Workspace Init] Scaffolds a NetSuite project workspace
 
 # NS Init Workspace
 
-Turn a target folder into a correctly structured NetSuite implementation workspace — either by **scaffolding** the framework tree from scratch, or by **reconciling** an existing, messy folder into it.
-
-You do **not** decide the project's tier (that belongs to `ns-erp-navigator`), and you do **not** re-scope a project. The structure you build is documented in [references/framework_tree.md](references/framework_tree.md) — read it before acting.
-
----
-
 ## Step 0 — Read the situation
 
 Two questions decide what follows:
@@ -63,19 +57,6 @@ On **rescope** (goal has changed, not just "file this"): hard-stop, point to the
 
 1. **Print a run summary:** resulting tree, counts (N active, M to legacy, K unmapped), collision-suffixed files, and items defaulted to active.
 2. **Log the first `CHANGELOG.md` entry** — date, what was initialized, reconciliation counts.
-
----
-
-## Mechanics {#mechanics}
-
-These hold on every run:
-
-- **Move, not copy.**
-- **Dry-run + one approval before any move.**
-- **Non-clobbering re-run** — create only what's missing; ask about unfamiliar pre-existing folders rather than assuming.
-- **Never overwrite on collision** — keep both (`name.md`, `name__2.md`) and flag it.
-- **Restate-and-confirm the goal before reconciling.**
-- **Hard-stop on rescope.**
 
 ---
 

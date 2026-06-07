@@ -20,8 +20,11 @@ Living TODO / work-breakdown for the project, organized by phase. Check items of
 - [ ] **Customization Specifications**
   - [ ] **[CUST-ID]** — [short description]
     - [ ] Functional requirements mapped
+    - [ ] Fit-gap documented
+    - [ ] NS object type / approach identified
     - [ ] Technical spec drafted
     - [ ] Reviewed and signed off
+    - [ ] Update RTM
 - [ ] **Requirements Traceability Matrix (RTM)**
 - [ ] **Phase Gate Review** — SDD, RTM, and all specs reviewed and approved
 
