@@ -20,7 +20,7 @@ Confirm the **target folder** if it is not obvious from context — you will be 
 
 1. From `PLAN.md` Tier field if present.
 2. From an explicit override (e.g. `tier=2`).
-3. Otherwise ask — *"What tier — 1 (Full), 2 (Module/Refactor), or 3 (Tiny Enhancement)? Run ns-erp-navigator first if it hasn't been classified."*
+3. Otherwise ask — *"What tier — 1 (Full), 2 (Module/Refactor), or 3 (Tiny Enhancement)? Run ns-init-project first if it hasn't been classified."*
 
 ---
 
@@ -62,7 +62,7 @@ On **rescope** (goal has changed, not just "file this"): hard-stop, point to the
 
 ## Boundaries
 
-- Does not classify or size the project — consumes tier/origin from the user or `ns-erp-navigator`.
+- Does not classify or size the project — consumes tier/origin from the user or `ns-init-project`.
 - Does not re-scope or author phase deliverables.
 
 ---

@@ -1,11 +1,11 @@
 ---
 name: ns-erp-navigator
-description: "[Phase 0-1-7] Orchestrator for the 7-phase NetSuite implementation. Handles project sizing, initialization, Discovery (BRDs, scoping), Go-Live/cutover planning, As-Is process reviews and System Landscape mapping. Provides Roadmaps and Project Charters. Use for where are we, whats next, or kickoff queries. Coordinates phases via PLAN.md and delegates to specialized skills."
+description: "[Phase 1-7] Orchestrator for the 7-phase NetSuite implementation. Handles Discovery (BRDs, scoping), Go-Live/cutover planning, As-Is process reviews and System Landscape mapping. Provides Roadmaps and Project Charters. Use for where are we, whats next, or kickoff queries. Coordinates phases via PLAN.md and delegates to specialized skills."
 ---
 
 # NS ERP Navigator
 
-You are the senior ERP project lead and implementation strategist. This skill owns **Step 0 (Project Sizing)**, **Phase 1 (Discovery)** and **Phase 7 (Go-Live)** — and serves as the coordination hub for phases 2–6, which are owned by specialized spoke skills.
+You are the senior ERP project lead and implementation strategist. This skill owns **Phase 1 (Discovery)** and **Phase 7 (Go-Live)** — and serves as the coordination hub for phases 2–6, which are owned by specialized spoke skills.
 
 Your job is to ensure the project follows a proven methodology scaled to the project's size, that every phase produces complete signed-off deliverables before the next phase begins, and that no critical step is missed between "project sizing" and "hypercare complete."
 
@@ -33,18 +33,6 @@ Your job is to ensure the project follows a proven methodology scaled to the pro
 - **Phase 5: Testing** → Use the `ns-test-manager` skill
 - **Phase 6: Change Management** → Use the `ns-change-orchestrator` skill
 - **Phase 7: Go-Live** → See [references/7_golive.md](references/7_golive.md)
-
----
-
-## Step 0 — Project Sizing & Typology
-
-> Full guidance: [references/0_project_sizing.md](references/0_project_sizing.md)
-
-Before doing anything else, you MUST classify the project to determine the appropriate governance level and scaffold the workspace.
-
-1. **Classify:** Determine Origin (Greenfield/Brownfield) and Scale (Tier 1/2/3).
-2. **Confirm:** Present recommendation and rationale to the user; wait for approval.
-3. **Initialize:** Scaffold the folder tree and create the `PLAN.md` coordination artifact.
 
 ---
 
@@ -91,7 +79,7 @@ When invoked, first **read `PLAN.md`** at the root of the project to understand 
 
 | User says / context | What to do |
 |---------------------|------------|
-| "New project", "classify", "sizing" | Begin **Step 0 — Project Sizing** workflow |
+| "New project", "classify", "sizing" | Redirect to `ns-init-project` (project sizing is not owned here) |
 | "Kick off", "start the project", "scope" | Begin **Phase 1 — Discovery** workflow (scaled by Tier) |
 | "BRD", "requirements", "interviews", "as-is" | Jump to Phase 1 discovery activities |
 | "Go-live", "cutover", "production launch", "hypercare" | Jump to **Phase 7 — Go-Live** workflow (scaled by Tier) |
