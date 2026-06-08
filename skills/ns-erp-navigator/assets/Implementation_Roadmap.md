@@ -4,7 +4,7 @@ Choose the roadmap that matches the confirmed **Project Tier**.
 
 ---
 
-## Tier 1: Full Implementation (6 Months)
+## Tier 1: Major Initiative (~6 Months)
 
 | Month | Phase | Key Milestones |
 | :--- | :--- | :--- |
@@ -17,7 +17,7 @@ Choose the roadmap that matches the confirmed **Project Tier**.
 
 ---
 
-## Tier 2: Module / Refactoring (6 Weeks)
+## Tier 2: Process / Workflow Refactor (~6 Weeks)
 
 | Week | Phase | Key Milestones |
 | :--- | :--- | :--- |
@@ -29,7 +29,7 @@ Choose the roadmap that matches the confirmed **Project Tier**.
 
 ---
 
-## Tier 3: Tiny Enhancement (2 Weeks)
+## Tier 3: Small Enhancement (~2 Weeks)
 
 | Day | Phase | Key Milestones |
 | :--- | :--- | :--- |
