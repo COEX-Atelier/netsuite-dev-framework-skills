@@ -3,11 +3,18 @@
 > This is the live coordination document. Every agent reads it first; update it at each phase gate and major decision. Day-to-day work-breakdown lives in [TODO.md](TODO.md).
 
 ## Sizing & Rationale
-- **Tier:** [1 — Full | 2 — Module/Refactor | 3 — Tiny Enhancement]
-- **Origin:** [Greenfield | Brownfield]
+- **Tier:** [1 — Major Initiative | 2 — Process/Workflow Refactor | 3 — Small Enhancement]
+- **Origin:** [Brownfield | Greenfield]
 - **Language:** [e.g., English | French]
 - **Current Phase:** [e.g., Phase 1 — Discovery]
 - **Rationale:** [one or two lines on why this tier/origin was chosen]
+
+## Environment
+- **Account / Sandbox:** [account ID or sandbox URL]
+- **Sandbox branch:** [branch used for this work, if any]
+- **SDF codebase:** [path or repo URL of the SDF project]
+- **Local files directory:** [path to local working files, if any]
+- **Dev location:** [where coding happens — this project folder | remote repo (URL) | another local path]
 
 ## Strategic Decisions
 - [YYYY-MM-DD]: [architectural or scoping decision]

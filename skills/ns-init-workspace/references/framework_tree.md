@@ -42,7 +42,7 @@ Each phase folder carries the [per-phase substructure](#4-the-per-phase-substruc
 
 ## 3. Phase folders — Tier 3
 
-Tier 3 (Tiny Enhancement) collapses the seven phases into three, but keeps the **same** per-phase substructure (uniform behavior — agents never special-case a tier):
+Tier 3 (Small Enhancement) collapses the seven phases into three, but keeps the **same** per-phase substructure (uniform behavior — agents never special-case a tier):
 
 ```text
 Discovery_Design/    # Simplified 1-page Functional Spec

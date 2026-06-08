@@ -20,7 +20,7 @@ Confirm the **target folder** if it is not obvious from context — you will be 
 
 1. From `PLAN.md` Tier field if present.
 2. From an explicit override (e.g. `tier=2`).
-3. Otherwise ask — *"What tier — 1 (Full), 2 (Module/Refactor), or 3 (Tiny Enhancement)? Run ns-init-project first if it hasn't been classified."*
+3. Otherwise ask — *"What tier — 1 (Major Initiative), 2 (Process/Workflow Refactor), or 3 (Small Enhancement)? Run ns-init-project first if it hasn't been classified."*
 
 ---
 
@@ -36,7 +36,7 @@ Build from [references/framework_tree.md](references/framework_tree.md):
 
 **Inside every phase folder:** empty `assets/` and `artifacts/`. `_legacy/` is created only on demand.
 
-Seed the three coordination docs from the bundled stubs in `assets/`. Fill the `PLAN.md` sizing fields from what you know; leave the rest as placeholders. Use the 3-phase variants for Tier 3; 7-phase for Tier 1 & 2.
+Seed the three coordination docs from the bundled stubs in `assets/`. Fill the `PLAN.md` sizing **and Environment** fields from what `ns-init-project` (or the user) handed over — account/sandbox, sandbox branch, SDF codebase, local files directory, and where coding happens; leave anything unknown as a placeholder. Use the 3-phase variants for Tier 3; 7-phase for Tier 1 & 2.
 
 ---
 
