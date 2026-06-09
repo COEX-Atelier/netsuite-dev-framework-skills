@@ -1,5 +1,5 @@
 ---
-name: ns-sdf-github-setup
+name: ns-github-setup
 description: "[One-Time Setup] Audits a NetSuite SDF project repository and configures everything needed for GitHub-based team collaboration: evaluates the right deploy.xml strategy for the team's composition, sets up a GitHub Actions CI/CD pipeline with OAuth 2.0 authentication, establishes object ownership boundaries between SDF and UI, and optionally adds drift detection for mixed teams. Run once per project repository."
 ---
 
@@ -242,7 +242,7 @@ Create `ci/setup-complete.json`:
   "environments": ["sandbox", "production"],
   "driftDetection": true,
   "mixedTeam": true,
-  "configuredBy": "ns-sdf-github-setup"
+  "configuredBy": "ns-github-setup"
 }
 ```
 

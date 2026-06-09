@@ -7,11 +7,11 @@
       "skillPath": "skills/skill-creator/SKILL.md",
       "computedHash": "7e3c9cd74e9e2b4828527a857170e86310f2dab5ea8030a9043df2c7e6c88857"
     },
-    "ns-sdf-github-setup": {
+    "ns-github-setup": {
       "source": "coex-atelier/netsuite-dev-framework-skills",
       "sourceType": "github",
-      "skillPath": "skills/ns-sdf-github-setup/SKILL.md",
-      "computedHash": "b1cfe8ebf14497c98c8f5d799e71aef05c7512548a8786084e0bed971fe51ae6"
+      "skillPath": "skills/ns-github-setup/SKILL.md",
+      "computedHash": "615050647aa689603818fb6dd064e1f4f60f0ccb8e9872e419f0a8356efd5d6e"
     }
   }
 }
