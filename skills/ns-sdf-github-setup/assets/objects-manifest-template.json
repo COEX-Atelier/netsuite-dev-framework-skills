@@ -1,0 +1,21 @@
+{
+  "_comment": "List all SDF-owned objects here. Used by ci/check-drift.js to detect UI changes before deploying. Mirrors the SDF-Owned section of OBJECT_OWNERSHIP.md. Keep these two files in sync whenever objects are added or removed.",
+  "objects": [
+    {
+      "type": "customscript",
+      "scriptid": "customscript_proj_example_ue"
+    },
+    {
+      "type": "scriptdeployment",
+      "scriptid": "customscript_proj_example_ue_deployment1"
+    },
+    {
+      "type": "customrecord",
+      "scriptid": "customrecord_proj_example_record"
+    },
+    {
+      "type": "customfield",
+      "scriptid": "custbody_proj_example_field"
+    }
+  ]
+}

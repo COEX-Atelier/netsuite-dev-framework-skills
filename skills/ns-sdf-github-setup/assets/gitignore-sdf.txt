@@ -1,0 +1,27 @@
+# ── NetSuite SDF — Authentication (NEVER commit) ──────────────────────────────
+# client.properties holds your local OAuth tokens and account auth config.
+# Every developer generates their own with: suitecloud account:setup
+client.properties
+
+# OAuth 2.0 private key files used for M2M authentication (post-2024.2)
+# In CI: stored as a base64-encoded GitHub Secret and decoded to a temp file
+*.pem
+*.key
+*.p12
+*.pfx
+
+# ── NetSuite SDF — Generated at CI time ──────────────────────────────────────
+# deploy.xml is generated from git diff by ci/generate-deploy.js.
+# Committing it causes constant merge conflicts in multi-developer teams.
+# Strategy A (wildcard deploy-all) teams may choose to track this file instead.
+deploy.xml
+
+# ── NetSuite SDF — IDE artifacts ─────────────────────────────────────────────
+# SuiteCloud Extension for VS Code caches
+.suitecloud/
+
+# SuiteCloud IDE console output
+.sdfconsole/
+
+# SuiteCloud project local auth store (legacy Java CLI)
+.sdfcli.json
