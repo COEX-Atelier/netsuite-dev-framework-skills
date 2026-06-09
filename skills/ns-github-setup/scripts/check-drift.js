@@ -14,7 +14,7 @@
  * Prerequisites:
  *   - suitecloud CLI installed: npm install -g @oracle/suitecloud-cli
  *   - Auth configured: suitecloud account:setup:ci (run earlier in pipeline)
- *   - ci/objects-manifest.json populated (created by ns-sdf-github-setup skill)
+ *   - ci/objects-manifest.json populated (created by ns-github-setup skill)
  *
  * Usage:
  *   node ci/check-drift.js [--authid <authid>]
@@ -69,7 +69,7 @@ for (const obj of manifest.objects) {
 
 const totalObjects = manifest.objects.length;
 const totalTypes = Object.keys(byType).length;
-console.log(`[check-drift] Importing ${totalObjects} SDF-owned objects (${totalTypes} types) from account "${authid}"...`);
+console.log(`[check-drift] Importing ${totalObjects} SDF-owned objects (${totalTypes} types) using auth alias "${authid}"...`);
 
 // ── Import each type from the account ────────────────────────────────────────
 
@@ -77,10 +77,9 @@ for (const [type, scriptids] of Object.entries(byType)) {
   const cmd = [
     'suitecloud', 'object:import',
     '--type', type,
-    '--scriptids', scriptids.join(','),
+    '--scriptid', scriptids.join(','),
     '--destinationfolder', 'Objects',
     '--authid', authid,
-    '--overridetype', 'OVERWRITE',
   ];
 
   console.log(`  [${type}] importing ${scriptids.length} object(s)...`);
@@ -96,6 +95,9 @@ for (const [type, scriptids] of Object.entries(byType)) {
 }
 
 // ── Check for drift using git diff ───────────────────────────────────────────
+// Note: git diff only detects modifications to tracked files. Objects created
+// in the UI since the last import are untracked and will not appear here.
+// The objects-manifest.json is the contract — only listed objects are checked.
 
 const diffResult = spawnSync('git', ['diff', '--name-only', 'Objects/'], { encoding: 'utf8' });
 const driftedFiles = (diffResult.stdout || '').trim().split('\n').filter(Boolean);

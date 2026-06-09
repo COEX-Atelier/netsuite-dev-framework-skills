@@ -193,12 +193,14 @@ Group object types for efficiency. The `check-drift.js` script will batch-import
 
 ### 5.3 Add Drift Check to Workflow
 
-Update `.github/workflows/sdf-deploy.yml` to enable the drift detection step on the sandbox and production deploy jobs. In the workflow template, this step is already present but gated by `vars.DRIFT_DETECTION == 'true'`. To activate it:
+Update `.github/workflows/sdf-deploy.yml` to enable the drift detection step on the **sandbox** deploy job. The drift step is already present in the template but gated by `vars.DRIFT_DETECTION == 'true'`. To activate it:
 
-Go to GitHub Settings → Environments → [environment name] → Environment variables, and add:
+Go to GitHub Settings → Environments → `sandbox` → Environment variables, and add:
 - `DRIFT_DETECTION` = `true`
 
-Instruct the user to do this rather than hardcoding it in the YAML — this allows disabling drift detection per-environment without a code change.
+**Do not enable drift detection on the production job.** Production should only receive changes that were already validated through sandbox. If drift appears in production it means the deployment workflow was bypassed — that is a process failure, not something to block deploys on. Keeping production drift-check-free also means one less live account import per production deploy.
+
+Instruct the user to set this variable rather than hardcoding it in the YAML — this allows disabling drift detection without a code change (e.g., temporarily during initial project setup).
 
 ---
 

@@ -28,7 +28,7 @@ const targetRef = process.argv[2] || process.env.TARGET_BRANCH || 'origin/main';
 let changedFiles = [];
 
 try {
-  const raw = execSync(`git diff --name-only ${targetRef}...HEAD`, {
+  const raw = execSync(`git diff --name-only --diff-filter=ACMR ${targetRef}...HEAD`, {
     encoding: 'utf8',
     stdio: ['pipe', 'pipe', 'pipe'],
   });
@@ -60,9 +60,11 @@ const allSdfFiles = [...changedFiles.filter(f =>
 const deletedResult = spawnSync('git', ['diff', '--name-only', '--diff-filter=D', `${targetRef}...HEAD`], {
   encoding: 'utf8',
 });
-const deletedSdf = (deletedResult.stdout || '')
-  .split('\n')
-  .filter(f => f.startsWith('FileCabinet/') || (f.startsWith('Objects/') && f.endsWith('.xml')));
+const deletedSdf = deletedResult.status === 0
+  ? (deletedResult.stdout || '')
+      .split('\n')
+      .filter(f => f.startsWith('FileCabinet/') || (f.startsWith('Objects/') && f.endsWith('.xml')))
+  : [];
 
 if (deletedSdf.length > 0) {
   console.warn('[generate-deploy] WARNING: The following files were deleted from Git but cannot');
