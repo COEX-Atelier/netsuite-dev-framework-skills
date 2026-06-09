@@ -54,8 +54,6 @@ If no PLAN.md is found, you are in **standalone mode**. Proceed to Step 1 and ga
 
 ---
 
----
-
 ## Stage 1 — Data Extraction & Inventory
 
 **Purpose:** Understand exactly what data exists in the legacy system before attempting to map or cleanse it. Surprises discovered during import are always more expensive than surprises discovered here.

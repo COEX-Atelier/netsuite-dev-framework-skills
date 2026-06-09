@@ -69,8 +69,6 @@ Internal IDs are permanent — they cannot be changed after data is entered agai
 
 ---
 
----
-
 ## Stage 1 — Custom Records & Fields
 
 **Purpose:** Create the data model that all scripts, workflows, forms, and searches depend on. This is the foundation — everything else builds on top of it.

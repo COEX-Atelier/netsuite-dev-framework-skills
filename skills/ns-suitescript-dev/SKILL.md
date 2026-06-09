@@ -55,8 +55,6 @@ If the user wants a specific implementation, jump directly to Stage 1. If any of
 
 ---
 
----
-
 ## Stage 1 — Script File Setup
 
 **Purpose:** Create a correctly structured script file that passes static validation before a single line of logic is written.

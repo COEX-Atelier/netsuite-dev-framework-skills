@@ -52,8 +52,6 @@ If no PLAN.md is found, you are in **standalone mode**. Proceed to Step 1 and ga
 
 ---
 
----
-
 ## Stage 1 — Impact Analysis
 
 **Purpose:** Identify which roles and processes are changing, and how significantly. This drives training scope, communication urgency, and the depth of support needed post-go-live.

@@ -54,8 +54,6 @@ If no PLAN.md is found, you are in **standalone mode**. Proceed to Step 1 and ga
 
 ---
 
----
-
 ## Stage 1 — Workflow Scoping
 
 **Purpose:** Decide whether SuiteFlow is the right tool and define the workflow's boundaries.

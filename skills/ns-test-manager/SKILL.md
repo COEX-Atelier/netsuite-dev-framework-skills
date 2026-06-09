@@ -53,8 +53,6 @@ After answering, **determine the Scope Tier explicitly** and state it before pro
 
 ---
 
----
-
 ### Scope Tiers
 
 | Tier | Project Profile | Test Plan | SIT | UAT | Defect Log | RTM |
