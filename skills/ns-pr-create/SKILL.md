@@ -18,6 +18,19 @@ Split `git diff --name-only <base>...HEAD` into:
 
 ---
 
+## Paired-Change Check
+
+If `Objects/**/*.xml` contains a **new file** (not a modification), verify both of these are also in the diff:
+
+- `OBJECT_OWNERSHIP.md` — new object must be declared as SDF-owned or UI-owned
+- `ci/objects-manifest.json` — new SDF-owned object must be listed for drift detection
+
+If either is missing, warn before generating the PR body. These three always move together when a new SDF object is introduced.
+
+> `ci/objects-manifest.json` is committed source control (not gitignored) — it is always correct to include it in a PR.
+
+---
+
 ## SDF Anti-Pattern Flags
 
 Stop and warn before generating the PR if any of these appear in the diff:
