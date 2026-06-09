@@ -31,7 +31,7 @@ Check in this order — stop at the first confirmed blocker:
 | Log pattern | Root cause | Fix |
 |---|---|---|
 | `invalid_client` / `INVALID_LOGIN_ATTEMPT` | OAuth cert mismatch or expired | Match `NS_CERTIFICATE_ID` secret to the Certificate ID on the NetSuite integration record; regenerate if expired |
-| `base64: invalid input` | `NS_PRIVATE_KEY` secret has line breaks | Re-encode: `base64 -w 0 key.pem` — result must be a single line |
+| `base64: invalid input` | `NS_PRIVATE_KEY_B64` secret has line breaks | Re-encode: `base64 -w 0 key.pem` — result must be a single line |
 | `INSUFFICIENT_PERMISSION` | CI role missing SDF permission | NetSuite → Manage Roles → CI role → Permissions → Setup → add **SuiteCloud Development Framework: Full** |
 | `deploy.xml` in diff | `deploy.xml` committed | `git rm --cached deploy.xml` + add to `.gitignore` + push |
 | Drift detection exit 1 | SDF-owned object edited in UI but not committed | Re-import with `suitecloud object:import` and commit, or revert the UI change |

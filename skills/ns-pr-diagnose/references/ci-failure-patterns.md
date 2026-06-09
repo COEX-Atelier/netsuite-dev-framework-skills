@@ -12,9 +12,9 @@ Catalogue of known SDF pipeline failures with root causes and exact fixes. Patte
 **Fix:**
 1. NetSuite → Setup → Integrations → Manage Integrations → find the integration used for CI.
 2. Note the **Certificate ID** in the integration record.
-3. Compare it to the `NS_CERTIFICATE_ID` GitHub Secret (Settings → Secrets → Actions).
+3. Compare it to the `NS_CERTIFICATE_ID` secret in GitHub (Settings → Environments → `sandbox` or `production` → Secrets).
 4. If they differ, update the GitHub Secret to match the NetSuite value.
-5. If the cert has expired: generate a new RSA key pair → upload the public cert to the integration record → update `NS_PRIVATE_KEY` (base64-encoded, no line breaks) and `NS_CERTIFICATE_ID` in GitHub Secrets.
+5. If the cert has expired: generate a new RSA key pair → upload the public cert to the integration record → update `NS_PRIVATE_KEY_B64` (base64-encoded, no line breaks) and `NS_CERTIFICATE_ID` in GitHub Secrets.
 
 ---
 
@@ -27,12 +27,12 @@ Catalogue of known SDF pipeline failures with root causes and exact fixes. Patte
 
 ### `base64: invalid input`
 **Log excerpt:** `base64: invalid input` during key decode step  
-**Root cause:** The `NS_PRIVATE_KEY` GitHub Secret was pasted with line breaks (PEM format), but the pipeline expects a single-line base64 string.  
+**Root cause:** The `NS_PRIVATE_KEY_B64` GitHub Secret was pasted with line breaks (PEM format), but the pipeline expects a single-line base64 string.  
 **Fix:**
 ```bash
 base64 -w 0 path/to/private.pem
 ```
-Copy the single-line output and update the `NS_PRIVATE_KEY` GitHub Secret. The value must have no newlines.
+Copy the single-line output and update the `NS_PRIVATE_KEY_B64` GitHub Secret. The value must have no newlines.
 
 ---
 
