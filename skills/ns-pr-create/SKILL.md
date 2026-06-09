@@ -5,6 +5,12 @@ description: "[PR Lifecycle — Create] Creates a well-formed GitHub pull reques
 
 # NS PR Create
 
+## Context
+
+Workspace mode: read `PLAN.md` for the project code (sets the title `[Area]`) and `ci/setup-complete.json` for `branchModel` + `environments` (sets the deployment target). Standalone (neither present): get the `[Area]` and target environment from the user, or infer from the branch name. Don't ask for what these files already answer.
+
+---
+
 ## Diff Categories
 
 Split `git diff --name-only <base>...HEAD` into:
@@ -50,13 +56,15 @@ Stop and warn before generating the PR if any of these appear in the diff:
 
 e.g. `[O2C] Add approval validation to Sales Order UE`
 
+`[Area]` is the project/functional code — from `PLAN.md` in workspace mode; ask in standalone mode.
+
 ---
 
 ## PR Body
 
 Use [assets/pr-body-template.md](assets/pr-body-template.md). Pre-fill from the diff:
 - Summarise each changed SuiteScript and Object XML (infer from filename + diff context)
-- Set deployment target from `ci/setup-complete.json` → `deployStrategy`, or from `PLAN.md` if present
+- Set the deployment target by mapping the base branch through `ci/setup-complete.json` (`branchModel` + `environments`) — the same mapping `ns-pr-merge` uses
 
 Show the generated title + body to the user and wait for confirmation before creating the PR.
 
@@ -67,4 +75,6 @@ Show the generated title + body to the user and wait for confirmation before cre
 | Topic | File |
 |---|---|
 | PR body template | [assets/pr-body-template.md](assets/pr-body-template.md) |
+| Deploy strategy & branch→environment map | `ci/setup-complete.json` (project root, if present) |
+| Project code, tier, current phase | `PLAN.md` (project root, if present) |
 | Object ownership | `OBJECT_OWNERSHIP.md` (project root, if present) |
