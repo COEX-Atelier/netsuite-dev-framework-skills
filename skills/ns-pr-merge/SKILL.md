@@ -5,27 +5,9 @@ description: "[PR Lifecycle — Merge] Safely merges a pull request and confirms
 
 # NS PR Merge
 
-## Step 0 — Detect GitHub Tooling
-
-Before reading any PR state, determine which GitHub integration is available. Test in this order and use the **first** that works:
-
-1. **`gh` CLI** — run `gh --version`. If it succeeds, use `gh pr view`, `gh pr merge`, and `gh run watch` for all GitHub operations.
-2. **GitHub MCP tools** — check whether `mcp__github__pull_request_read` and `mcp__github__merge_pull_request` are available (they appear in the tool list in Claude Code web sessions). If available, use them.
-3. **Manual fallback** — if neither is available, collect all the information below and instruct the user to:
-   - Navigate to the PR in the GitHub UI
-   - Select the correct merge strategy (see Step 4)
-   - Click the merge button
-   - Then return to confirm the result
-
-Document which path was selected at the top of every user-facing output.
-
----
-
 ## Step 1 — Identify the PR
 
-1. If the user is on a feature branch, look up the open PR for that branch automatically:
-   - `gh pr view --json number,title,baseRefName,headRefName,state,mergeable,statusCheckRollup,reviewDecision`
-   - or GitHub MCP `pull_request_read` with method `get`
+1. If the user is on a feature branch, look up the open PR for that branch automatically.
 2. If the branch has no open PR, stop and redirect: *"No open PR found for this branch. Use ns-pr-create to create one first."*
 3. If a PR number was specified by the user, use that directly.
 
@@ -104,9 +86,8 @@ Wait for an explicit go-ahead before executing the merge.
 
 ## Step 6 — Execute the Merge
 
-Using the tool detected in Step 0:
+Merge using whatever GitHub tooling is available, applying the strategy chosen in Step 4 and deleting the source branch after merge. Example using `gh`:
 
-**`gh` CLI:**
 ```bash
 # Squash and merge
 gh pr merge <number> --squash --delete-branch
@@ -115,29 +96,14 @@ gh pr merge <number> --squash --delete-branch
 gh pr merge <number> --merge --delete-branch
 ```
 
-**GitHub MCP (`mcp__github__merge_pull_request`):**
-Pass `merge_method` as `"squash"` or `"merge"` accordingly.
-
-**Manual fallback:**
-Instruct the user to:
-1. Open the PR in the GitHub UI
-2. Click the dropdown arrow next to the merge button
-3. Select the recommended strategy
-4. Click the merge button
-5. Confirm branch deletion when prompted
-
 ---
 
 ## Step 7 — Monitor Deployment
 
 After the merge, watch the triggered CI run:
 
-1. Get the workflow run triggered by the merge:
-   - `gh run list --branch <base-branch> --limit 3`
-   - or GitHub MCP `actions_list` with `list_workflow_runs`
-2. Monitor until completion:
-   - `gh run watch <run-id>`
-   - or poll GitHub MCP `actions_get` with `get_workflow_run` until `status` is `completed`
+1. Get the workflow run triggered by the merge on the base branch.
+2. Monitor until `status` is `completed`.
 3. Report the outcome:
    - **Success:** *"Deployment to Sandbox completed successfully (run #XXXXXX). The merge is done."*
    - **Failure:** *"The deployment pipeline failed after merge. Invoking ns-ci-diagnose to identify the failure."* → redirect to `ns-ci-diagnose` (or `ns-pr-diagnose` if that skill covers post-merge CI failures)
@@ -154,7 +120,7 @@ Check if any post-merge housekeeping is required:
 |---|---|
 | Hotfix merged to `main` | Remind user to backmerge to `develop`: `git checkout develop && git merge main && git push` (or open a backmerge PR) |
 | Release PR merged to `main` | Prompt: *"Would you like to run ns-release to tag this release and update the changelog?"* |
-| Feature branch merged, branch not deleted | Confirm deletion: `gh pr view <number> --json headRefName` + `git push origin --delete <branch>` |
+| Feature branch merged, branch not deleted | Delete the source branch after confirming it is fully merged |
 
 ---
 

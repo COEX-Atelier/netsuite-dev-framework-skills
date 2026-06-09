@@ -5,21 +5,6 @@ description: "[PR Lifecycle — Create] Creates a well-formed GitHub pull reques
 
 # NS PR Create
 
-## Step 0 — Detect GitHub Tooling
-
-Before doing anything else, determine which GitHub integration is available. Test in this order and use the **first** that works:
-
-1. **`gh` CLI** — run `gh --version`. If it succeeds, use `gh pr create` for all GitHub operations. This is the preferred path in any terminal session.
-2. **GitHub MCP tools** — check whether `mcp__github__create_pull_request` is available (it will appear in the tool list in Claude Code web sessions). If available, use it.
-3. **Manual fallback** — if neither is available, collect all the information below, then present the user with:
-   - The exact `git push -u origin <branch>` command if the branch isn't pushed yet
-   - The GitHub URL to open a PR manually (e.g. `https://github.com/<org>/<repo>/compare/<base>...<branch>`)
-   - The fully rendered PR title and body to paste into the GitHub UI
-
-Document which path was selected at the top of every user-facing output so the user knows what is happening.
-
----
-
 ## Step 1 — Read Context
 
 Gather the following before inspecting any files:
@@ -89,24 +74,14 @@ List any items in the checklist that are **unchecked** and note which ones the u
 
 ## Step 6 — Create the PR
 
-Using the tool detected in Step 0:
+Create the PR using whatever GitHub tooling is available, passing the generated title, body, and base branch. Example using `gh`:
 
-**`gh` CLI:**
 ```bash
 gh pr create \
   --title "<title>" \
   --body "$(cat assets/pr-body-template.md)" \
   --base <base-branch>
 ```
-
-**GitHub MCP (`mcp__github__create_pull_request`):**
-Pass `title`, `body`, `head` (current branch), and `base` fields directly.
-
-**Manual fallback:**
-Print the rendered title and body and instruct the user to:
-1. Run `git push -u origin <branch>` if not already pushed
-2. Open the compare URL GitHub prints after the push
-3. Paste the title and body into the GitHub PR form
 
 ---
 

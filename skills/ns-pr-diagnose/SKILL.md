@@ -5,27 +5,11 @@ description: "[PR Lifecycle — Diagnose] Diagnoses why a pull request cannot me
 
 # NS PR Diagnose
 
-## Step 0 — Detect GitHub Tooling
-
-Before reading any PR state, determine which GitHub integration is available. Test in this order and use the **first** that works:
-
-1. **`gh` CLI** — run `gh --version`. If it succeeds, use `gh pr view`, `gh run view`, and `gh run view --log-failed` for all GitHub operations.
-2. **GitHub MCP tools** — check whether `mcp__github__pull_request_read` and `mcp__github__get_job_logs` are available (they will appear in the tool list in Claude Code web sessions). If available, use them.
-3. **Manual fallback** — if neither is available, ask the user to paste the relevant information:
-   - The PR page URL and any merge-blocking messages shown in the GitHub UI
-   - The failing CI job name and the last 50 lines of its log
-
-Document which path was selected at the top of every user-facing output.
-
----
-
 ## Step 1 — Identify the PR
 
 1. If the user is on a feature branch (`git rev-parse --abbrev-ref HEAD`), look up the open PR for that branch automatically.
 2. If multiple PRs exist or the branch is ambiguous, ask: *"Which PR number should I diagnose?"*
-3. Fetch PR status using the detected tool:
-   - `gh pr view <number> --json state,mergeable,statusCheckRollup,reviewDecision,baseRefName,headRefName`
-   - or GitHub MCP `pull_request_read` with method `get`
+3. Fetch PR status (state, mergeable, status checks, review decision, base/head refs).
 
 ---
 
@@ -54,21 +38,14 @@ If the PR has `mergeable: CONFLICTING`:
 
 If the PR has failing status checks:
 
-1. Fetch the latest workflow run for the branch:
-   - `gh run list --branch <branch> --limit 5`
-   - or GitHub MCP `actions_list` with `list_workflow_runs`
-2. Read the failed job logs:
-   - `gh run view <run-id> --log-failed`
-   - or GitHub MCP `get_job_logs`
-3. Match logs against the known SDF failure catalogue in `references/ci-failure-patterns.md`. Present the identified root cause and exact fix. See Step 3 for the full pattern table.
+1. Fetch the latest workflow run for the branch and read the failed job logs.
+2. Match logs against the known SDF failure catalogue in `references/ci-failure-patterns.md`. Present the identified root cause and exact fix. See Step 3 for the full pattern table.
 
 ### 2c — Branch Protection Violations
 
 If CI is green and there are no conflicts but the PR is still blocked:
 
-1. Check required reviewers — identify who has not yet approved:
-   - `gh pr view <number> --json reviewDecision,reviews`
-   - or GitHub MCP `pull_request_read` with method `get`
+1. Check required reviewers — identify who has not yet approved.
 2. Check required status checks — list which checks are required vs. which have passed.
 3. Check if the base branch has protection rules requiring linear history (squash/rebase only) and whether the current PR satisfies that.
 
