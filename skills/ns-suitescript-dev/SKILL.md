@@ -235,10 +235,14 @@ This is the project's inventory of NetSuite configuration items. A missing entry
 SuiteScript and its deployments are **always SDF-owned** — they live in `Objects/` and are changed via Git PR only. Every `customscript_*` and `scriptdeployment_*` you create must be registered in two files so drift detection and ownership tracking cover it:
 
 1. **`OBJECT_OWNERSHIP.md`** (project root) — add a row for the script and the deployment under the **SDF-Owned Objects** section. Ownership is not a question here; scripts are never UI-owned.
-2. **`ci/objects-manifest.json`** (project root) — add an entry per object so `ci/check-drift.js` tracks it:
+2. **`ci/objects-manifest.json`** (project root) — append an entry per object to the `objects` array so `ci/check-drift.js` tracks it:
    ```json
-   { "type": "customscript",      "scriptid": "customscript_[proj]_[description]_[type]" }
-   { "type": "scriptdeployment",  "scriptid": "customscript_[proj]_[description]_[type]_deployment1" }
+   {
+     "objects": [
+       { "type": "customscript",     "scriptid": "customscript_[proj]_[description]_[type]" },
+       { "type": "scriptdeployment", "scriptid": "customscript_[proj]_[description]_[type]_deployment1" }
+     ]
+   }
    ```
 
 Both files are committed source control (not gitignored), so include them in the same PR as the new script. Missing the manifest entry means a later UI edit to the deployment will **silently** escape drift detection. See [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md) for the full artifact contract.
