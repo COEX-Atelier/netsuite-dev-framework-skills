@@ -11,17 +11,9 @@ Output target: **one root cause, one fix, in under 5 lines.** No survey of possi
 
 ---
 
-## Step 0 — Detect Tooling
+## Step 0 — Get the Log
 
-Pick the best available log source — never hardcode one:
-
-| Order | Tool | Probe | Used for |
-|---|---|---|---|
-| 1 | `gh` CLI | `gh auth status` | `gh run list`, `gh run view <id> --log-failed` — richest log access |
-| 2 | GitHub MCP | `mcp__github__actions_*` present | `actions_list`, `get_job_logs` (use `failed_only`) |
-| 3 | Manual | neither available | Ask the user to paste the failing job's log output |
-
-The catalogue in Step 4 matches identically regardless of source — only how you fetch the log changes.
+Use whatever fetches the failing run's log — `gh` CLI, GitHub Actions tooling, or, if neither is available, ask the user to paste the failing job's output. The catalogue in Step 4 matches identically regardless of source; only how you fetch the log changes.
 
 ---
 
