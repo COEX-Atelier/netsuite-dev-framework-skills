@@ -45,4 +45,4 @@ Override from `ci/setup-complete.json` if present.
 
 - **Hotfix**: remind to backmerge to `develop`
 - **Release**: prompt to run `ns-release` for tagging + changelog
-- Monitor the triggered CI run and report deploy outcome; on failure redirect to `ns-pr-diagnose`
+- Monitor the triggered CI run and report deploy outcome; on failure redirect to `ns-ci-diagnose`
