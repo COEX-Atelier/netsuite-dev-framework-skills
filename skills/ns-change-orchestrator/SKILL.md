@@ -140,6 +140,17 @@ Use `assets/Role_Based_User_Guide.md` as the template. One guide per role.
 6. Quick reference (keyboard shortcuts, saved search names, key report locations)
 ```
 
+### 3.3 Technical Handoff Guide (internal dev / admin team)
+
+End-user guides are not enough on an SDF project. The client's internal developers and administrators inherit a GitHub-based deploy pipeline at go-live, and if they don't understand it they will make changes directly in the UI that the next CI deploy silently overwrites. For projects that ran `ns-github-setup`, produce a technical handoff guide so the internal team can maintain the project post go-live. Cover:
+
+- **Branching model** — which branch maps to which NetSuite environment (from `ci/setup-complete.json` → `branchModel`); feature branch → PR → review → merge → deploy.
+- **PR process** — how to open a PR (`ns-pr-create`), what the CI checks mean (`validate`, unit tests, drift), and how a PR gets merged and deployed (`ns-pr-merge`).
+- **Object ownership** — what SDF-owned vs UI-owned means (`OBJECT_OWNERSHIP.md`), and the golden rule: **SDF-owned objects are changed via Git PR only — editing them in the UI will be overwritten** on the next deploy. UI changes to an SDF-owned object must be synced back to Git (`ns-object-sync`) or drift detection will fail the pipeline.
+- **Who to call when CI goes red** — point them at `ns-ci-diagnose` and the on-call/escalation path.
+
+This is part of the maintainability handover document referenced in the go-live wrap-up. See [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md) for the underlying artifact contract.
+
 ---
 
 ## Stage 4 — Communication Planning

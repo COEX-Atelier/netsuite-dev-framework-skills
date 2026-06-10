@@ -266,6 +266,7 @@ This file allows the skill to detect a previous run and offer incremental update
 
 | Topic | File |
 |---|---|
+| **Shared artifact contract — what every other skill must respect** | [references/project_artifacts.md](references/project_artifacts.md) |
 | deploy.xml strategy comparison, tradeoffs, and decision matrix | [references/deploy_xml_strategies.md](references/deploy_xml_strategies.md) |
 | Step-by-step OAuth 2.0 M2M certificate setup in NetSuite (post-2024.2) | [references/oauth_setup_guide.md](references/oauth_setup_guide.md) |
 | Branch and environment mapping models with protection rules | [references/branch_environment_map.md](references/branch_environment_map.md) |
