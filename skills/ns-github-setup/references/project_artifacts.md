@@ -73,6 +73,9 @@ Full guide and override conditions: `assets/OBJECT_OWNERSHIP.md` (Ownership Deci
 |---|---|
 | Object ownership registry template + decision guide | `assets/OBJECT_OWNERSHIP.md` |
 | Objects manifest template | `assets/objects-manifest-template.json` |
+| GitHub Actions workflow template (deployed as `.github/workflows/sdf-deploy.yml`) | `assets/github-deploy.yml` |
+| Dynamic deploy.xml generator source (deployed as `ci/generate-deploy.js`) | `scripts/generate-deploy.js` |
+| Pre-deploy drift detection source (deployed as `ci/check-drift.js`) | `scripts/check-drift.js` |
 | deploy.xml strategy comparison (A/B/C/D) | `references/deploy_xml_strategies.md` |
 | Branch → environment mapping | `references/branch_environment_map.md` |
 | OAuth 2.0 / local auth setup | `references/oauth_setup_guide.md` |

@@ -88,7 +88,7 @@ Every object you create in the stages below is one of three things, and the deci
 3. If **SDF-owned**, also add the object to `ci/objects-manifest.json` (`{ "type": "...", "scriptid": "..." }`) so drift detection covers it. Both files are committed source control — include them in the same PR.
 4. If **UI-owned**, do **not** add it to `Objects/` or `deploy.xml`. It is built and maintained directly in the UI.
 
-The per-stage checklists below each carry an "ownership recorded" item — this is where you satisfy it. Full contract: [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md).
+Several per-stage checklists below carry an "ownership recorded" item — that is where you satisfy this for fields, forms, and saved searches. Custom records (§1.1) and custom lists (§1.3) have no checklist of their own; record their ownership (both default to **SDF-owned**) the same way when you create them. The quality gate at the end re-checks that every object's ownership is recorded. Full contract: [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md).
 
 ---
 
