@@ -241,12 +241,20 @@ Before delegating to any spoke skill:
 | Entering Phase | Gate Check |
 |----------------|------------|
 | Phase 2 (Solution Design) | BRD signed off, RTM initialized, all req IDs assigned → delegate to `ns-solution-architect` |
-| Phase 3 (Build) | SDD and Fit-Gap approved, Customization Specs reviewed → delegate to build team |
+| Phase 3 (Build) | SDD and Fit-Gap approved, Customization Specs reviewed, **GitHub/SDF pipeline set up (`ci/setup-complete.json` present — run `ns-github-setup` if not)** → delegate to build team |
 | Phase 4 (Data) | Data mapping complete, cleansing rules defined → delegate to `ns-data-migrator` |
 | Phase 5 (Testing) | Test plan written, test environment ready → delegate to `ns-test-manager` |
 | Phase 6 (Change Mgt) | Training material drafted, training schedule confirmed → delegate to change management lead |
 
 Before delegating, always confirm: **Are all deliverables from the previous phase signed off?** If not, block the phase transition and escalate.
+
+### Phase 3 Build Prerequisite — SDF/GitHub Pipeline
+
+For any SDF project, the GitHub-based deploy pipeline must exist **before** build begins, so that build skills deploy through CI, declare object ownership, and benefit from drift detection from the first commit. At the Phase 2→3 gate (and ideally surfaced at Phase 1 kick-off so the team can plan for it):
+
+1. Check for `ci/setup-complete.json` at the project root.
+2. If present, the pipeline is configured — note the `deployStrategy` and `branchModel` and proceed.
+3. If absent, flag it: *"The GitHub/SDF deploy pipeline has not been set up. Run `ns-github-setup` before Phase 3 build, or builders will resort to manual deploys with no drift protection."* The seeded `TODO.md` carries this as a Phase 2 item.
 
 ---
 

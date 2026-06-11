@@ -69,6 +69,29 @@ Internal IDs are permanent — they cannot be changed after data is entered agai
 
 ---
 
+## Object Ownership — Decide Before You Build (applies to every object in every stage)
+
+*Applies when the project has run `ns-github-setup` — check for `OBJECT_OWNERSHIP.md` at the project root. If absent, note the gap and proceed; recommend `ns-github-setup` for any team using SDF + GitHub.*
+
+Every object you create in the stages below is one of three things, and the decision must be made **at creation** — it cannot be cleanly retrofitted later:
+
+| Ownership | Meaning | Where it goes |
+|---|---|---|
+| **SDF-owned** | Changed via Git PR only. The next SDF deploy overwrites any UI edit. | `Objects/` XML **+** `OBJECT_OWNERSHIP.md` (SDF-Owned section) **+** `ci/objects-manifest.json` |
+| **UI-owned** | Managed in the NetSuite UI. Deliberately excluded from SDF. | `OBJECT_OWNERSHIP.md` (UI-Owned section) **only** — never in `deploy.xml` or `Objects/` |
+| **Shared** | SDF imports for documentation; UI is authoritative. | `OBJECT_OWNERSHIP.md` (Shared section); do not deploy via SDF |
+
+**Procedure for each object:**
+
+1. Determine ownership using the **Ownership Decision Guide** in [ns-github-setup → assets/OBJECT_OWNERSHIP.md](../ns-github-setup/assets/OBJECT_OWNERSHIP.md). Quick defaults: custom **fields, records, lists, segments → SDF-owned**; **saved searches, custom forms, roles → UI-owned** (they carry account-specific or per-environment values). Override only with a documented reason. If the Customization Spec from `ns-solution-architect` carries an **SDF Ownership** declaration, use it.
+2. Write the decision to `OBJECT_OWNERSHIP.md` in the correct section.
+3. If **SDF-owned**, also add the object to `ci/objects-manifest.json` (`{ "type": "...", "scriptid": "..." }`) so drift detection covers it. Both files are committed source control — include them in the same PR.
+4. If **UI-owned**, do **not** add it to `Objects/` or `deploy.xml`. It is built and maintained directly in the UI.
+
+Several per-stage checklists below carry an "ownership recorded" item — that is where you satisfy this for fields, forms, and saved searches. Custom records (§1.1) and custom lists (§1.3) have no checklist of their own; record their ownership (both default to **SDF-owned**) the same way when you create them. The quality gate at the end re-checks that every object's ownership is recorded. Full contract: [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md).
+
+---
+
 ## Stage 1 — Custom Records & Fields
 
 **Purpose:** Create the data model that all scripts, workflows, forms, and searches depend on. This is the foundation — everything else builds on top of it.
@@ -117,6 +140,7 @@ See [references/field_type_decision_guide.md](references/field_type_decision_gui
 - [ ] Field applied to the correct forms (do not apply to all forms by default)
 - [ ] "Show in List" set intentionally — not every field needs to appear in list views
 - [ ] Mandatory setting matches the SDD requirement
+- [ ] Ownership recorded in `OBJECT_OWNERSHIP.md` (fields default to SDF-owned → also add to `ci/objects-manifest.json`)
 - [ ] Added to `assets/Configuration_Workbook.csv`
 
 ### 1.3 Custom Lists
@@ -150,6 +174,7 @@ For dropdown fields with a fixed set of values (status codes, categories, types)
 - [ ] Sublist columns are in the correct order matching the SDD layout
 - [ ] Form is set as the **Preferred Form** only after UAT sign-off
 - [ ] Field sections have clear, descriptive labels (not the default "Custom Fields")
+- [ ] Ownership recorded in `OBJECT_OWNERSHIP.md` (custom forms default to **UI-owned** — do not add to `Objects/`/`deploy.xml`/manifest)
 - [ ] Added to `assets/Configuration_Workbook.csv`
 
 ### 2.3 Field Sections and Tab Groups
@@ -210,6 +235,7 @@ When data spans multiple record types (e.g., Sales Order + Customer fields):
 - [ ] Columns match the SDD specification (no extra, no missing)
 - [ ] Sort order is correct (not alphabetical by default)
 - [ ] Search used as a script dependency? If yes, internal ID is documented in the script's tech doc
+- [ ] Ownership recorded in `OBJECT_OWNERSHIP.md` (saved searches default to **UI-owned** — SDF-owned only if fully generic with no account-specific values)
 - [ ] Added to `assets/Configuration_Workbook.csv`
 
 ---
@@ -311,6 +337,7 @@ For each custom record created in Stage 1:
 Do not mark configuration complete until every item passes:
 
 - [ ] All internal IDs follow the `[prefix]_[proj]_[name]` naming convention
+- [ ] Every object's ownership recorded in `OBJECT_OWNERSHIP.md`; all SDF-owned objects also listed in `ci/objects-manifest.json`; no UI-owned object added to `deploy.xml`/`Objects/`
 - [ ] All configuration objects documented in `assets/Configuration_Workbook.csv`
 - [ ] All custom fields appear on the correct forms and are hidden from irrelevant forms
 - [ ] All saved searches produce verified, correct results with real data
@@ -337,6 +364,8 @@ Do not mark configuration complete until every item passes:
 | Field type selection | [references/field_type_decision_guide.md](references/field_type_decision_guide.md) |
 | Naming conventions | [references/naming_conventions.md](references/naming_conventions.md) |
 | Saved search formulas & patterns | [references/saved_search_patterns.md](references/saved_search_patterns.md) |
+| Object ownership decision guide | [ns-github-setup → assets/OBJECT_OWNERSHIP.md](../ns-github-setup/assets/OBJECT_OWNERSHIP.md) |
+| SDF/GitHub artifact contract | [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md) |
 
 ---
 

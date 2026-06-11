@@ -7,10 +7,11 @@ description: "[Step 2 — Workspace Init] Scaffolds a NetSuite project workspace
 
 ## Step 0 — Read the situation
 
-Two questions decide what follows:
+Three questions decide what follows:
 
 1. **Empty or populated?** — Empty (or only stray files) → scaffold, then reconcile strays. Already has framework folders → re-run; create only what's missing.
 2. **Is there a `PLAN.md`?** — Yes → read it for Tier, Origin, Language, current goal. No → initializing fresh; get the Tier next.
+3. **Has the SDF/GitHub pipeline already been set up?** — Check for `ci/setup-complete.json`. If present, `ns-github-setup` has already run: this project has a CI/CD pipeline, an `OBJECT_OWNERSHIP.md` registry, a chosen `deploy.xml` strategy, and a `ci/` folder. **Do not scaffold or overwrite anything that would conflict with it** — in particular do not seed a fresh `OBJECT_OWNERSHIP.md` (Step 2) or touch `ci/`, `.github/`, or `deploy.xml`. Note in the run summary that GitHub/SDF configuration is already in place.
 
 Confirm the **target folder** if it is not obvious from context — you will be moving files inside it.
 
@@ -37,6 +38,8 @@ Build from [references/framework_tree.md](references/framework_tree.md):
 **Inside every phase folder:** empty `assets/` and `artifacts/`. `_legacy/` is created only on demand.
 
 Seed the three coordination docs from the bundled stubs in `assets/`. Fill the `PLAN.md` sizing **and Environment** fields from what `ns-init-project` (or the user) handed over — account/sandbox, sandbox branch, SDF codebase, local files directory, and where coding happens; leave anything unknown as a placeholder. Use the 3-phase variants for Tier 3; 7-phase for Tier 1 & 2.
+
+**Object ownership registry.** If this is an SDF project and `ci/setup-complete.json` was **not** found in Step 0, the GitHub/SDF pipeline hasn't been set up yet. The seeded `TODO.md` already carries a "Set up GitHub/SDF pipeline (`ns-github-setup`)" item under Phase 2 — leave it for that skill to create `OBJECT_OWNERSHIP.md`, `ci/`, and the workflow. Do **not** hand-roll those artifacts here; `ns-github-setup` audits the team composition and picks the right `deploy.xml` strategy, which this skill is not equipped to do. If `ci/setup-complete.json` **was** found, the registry already exists — do not seed or overwrite it.
 
 ---
 

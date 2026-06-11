@@ -69,6 +69,19 @@ List every record and field this customization reads from or writes to. Use NetS
 
 ---
 
+## 3a. Object Ownership Declaration
+
+> *Declare the SDF/UI ownership of every **new** object this customization introduces. This drives how the build skills populate `OBJECT_OWNERSHIP.md` and `ci/objects-manifest.json` (see `ns-github-setup`). Scripts and script deployments are always SDF-owned. Custom fields/records default to SDF-owned; saved searches, custom forms, and SuiteFlow workflows default to UI-owned. Override only with a stated reason.*
+
+| New Object (Internal ID) | Type | Ownership (SDF / UI / Shared) | Rationale if not the default |
+|---|---|---|---|
+| `customscript_[proj]_[name]_ue` | Script | SDF | Scripts are always SDF-owned |
+| `customscript_[proj]_[name]_ue_deployment1` | Script Deployment | SDF | Always SDF-owned |
+| `custbody_[proj]_[name]` | Transaction Body Field | SDF | — |
+| `customworkflow_[proj]_[name]` | Workflow (SuiteFlow) | UI | Complex state managed by functional team |
+
+---
+
 ## 4. Business Logic
 
 > *This is the core of the spec. Be precise enough that a developer can write unit tests from this section alone.*

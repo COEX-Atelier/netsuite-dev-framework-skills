@@ -26,9 +26,11 @@ Living TODO / work-breakdown for the project, organized by phase. Check items of
     - [ ] Reviewed and signed off
     - [ ] Update RTM
 - [ ] **Requirements Traceability Matrix (RTM)**
+- [ ] **Set up GitHub/SDF pipeline** (`ns-github-setup`) — **prerequisite for Phase 3.** deploy.xml strategy, CI/CD workflow, `OBJECT_OWNERSHIP.md`, drift detection. Skip only for non-SDF or solo throwaway work.
 - [ ] **Phase Gate Review** — SDD, RTM, and all specs reviewed and approved
 
 ## Phase 3: Build
+<!-- Build deploys through the GitHub Actions pipeline from ns-github-setup. Every new SDF object moves with its OBJECT_OWNERSHIP.md + ci/objects-manifest.json entry. Never hand-edit a gitignored deploy.xml. -->
 - [ ] **[CUST-ID]** — [short description] | Branch: `feat/...` | Worktree: `...` | PR #
   - [ ] Discovery
   - [ ] Technical Specification Documentation

@@ -67,6 +67,7 @@ Once classification is confirmed, invoke `ns-init-workspace` with the confirmed 
 
 - Does not scaffold folders or create `PLAN.md` — that is `ns-init-workspace`'s job.
 - Does not run discovery, produce BRDs, or plan phases — that is `ns-erp-navigator`'s job.
+- Does not set up the GitHub/SDF deploy pipeline — that is `ns-github-setup`'s job, a separate one-time step run **before Phase 3 build**. When capturing the SDF codebase in Step 0, note for the user that `ns-github-setup` should be run on that repository before build begins; `ns-init-workspace` seeds a `TODO.md` item for it.
 - Does not re-classify mid-project; if scope has changed, re-run from Step 0.
 
 ---

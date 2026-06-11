@@ -228,6 +228,25 @@ For any custom field, custom record, saved search, or script deployment created 
 
 This is the project's inventory of NetSuite configuration items. A missing entry means the item won't be tracked during UAT or migration to production.
 
+### 4.3 Register the Object as SDF-Owned
+
+*Skip this sub-step only if the project has not run `ns-github-setup` (no `OBJECT_OWNERSHIP.md` at the root).*
+
+SuiteScript and its deployments are **always SDF-owned** — they live in `Objects/` and are changed via Git PR only. Every `customscript_*` and `scriptdeployment_*` you create must be registered in two files so drift detection and ownership tracking cover it:
+
+1. **`OBJECT_OWNERSHIP.md`** (project root) — add a row for the script and the deployment under the **SDF-Owned Objects** section. Ownership is not a question here; scripts are never UI-owned.
+2. **`ci/objects-manifest.json`** (project root) — append an entry per object to the `objects` array so `ci/check-drift.js` tracks it:
+   ```json
+   {
+     "objects": [
+       { "type": "customscript",     "scriptid": "customscript_[proj]_[description]_[type]" },
+       { "type": "scriptdeployment", "scriptid": "customscript_[proj]_[description]_[type]_deployment1" }
+     ]
+   }
+   ```
+
+Both files are committed source control (not gitignored), so include them in the same PR as the new script. Missing the manifest entry means a later UI edit to the deployment will **silently** escape drift detection. See [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md) for the full artifact contract.
+
 ---
 
 ## Stage 5 — Deployment Prep
@@ -255,6 +274,24 @@ This is the project's inventory of NetSuite configuration items. A missing entry
 - [ ] Log level set to **DEBUG**
 - [ ] At least one end-to-end test run completed in the sandbox environment
 
+### How Deployment Actually Happens (CI/CD projects)
+
+*Applies when the project has run `ns-github-setup` — check for `ci/setup-complete.json`.*
+
+**Do not hand-edit `deploy.xml`.** Under the standard SDF GitHub setup (Strategy B), `deploy.xml` is **gitignored** and generated automatically at CI time by `ci/generate-deploy.js`, which diffs your branch against the target branch and deploys only what changed. Editing a committed `deploy.xml` does nothing in CI and breaks other developers' local deploys.
+
+The deployment path for your script is therefore:
+
+1. Commit the script (`FileCabinet/SuiteScripts/...`) and its object XML (`Objects/...`) on a feature branch, together with the `OBJECT_OWNERSHIP.md` and `ci/objects-manifest.json` updates from Stage 4.3.
+2. Open a PR (`ns-pr-create`). The GitHub Actions pipeline (`.github/workflows/sdf-deploy.yml`) runs `suitecloud project:validate`, then on merge generates `deploy.xml` and deploys to the mapped environment.
+3. For a **local** sandbox deploy while developing, generate a deploy file on the fly — never commit it:
+   ```bash
+   node ci/generate-deploy.js origin/<target-branch>
+   suitecloud project:deploy
+   ```
+
+If `ci/setup-complete.json` is **absent**, the project has no CI pipeline yet; deploy via `suitecloud project:deploy` with a local `deploy.xml` and recommend running `ns-github-setup`.
+
 ---
 
 ## Templates at a Glance
@@ -274,6 +311,7 @@ This is the project's inventory of NetSuite configuration items. A missing entry
 | Governance patterns & code samples | [references/governance_patterns.md](references/governance_patterns.md) |
 | Full coding standards with examples | [references/suitescript_2_1_standards.md](references/suitescript_2_1_standards.md) |
 | Header tag validation | [scripts/validate_script_headers.js](scripts/validate_script_headers.js) |
+| SDF/GitHub artifact contract (ownership, manifest, deploy.xml) | [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md) |
 
 ---
 

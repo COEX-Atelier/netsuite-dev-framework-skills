@@ -96,8 +96,11 @@ If the user wants the full Phase 5 workflow, follow the stages below in order. I
 
 **Tier 2 and 3:** Structured SIT using the RTM as the coverage source. Every CUST-XX-NN spec must have at least one SIT test case. Every INT-XX-NN spec must be tested end-to-end with the real endpoint, not mocked.
 
+**The CI pipeline is the first automated gate.** On SDF projects (those that ran `ns-github-setup`), the GitHub Actions workflow (`.github/workflows/sdf-deploy.yml`) runs `suitecloud project:validate`, the unit test suite, and drift detection on **every PR** — before code ever reaches the SIT environment. Treat a green pipeline as the automated entry condition for manual SIT, not as a manual step you re-run by hand. A red pipeline is a SIT blocker: route validation/deploy failures to `ns-ci-diagnose` and drift failures to `ns-object-sync`. The test plan should name the pipeline as the automated gate rather than listing `project:validate` and unit tests as manual SIT tasks.
+
 **SIT entry criteria (gates in):**
 - Phase 3 build complete and deployed to SIT environment
+- **CI pipeline green on the merged build** — `validate`, unit tests, and drift-check all passing
 - All SuiteScripts deployed to "Testing" mode (per suitescript_2_1_standards.md)
 - Configuration workbook verified against SIT environment
 
@@ -142,7 +145,10 @@ For full triage decision logic, see [references/defect_triage_workflow.md](refer
 - Exception paths are required — not just the happy path
 - For brownfield: include a "compare to legacy" column where the tester confirms the NetSuite output matches the expected behavior from the old system
 
+**Before UAT begins (SDF projects):** confirm the drift-detection pipeline passes cleanly against the UAT environment. A failing drift check means the account and Git are out of sync — UAT run on a drifted account tests something that will not match what deploys to production. If drift is flagged, resolve it (`ns-object-sync`) and re-run the pipeline green before starting UAT sessions.
+
 **UAT quality gate — before proceeding to Stage 5:**
+- [ ] CI pipeline green and drift-check clean against the UAT environment
 - [ ] All UAT sessions completed with BPO sign-off per functional area
 - [ ] 0 Critical defects open
 - [ ] 0 High defects open
@@ -234,6 +240,8 @@ After each Phase 5 deliverable has been explicitly approved by the user, and the
 | SIT vs. UAT Protocols | `references/sit_vs_uat_protocols.md` | When clarifying who tests what and how |
 | Defect Triage Workflow | `references/defect_triage_workflow.md` | When classifying severity or setting go/no-go criteria |
 | Test Scope Decision Guide | `references/test_scope_decision_guide.md` | At Step 0 when determining scope tier |
+| SDF/GitHub CI pipeline & drift detection | `ns-github-setup` → `references/project_artifacts.md` | When treating the Actions pipeline as the automated SIT gate |
+| Diagnosing a red pipeline | `ns-ci-diagnose` · `ns-object-sync` | When CI or drift-check fails during SIT/UAT |
 
 ---
 

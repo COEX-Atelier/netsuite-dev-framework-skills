@@ -303,6 +303,17 @@ After each test:
 | Event Type | Only the event types needed (Before Submit, After Submit) |
 | Keep Instance History | Yes for approval workflows; No for simple field-defaulting |
 
+### 5.5 Record Object Ownership
+
+*Applies when the project has run `ns-github-setup` — check for `OBJECT_OWNERSHIP.md` at the project root.*
+
+SuiteFlow workflows are **UI-owned by default.** Their state, internal IDs, and instance behaviour are complex and almost always managed by the functional team in the NetSuite UI rather than versioned in SDF. Do not add a UI-owned workflow to `Objects/`, `deploy.xml`, or `ci/objects-manifest.json`.
+
+- **UI-owned (the common case):** Add a row for the workflow to the **UI-Owned Objects** section of `OBJECT_OWNERSHIP.md` (`customworkflow_[proj]_[description]`, type *Workflow (SuiteFlow)*, reason "Managed by functional team; complex state"). This records the deliberate decision to keep it out of SDF so no other skill tries to deploy it.
+- **SDF-managed (uncommon):** Only if this workflow is genuinely generic with no account-specific internal IDs and the team has decided to version it in SDF — add it to the **SDF-Owned** section of `OBJECT_OWNERSHIP.md` **and** to `ci/objects-manifest.json` so drift detection covers it. Flag this choice explicitly to the user; it is the exception, not the rule.
+
+See [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md) for the full artifact contract.
+
 ---
 
 ## Deliverables
@@ -324,6 +335,8 @@ For each workflow built, complete the following:
 |-------|------|
 | Pattern library (approval, notification, escalation) | [references/suiteflow_patterns.md](references/suiteflow_patterns.md) |
 | Action configuration guide | [references/workflow_action_guide.md](references/workflow_action_guide.md) |
+| Object ownership decision guide | [ns-github-setup → assets/OBJECT_OWNERSHIP.md](../ns-github-setup/assets/OBJECT_OWNERSHIP.md) |
+| SDF/GitHub artifact contract | [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md) |
 
 ---
 
