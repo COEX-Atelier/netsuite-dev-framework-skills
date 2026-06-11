@@ -68,6 +68,53 @@ Skills are grouped into five folders. Each folder has a `README.md` describing t
 
 ---
 
+## Full skill directory
+
+Every skill, alphabetically, with the folder it lives in. Each folder's own `README.md` has the detail.
+
+| Skill | Category | Primary purpose |
+|---|---|---|
+| `ns-change-orchestrator` | implementation-lifecycle | Training, SOPs, change management, and adoption planning. |
+| `ns-ci-diagnose` | source-control | Diagnose a single failing GitHub Actions / SDF CI run down to one root cause. |
+| `ns-configurator` | implementation-lifecycle | Build NetSuite configuration objects (fields, forms, searches, roles, templates) from approved designs. |
+| `ns-conflict-resolve` | source-control | Resolve Git conflicts in SDF XML and related project files with XML-aware rules. |
+| `ns-cowrite-align` | deliverable-authoring | Confirm a deliverable outline before any writing happens. |
+| `ns-cowrite-approve` | deliverable-authoring | Run the review-and-approval gate before a co-written deliverable is called done. |
+| `ns-cowrite-develop` | deliverable-authoring | Draft a deliverable section by section with the user. |
+| `ns-data-migrator` | implementation-lifecycle | Cleanse, map, validate, and import legacy data. |
+| `ns-erp-navigator` | implementation-lifecycle | Orchestrate the 7-phase NetSuite implementation and phase handoffs. |
+| `ns-github-setup` | project-setup | Set up GitHub collaboration, CI/CD, object-ownership rules, and drift controls. |
+| `ns-init-project` | project-setup | Classify a project by origin, scope, tier, and environment before delivery starts. |
+| `ns-init-workspace` | project-setup | Create or reconcile the project workspace structure and `PLAN.md`. |
+| `ns-object-sync` | source-control | Sync a single SDF-owned, UI-edited object back into Git safely. |
+| `ns-pr-create` | pull-requests | Create a NetSuite-aware pull request from a feature branch. |
+| `ns-pr-diagnose` | pull-requests | Triage why an open PR cannot merge and route to the right specialist. |
+| `ns-pr-merge` | pull-requests | Safely merge a PR and confirm the downstream deployment target. |
+| `ns-solution-architect` | implementation-lifecycle | Turn business requirements into NetSuite design artifacts (SDD, Fit-Gap, RTM). |
+| `ns-suitescript-dev` | implementation-lifecycle | Build and debug SuiteScript 2.1 customizations. |
+| `ns-test-manager` | implementation-lifecycle | Plan SIT/UAT, triage defects, and decide release readiness. |
+| `ns-workflow-dev` | implementation-lifecycle | Build SuiteFlow workflows and approvals where configuration is the right tool. |
+
+---
+
+## Recommended usage patterns
+
+**New implementation or major enhancement**
+1. `ns-init-project` — classify the engagement.
+2. `ns-init-workspace` — scaffold the workspace and `PLAN.md`.
+3. `ns-erp-navigator` — coordinate the phase plan.
+4. Move into the specialist skill for the current phase as the navigator delegates.
+
+**Existing SDF repo that needs DevOps discipline**
+1. `ns-github-setup` — one-time CI/CD, ownership, and drift setup.
+2. `ns-object-sync` — bring UI-originated object changes back into Git.
+3. `ns-ci-diagnose`, `ns-pr-diagnose`, `ns-conflict-resolve`, `ns-pr-merge` — the delivery loop, as needed.
+
+**Deliverable-heavy work**
+1. `ns-cowrite-align` → 2. `ns-cowrite-develop` → 3. `ns-cowrite-approve`.
+
+---
+
 ## Repository layout
 
 ```
@@ -80,3 +127,15 @@ skills/
 ```
 
 Skills reference each other by name, so the folder a skill lives in is purely organizational — moving a skill between categories does not change how it is invoked.
+
+### Anatomy of a skill folder
+
+Each skill lives in its own folder and can include:
+
+- `SKILL.md` — the skill's instructions and trigger conditions (always present).
+- `references/` — deeper rules and examples the skill reads on demand.
+- `assets/` — templates, checklists, and handoff artifacts.
+- `scripts/` — helper automation the skill runs (e.g. `ns-github-setup/scripts/check-drift.js`).
+- `evals/` — evaluation data for the skill, where applicable.
+
+At the repo root, `skills-lock.json` tracks published skill metadata (source repo, entrypoint, content hash).
