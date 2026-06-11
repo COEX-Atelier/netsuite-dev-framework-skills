@@ -61,7 +61,7 @@ Skills are grouped into five folders. Each folder has a `README.md` describing t
 | Plan testing, run UAT, or check go-live readiness | `ns-test-manager` |
 | Plan training and user adoption | `ns-change-orchestrator` |
 | Write any document with the user in the loop | `ns-cowrite-align` (then develop → approve) |
-| Strip AI tells / context leakage from a draft | `deleak` |
+| Make a draft read like I wrote it, not an AI | `remove-context-leakage` |
 | Pull a UI-edited object back into git | `ns-object-sync` |
 | Resolve an SDF merge conflict | `ns-conflict-resolve` |
 | Understand why a CI run failed | `ns-ci-diagnose` |

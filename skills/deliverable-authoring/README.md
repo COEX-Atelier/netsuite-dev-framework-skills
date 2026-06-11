@@ -8,8 +8,8 @@ Skills for producing and polishing written deliverables. The core is the co-writ
 | **ns-cowrite-develop** | B | Writes the deliverable one section at a time, asking targeted questions before each section. Never dumps all sections at once. |
 | **ns-cowrite-approve** | C | Presents a short summary, hard-stops for explicit approval, and loops on revisions. Signals completion back to the calling skill, which owns the `PLAN.md` update. |
 
-Plus a standalone prose-cleanup utility (not NetSuite-specific):
+It also includes an editing pass for finished drafts:
 
 | Skill | What it does |
 |---|---|
-| **deleak** | Strips AI context-leakage (injected dates, user details, model identity) and overused AI phrasing from a draft, leaving natural prose. Run before sharing a document. |
+| **remove-context-leakage** | Edits a draft to remove the marks of AI authorship — context that leaked in from the request (the date, the asker's name, the model's identity) and the generated-text voice (throat-clearing openers, inflated words, uniform rhythm). Run before a document goes out. |
