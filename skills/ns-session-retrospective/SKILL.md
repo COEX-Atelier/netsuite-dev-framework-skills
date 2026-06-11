@@ -16,7 +16,7 @@ This skill is meta: its subject is not a NetSuite project but the AI-assisted wo
 Before asking the user for anything:
 
 1. Look for `PLAN.md` at the root of the current working directory.
-2. If found: read it and extract the `Language:` field from the Governance section. Use this language for the entire retrospective report.
+2. If found: read it and extract the `Language:` field from the `## Sizing & Rationale` section. Use this language for the entire retrospective report.
 3. If no PLAN.md is found, or if no `Language:` field exists: infer the language from the user's messages in this session. If the user wrote in French, produce the report in French. If in English, produce in English. If mixed, use the dominant language.
 
 Language must be consistent across the entire report. Never mix languages within a section.
@@ -34,7 +34,7 @@ Language must be consistent across the entire report. Never mix languages within
 
 1. **Session scope:** What task or tasks were being worked on during this session?
 2. **Skills invoked:** Which `ns-*` skills were activated, and in what order?
-3. **Commands/tools used:** Which Claude Code tools were called (file reads, edits, bash, GitHub tools, search tools, etc.)?
+3. **Tools used:** Which tools were called (file reads, edits, bash, GitHub tools, search tools, etc.)?
 4. **Known friction points:** Were there any moments of confusion, backtracking, failed tool calls, or explicit pivots?
 
 The user may answer fully, partially, or say "figure it out" — in which case, draw on all context visible in the conversation to reconstruct the session autonomously. Do not refuse to proceed due to incomplete input.
@@ -52,33 +52,18 @@ The file on disk is the draft record. The GitHub issue is the published report. 
 
 ## Co-Writing Protocol (applies to ALL deliverables)
 
-Every retrospective is co-written with the user in three phases:
+Every retrospective is co-written in three mandatory phases using the shared phase skills. Execute them in order — skipping any phase is not permitted.
 
-### Phase A — Before Writing: Align on Structure
+**Phase A — Before writing a word:**
+Invoke `ns-cowrite-align`. Pass: the retrospective's three sections (see Stage 2), and the sections that depend on the user's recall (which friction events occurred, which skills were used). Do not begin writing until the user explicitly confirms the structure.
 
-Before writing a single observation:
-1. Present the three sections of the retrospective as a numbered list.
-2. For each section that depends on the user's recall (specific friction events, which skills were used), flag it explicitly: *"Section 1 — Frictions: I'll need you to confirm or correct my reading of the friction points."*
-3. Ask: *"Does this structure cover what you want to capture, or should we add or remove sections before I start?"*
-4. Wait for confirmation (or adjustments) before proceeding.
+**Phase B — Section-by-section writing:**
+Invoke `ns-cowrite-develop`. Pass: the confirmed section list from Phase A. Autonomous fallback sources for this skill: PLAN.md and the session context visible in the conversation. Do not advance to Phase C until all three sections are written.
 
-### Phase B — During Writing: Section-by-Section Interaction
+**Phase C — Review and approval:**
+Invoke `ns-cowrite-approve`. Present a 3–5 bullet summary of the key improvement signals identified. Do not publish the GitHub issue until the user explicitly approves. When approval is signaled: proceed to Stage 4 and publish.
 
-Work through the retrospective one section at a time:
-1. For each section, state what you are about to write and ask the 1–2 most targeted questions.
-   - Example: *"Section 2 — Skill Audit: I see `ns-erp-navigator` and `ns-solution-architect` were both invoked. Were there moments where one was activated when the other would have been more appropriate?"*
-2. The user may answer in detail, partially, or say **"figure it out"** / **"proceed"** — in which case, use all available session context to complete the section autonomously.
-3. Write the section, then move to the next. Do not draft all three sections at once.
-
-### Phase C — After Writing: Review and Approval
-
-After the full draft is saved to disk:
-1. Present a summary — 3–5 bullet points covering the key improvement signals identified.
-2. Ask: *"Does this capture the session accurately, or would you like changes before I publish it to GitHub?"*
-3. Apply any requested changes, re-save, and repeat steps 1–2.
-4. **Only after explicit approval:** proceed to Stage 4 and publish the issue. Never publish without user approval.
-
-> The retrospective stays a draft until the user explicitly approves it.
+> The retrospective stays a draft until the user explicitly approves it through `ns-cowrite-approve`.
 
 ---
 
@@ -114,7 +99,9 @@ The retrospective must read as if it describes any implementation session — no
 
 ## Stage 2 — Write the Retrospective
 
-Use `assets/Retrospective_Template.md` as the base. Follow the Co-Writing Protocol above. Complete all three sections:
+Use `assets/Retrospective_Template.md` as the base. Follow the Co-Writing Protocol above. Complete all three sections.
+
+**Render the entire report — section headers included — in the session language from Step 0.** The template's headers are written in French as the default; translate them to English when the session language is English. Never mix languages within the report.
 
 ### Section 1 — Friction and Pivot Analysis
 
@@ -133,9 +120,9 @@ For each friction or pivot identified in Stage 1:
 | Scope creep | The task expanded beyond the skill's designed boundaries |
 | User expectation gap | The skill's output did not match what the user expected |
 
-### Section 2 — Skills and Commands Audit
+### Section 2 — Skills and Tools Audit
 
-For each skill or command type used (or notably absent):
+For each skill or tool used (or notably absent):
 
 **Per skill:**
 - What it was used for
@@ -143,11 +130,10 @@ For each skill or command type used (or notably absent):
 - What caused friction or was ambiguous
 - Suggested improvement (if any)
 
-**Per slash command** (any `/command` invoked from `.claude/commands/`):
+**Per built-in command** (commands that ship with the tooling — not project skills):
 - Which command was used and for what purpose
-- Did it trigger the intended workflow correctly?
-- Any friction, missing step, or wording that caused confusion
-- Suggested improvement to the command's prompt (if any)
+- How well it worked *with our skills* — these commands are not ours to change, so audit the interaction, not the command itself
+- Any friction where a skill could adapt to the command's behavior
 
 **Per tool type** (file operations, GitHub tools, bash, search, etc.):
 - Usage pattern observed
@@ -160,7 +146,7 @@ Group findings into three sub-sections:
 
 **3.1 Skill Modifications** — Changes to existing SKILL.md files. For each: which skill, what to add/clarify/remove, and why.
 
-**3.2 New Skills or Commands** — Net-new skills or commands that would have prevented a friction. For each: proposed name, purpose, and the friction event that motivates it.
+**3.2 New Skills** — Net-new skills that would have prevented a friction. For each: proposed name, purpose, and the friction event that motivates it.
 
 **3.3 Ambiguity Removal** — Terminology, naming conventions, or boundary conditions that caused confusion and should be standardized.
 
@@ -182,13 +168,13 @@ Before asking for user approval (Phase C of Co-Writing Protocol), verify:
 
 ## Stage 4 — Publish to GitHub
 
-**Only execute this stage after explicit user approval in Phase C.**
+**Only execute this stage after explicit user approval in Phase C (`ns-cowrite-approve`).**
 
 1. Read `assets/Retrospective_Template.md` to confirm the report structure matches the template.
 2. Construct the GitHub issue:
-   - **Title:** `Rétrospective de Session : [Generic Topic]` (in the session language; topic is generic — the functional area worked on, not a client name)
+   - **Title:** the topic in the session language (FR: `Rétrospective de Session : [Generic Topic]`; EN: `Session Retrospective: [Generic Topic]`). The topic is generic — the functional area worked on, not a client name.
    - **Body:** The full approved retrospective text in Markdown
-   - **Label:** `retrospective` (this label already exists in the repository)
+   - **Label:** `retrospective` (create it if missing — see step 5)
    - **Repository:** `COEX-Atelier/netsuite-dev-framework-skills`
 3. Create the issue using the available GitHub tool.
 4. Report the issue URL to the user upon success.

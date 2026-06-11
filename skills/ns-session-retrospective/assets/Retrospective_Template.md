@@ -3,7 +3,9 @@
 <!-- This template is used by ns-session-retrospective.
      All placeholders in [brackets] must be filled before publishing.
      Apply the privacy filter from Stage 1.2 before completing any section.
-     Generic language only — no client names, project IDs, or environment specifics. -->
+     Generic language only — no client names, project IDs, or environment specifics.
+     Render everything — section headers included — in the session language (Step 0).
+     The headers below are in French by default; translate them to English for English sessions. -->
 
 | Field | Value |
 | :--- | :--- |
@@ -50,15 +52,17 @@
 - **Friction or ambiguity:** [Issue — or "None"]
 - **Suggested improvement:** [Change — or "None"]
 
-### Slash Commands
+### Built-in Commands
 
-<!-- One sub-section per /command invoked. Delete this section if no slash commands were used. -->
+<!-- One sub-section per built-in command invoked (commands that ship with the tooling, not project skills).
+     These commands are not ours to change — audit how well they worked WITH our skills, not the command itself.
+     Delete this section if no built-in commands were used. -->
 
-#### `/[command-name]`
+#### `[command-name]`
 - **Used for:** [What the user was trying to accomplish]
-- **Triggered correctly:** [Yes / No — did it launch the intended workflow?]
+- **Interaction with our skills:** [How well it worked alongside the ns-* skills — well / friction]
 - **Friction or confusion:** [Any wording, missing step, or unexpected behavior — or "None"]
-- **Suggested improvement:** [Specific change to the command's prompt — or "None"]
+- **Skill-side adaptation:** [How a skill could adapt to the command's behavior — or "None". Do not propose changing the built-in command.]
 
 ### Tools
 
@@ -90,9 +94,9 @@
 | `[skill-name]` | [Add / Clarify / Remove] | [Specific instruction or section to change] | [Friction event label from Section 1] |
 | `[skill-name]` | [Add / Clarify / Remove] | [Description] | [Friction event] |
 
-### 3.2 Nouveaux Skills ou Commandes
+### 3.2 Nouveaux Skills
 
-<!-- List net-new skills or commands that would have prevented a friction.
+<!-- List net-new skills that would have prevented a friction.
      Use "None identified" (and delete the table) if no new skills are needed. -->
 
 | Proposed Name | Purpose | Motivating Friction |

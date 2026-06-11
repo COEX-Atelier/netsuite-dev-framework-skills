@@ -1,6 +1,4 @@
-.claude/*
-!.claude/commands/
-!.claude/commands/**
+.claude/
 .gemini/
 .agents/
 *.log
