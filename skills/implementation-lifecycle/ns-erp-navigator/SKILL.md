@@ -61,6 +61,35 @@ Invoke `ns-cowrite-approve`. Do not finalize the deliverable or update PLAN.md u
 
 ---
 
+## Writing Mode vs. Auditing Mode (read before touching any existing document)
+
+Two distinct modes govern how you produce work. Choosing the wrong one destroys audit history and erodes trust. Decide which mode applies **before** writing anything.
+
+| | **Deliverable Writing** | **Compliance Auditing** |
+|---|---|---|
+| **When** | Producing a *new* document from scratch (BRD, Charter, Roadmap, SDD…) | Updating an *existing* control document (compliance checklist, audit report, compliance tracker, control matrix) |
+| **How** | Full co-writing protocol (Phase A → B → C above) | Append/update only — preserve the existing document |
+| **Edits allowed** | The whole document | **Status, priority, and notes/annotation columns or fields only** |
+| **History** | N/A — new file | Historical records and prior findings are immutable; never overwrite them |
+
+### Detecting Auditing Mode
+
+Treat a document as a control document — and switch to Auditing Mode — when any of these hold:
+- The user asks to "update", "fill in", "mark", or "track" status/priority on an existing file rather than to write a new one.
+- The file already contains a checklist, audit findings, control IDs, or a status/priority column with prior entries.
+- The filename or headings signal compliance/audit/control (e.g. *Compliance Tracker*, *Audit Report*, *Control Matrix*).
+
+When in doubt which mode applies, ask: *"Is this a new deliverable to write, or an existing control document where I should only update status/priority/notes?"*
+
+### Auditing Mode Rules
+
+1. **Default to append/update — never rewrite the full document.** Read the file first; preserve every existing row, finding, and timestamp.
+2. **Limit edits to the status, priority, and notes columns/fields.** Do not touch requirement text, control descriptions, IDs, or historical entries.
+3. **If a structural change seems necessary** (adding/removing columns, reordering sections, renumbering controls), **STOP and ask for explicit confirmation first**, explaining what you want to change and why. Do not proceed until the user approves.
+4. **When editing rows, read the exact current text before replacing it** — small Markdown/whitespace mismatches cause silent edit failures on control documents.
+
+---
+
 When invoked, first **read `PLAN.md`** at the root of the project to understand the current tier, phase, and key decisions. Then determine what the user needs:
 
 | User says / context | What to do |
