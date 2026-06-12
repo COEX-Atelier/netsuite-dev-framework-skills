@@ -65,6 +65,7 @@ Skills are grouped into five folders. Each folder has a `README.md` describing t
 | Resolve an SDF merge conflict | `ns-conflict-resolve` |
 | Understand why a CI run failed | `ns-ci-diagnose` |
 | Open, unblock, or merge a pull request | `ns-pr-create` / `ns-pr-diagnose` / `ns-pr-merge` |
+| Analyze a session for friction and improvement signals | `ns-session-retrospective` |
 
 ---
 
@@ -90,6 +91,7 @@ Every skill, alphabetically, with the folder it lives in. Each folder's own `REA
 | `ns-pr-create` | pull-requests | Create a NetSuite-aware pull request from a feature branch. |
 | `ns-pr-diagnose` | pull-requests | Triage why an open PR cannot merge and route to the right specialist. |
 | `ns-pr-merge` | pull-requests | Safely merge a PR and confirm the downstream deployment target. |
+| `ns-session-retrospective` | implementation-lifecycle | Analyze a completed session to surface frictions, pivots, and skill gaps; publish a privacy-safe report as a GitHub issue. |
 | `ns-solution-architect` | implementation-lifecycle | Turn business requirements into NetSuite design artifacts (SDD, Fit-Gap, RTM). |
 | `ns-suitescript-dev` | implementation-lifecycle | Build and debug SuiteScript 2.1 customizations. |
 | `ns-test-manager` | implementation-lifecycle | Plan SIT/UAT, triage defects, and decide release readiness. |
@@ -120,7 +122,7 @@ Every skill, alphabetically, with the folder it lives in. Each folder's own `REA
 ```
 skills/
 ├── project-setup/            # ns-init-project, ns-init-workspace, ns-github-setup
-├── implementation-lifecycle/ # ns-erp-navigator + 7 phase specialists
+├── implementation-lifecycle/ # ns-erp-navigator + 7 phase specialists + ns-session-retrospective
 ├── deliverable-authoring/    # ns-cowrite-align / -develop / -approve
 ├── source-control/           # ns-object-sync, ns-conflict-resolve, ns-ci-diagnose
 └── pull-requests/            # ns-pr-create, ns-pr-diagnose, ns-pr-merge

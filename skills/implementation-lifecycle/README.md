@@ -12,5 +12,6 @@ The 7-phase NetSuite implementation methodology: one orchestrator that tracks pr
 | **ns-data-migrator** | 4 | Cleanses legacy records, maps fields to NetSuite schemas, validates data quality, and runs sequenced CSV imports. |
 | **ns-test-manager** | 5 | Builds test plans and runs UAT/SIT, defect logging and triage, regression testing, and go-live readiness sign-off. |
 | **ns-change-orchestrator** | 6 | Develops training strategies, role-based user guides, communication plans, and adoption tracking for go-live. |
+| **ns-session-retrospective** | Meta | Analyzes a completed session to surface frictions, pivots, and skill gaps; produces a privacy-safe report and publishes it as a GitHub issue. |
 
 > Deliverables in this category are written through the **deliverable-authoring** co-writing protocol.
