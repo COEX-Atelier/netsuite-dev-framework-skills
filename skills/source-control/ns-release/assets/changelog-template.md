@@ -4,23 +4,23 @@
 
 ## Features
 <!-- feat: commits and new SDF objects (new scripts, fields, records, workflows) -->
-- 
+-
 
 ## Bug Fixes
 <!-- fix: / hotfix: commits -->
-- 
+-
 
 ## Object Syncs (UI → Git)
 <!-- sync: commits — objects edited in the NetSuite UI and pulled back into source control -->
-- 
+-
 
 ## Maintenance
 <!-- chore: / ci: commits — pipeline, tooling, docs, dependency bumps -->
-- 
+-
 
 ## Other
 <!-- anything that doesn't fit above; remove if empty -->
-- 
+-
 
 ---
 
