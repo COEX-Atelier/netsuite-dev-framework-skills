@@ -97,6 +97,7 @@ Every skill, alphabetically, with the folder it lives in. Each folder's own `REA
 | `ns-suitescript-dev` | implementation-lifecycle | Build and debug SuiteScript 2.1 customizations. |
 | `ns-test-manager` | implementation-lifecycle | Plan SIT/UAT, triage defects, and decide release readiness. |
 | `ns-workflow-dev` | implementation-lifecycle | Build SuiteFlow workflows and approvals where configuration is the right tool. |
+| `remove-context-leakage` | deliverable-authoring | Edit a finished draft to remove AI authorship marks — leaked request context and the generated-text voice — before it reaches a reader. |
 
 ---
 
