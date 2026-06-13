@@ -175,6 +175,7 @@ function validate(root) {
 
   // --- Check 1: frontmatter ------------------------------------------------
   const skillFiles = walk(skillsDir, (f) => path.basename(f) === 'SKILL.md');
+  const namesSeen = new Map(); // name -> [relative paths]
   for (const file of skillFiles) {
     const rel = path.relative(root, file);
     const content = fs.readFileSync(file, 'utf8');
@@ -184,6 +185,10 @@ function validate(root) {
       continue;
     }
     const name = readField(block, 'name');
+    if (name) {
+      if (!namesSeen.has(name)) namesSeen.set(name, []);
+      namesSeen.get(name).push(rel);
+    }
     const rawDescription = readRawField(block, 'description');
     const description = readField(block, 'description');
 
@@ -227,6 +232,17 @@ function validate(root) {
     const yamlProblem = yamlScalarProblem(rawDescription);
     if (yamlProblem) {
       errors.push(`${rel}: description ${yamlProblem} (npx skills would drop this skill)`);
+    }
+  }
+
+  // npx skills keys skills by `name`, and walks skills/ both flat
+  // (skills/<name>/) and one level deeper (skills/<category>/<name>/). Two
+  // SKILL.md with the same name collide — the shallower one shadows the other.
+  for (const [name, paths] of namesSeen) {
+    if (paths.length > 1) {
+      errors.push(
+        `duplicate skill name '${name}' in ${paths.length} locations (npx skills keys by name; one will shadow the other): ${paths.join(', ')}`
+      );
     }
   }
 

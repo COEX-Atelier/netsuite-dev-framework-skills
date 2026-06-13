@@ -177,6 +177,19 @@ test('accepts a properly quoted description containing colons and brackets', () 
   assert.deepStrictEqual(validate(root), []);
 });
 
+test('rejects two skills sharing the same name (npx skills shadowing)', () => {
+  const fm = (n) => `---\nname: ${n}\ndescription: "A long enough valid description string here."\n---\n# X\n`;
+  const root = scaffold({
+    'skills/ns-dup/SKILL.md': fm('ns-dup'),
+    'skills/cat/ns-dup/SKILL.md': fm('ns-dup'),
+  });
+  const errors = validate(root);
+  assert.ok(
+    errors.some((e) => e.includes("duplicate skill name 'ns-dup'")),
+    `expected a duplicate-name error, got: ${JSON.stringify(errors)}`
+  );
+});
+
 test('slugify matches GitHub heading anchors', () => {
   assert.strictEqual(slugify('2. Phase folders — Tier 1 & 2'), '2-phase-folders--tier-1--2');
   assert.strictEqual(slugify('Step A — go'), 'step-a--go');
