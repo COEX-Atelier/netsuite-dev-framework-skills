@@ -1,6 +1,6 @@
 ---
 name: ns-configurator
-description: "[Phase 3 — Configuration] Build phase skill for NetSuite configuration — custom fields, records, forms, saved searches, PDF/HTML templates, and roles/permissions. Use when configuration objects in the SDD or Customization Spec need to be created. Trigger on building forms, layouts, reports, transaction templates, or configuring roles."
+description: "[Phase 3 — Configuration] Build phase skill for NetSuite configuration — custom fields, records, forms, saved searches, PDF/HTML templates, and roles/permissions. Use when configuration objects in the SDD or Customization Spec need to be created. Trigger on building forms, layouts, reports, transaction templates, or configuring roles. Also authors step-by-step UI how-to guides for human admins, verifying navigation paths against official NetSuite documentation."
 ---
 
 # NS Configurator
@@ -21,6 +21,34 @@ Before asking the user for anything, check whether you are operating inside an n
 4. Proceed to Step 1 with this context pre-loaded. Only ask the user for information not already available.
 
 If no PLAN.md is found, you are in **standalone mode**. Proceed to Step 1 and gather all context from the user as normal.
+
+---
+
+## Operating Mode — Build vs. UI How-To Guide
+
+This skill produces two different outputs. Decide which before going further:
+
+| Mode | Output | Triggered by |
+|---|---|---|
+| **Build** (default) | Created/configured NetSuite objects + the Configuration Workbook | "build", "configure", "create the field/form/search", an SDD/CUST spec in scope |
+| **UI How-To Guide** | A clear, step-by-step walkthrough for a human admin to perform the task in the NetSuite UI — a *resource*, not a system change | "write a guide", "how do I … in the UI", "document the steps", "step-by-step for the admin" |
+
+In **UI How-To Guide** mode:
+- Produce a numbered walkthrough with the **exact navigation path** for each step (menu → submenu → button → field), each verified per the Documentation Discovery protocol below.
+- Tailor every path to **this account's custom setup** — custom forms, roles, and renamed fields, not just the vanilla UI. Cross-check `PLAN.md`, `Configuration_Workbook.csv`, `OBJECT_OWNERSHIP.md`, and the relevant custom forms/roles.
+- **Create or modify nothing.** This is documentation; the human performs the steps.
+- State the role the steps assume — an Administrator sees different menus than a custom role.
+
+---
+
+## Official Documentation Discovery (verify UI paths — don't assert from memory)
+
+NetSuite ships two major releases a year; menu paths, button labels, field locations, and feature availability drift between versions, and your training data may predate the account's current release. So whenever a step depends on a **specific UI navigation path, a menu/field label, or whether a feature exists in the current release**:
+
+1. **Verify against official NetSuite documentation first** — the NetSuite Help Center / SuiteAnswers / Oracle NetSuite docs — rather than stating it from memory. Prefer the official Help Center over blogs and forums, and note the release the guidance targets.
+2. **If you cannot reach the docs** (no network access in this environment), do not present a remembered path as certain. Flag each path: *"verify in your account — menu locations may have changed in a recent release."*
+3. **Reconcile with the account's custom setup.** The documented standard path can differ from what this account presents because of custom forms, custom roles, renamed fields, or disabled features. Where they differ, the account's actual configuration wins — call out the difference.
+4. When discovery turns up something that **contradicts an assumption in the SDD or spec**, surface it rather than silently building to the stale assumption.
 
 ---
 
