@@ -6,6 +6,30 @@ Each skill is a self-contained `SKILL.md` (plus assets) that Claude loads on dem
 
 ---
 
+## Install
+
+These skills install with [`npx skills`](https://github.com/vercel-labs/skills) — the open agent-skills tool — which auto-detects the coding agents you have installed (Claude Code and others) and drops each `SKILL.md` where the agent looks for it.
+
+Install the whole library:
+
+```bash
+npx skills add COEX-Atelier/netsuite-dev-framework-skills --all
+```
+
+Because skills call each other **by name**, installing the full set keeps the pipeline intact. To browse or cherry-pick instead:
+
+```bash
+# list every skill in this repo
+npx skills add COEX-Atelier/netsuite-dev-framework-skills --list
+
+# install a single skill by name
+npx skills add COEX-Atelier/netsuite-dev-framework-skills --skill ns-erp-navigator
+```
+
+Target a specific agent with `-a` when it isn't auto-detected, e.g. `-a claude-code`. After installing, just describe your task — the relevant skill triggers on its own, or invoke one explicitly (e.g. `ns-init-project`).
+
+---
+
 ## The pipeline at a glance
 
 ```
