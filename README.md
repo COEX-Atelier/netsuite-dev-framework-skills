@@ -22,6 +22,8 @@ Each skill is a self-contained `SKILL.md` (plus assets) that Claude loads on dem
                                                                 ns-ci-diagnose
                   every deliverable is written via
               ns-cowrite-align → develop → approve
+                  and reviewed / signed off via
+              <skill> review  →  ns-review  →  Phase Gate
 ```
 
 1. **Set up** the project once — classify it, scaffold the workspace, and configure GitHub/SDF collaboration.
@@ -62,6 +64,7 @@ Skills are grouped into five folders. Each folder has a `README.md` describing t
 | Plan training and user adoption | `ns-change-orchestrator` |
 | Write any document with the user in the loop | `ns-cowrite-align` (then develop → approve) |
 | Make a draft read like I wrote it, not an AI | `remove-context-leakage` |
+| Review someone's work or doc against the spec and sign off (or withhold) | `<specialist> review @<file>` (delegates to `ns-review`) |
 | Pull a UI-edited object back into git | `ns-object-sync` |
 | Resolve an SDF merge conflict | `ns-conflict-resolve` |
 | Understand why a CI run failed | `ns-ci-diagnose` |
@@ -94,6 +97,7 @@ Every skill, alphabetically, with the folder it lives in. Each folder's own `REA
 | `ns-pr-diagnose` | pull-requests | Triage why an open PR cannot merge and route to the right specialist. |
 | `ns-pr-merge` | pull-requests | Safely merge a PR and confirm the downstream deployment target. |
 | `ns-release` | source-control | Cut a versioned release from `main` — pick the next semantic version, build a grouped changelog from commits since the last tag, and publish the GitHub release. |
+| `ns-review` | implementation-lifecycle | Shared review & sign-off protocol any skill delegates to via `<skill> review @<artifact>`: validate against the governing spec through the caller's lens, write findings into the doc, and append a `SIGNED` / `CHANGES REQUESTED` block the Phase Gate reads. |
 | `ns-session-retrospective` | implementation-lifecycle | Analyze a completed session to surface frictions, pivots, and skill gaps; publish a privacy-safe report as a GitHub issue. |
 | `ns-solution-architect` | implementation-lifecycle | Turn business requirements into NetSuite design artifacts (SDD, Fit-Gap, RTM). |
 | `ns-suitescript-dev` | implementation-lifecycle | Build and debug SuiteScript 2.1 customizations. |
@@ -126,7 +130,7 @@ Every skill, alphabetically, with the folder it lives in. Each folder's own `REA
 ```
 skills/
 ├── project-setup/            # ns-init-project, ns-init-workspace, ns-github-setup
-├── implementation-lifecycle/ # ns-erp-navigator + 7 phase specialists + ns-session-retrospective
+├── implementation-lifecycle/ # ns-erp-navigator + 7 phase specialists + ns-review + ns-session-retrospective
 ├── deliverable-authoring/    # ns-cowrite-align / -develop / -approve
 ├── source-control/           # ns-object-sync, ns-conflict-resolve, ns-ci-diagnose, ns-release
 └── pull-requests/            # ns-pr-create, ns-pr-diagnose, ns-pr-merge

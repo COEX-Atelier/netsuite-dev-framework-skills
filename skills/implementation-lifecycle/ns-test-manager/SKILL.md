@@ -11,6 +11,16 @@ Testing rigor must match project scope. A two-week script fix and a 14-month ERP
 
 ---
 
+## Review Mode — Delegate to `ns-review`
+
+When invoked with the **`review`** verb (e.g. `/ns-test-manager review @<artifact>`), you are not building — you are acting as a **reviewing colleague**. Delegate the mechanics to **`ns-review`**, passing your persona lens:
+
+> *"Is this testable and adequately covered — does the test strategy trace to the RTM and exercise the exception paths before sign-off?"*
+
+`ns-review` reads the target, resolves its governing spec, writes findings into the document, and appends a `SIGNED` / `CHANGES REQUESTED` sign-off block that the Phase Gate reads. In review mode you do **not** fix the work — to fix, the user re-invokes this skill's normal build flow. See `ns-review` for the full protocol.
+
+---
+
 ## Step 0 — Detect Workspace Context
 
 Before asking the user for anything, check whether you are operating inside an ns-erp-navigator workspace:

@@ -265,17 +265,23 @@ Before delegating to any spoke skill:
 1. Read `PLAN.md` to identify the Current Phase and all Reference Artifact file paths listed for the previous phase.
 2. For each deliverable listed under the previous phase's Reference Artifacts, **attempt to read the file**. Do not rely on PLAN.md text or checkboxes alone.
 3. If any listed deliverable file is missing or empty: **STOP**. Report: "Phase [N] deliverable `[filename]` is listed in PLAN.md but does not exist on disk. Phase gate cannot be passed." Do not proceed with delegation.
-4. Only if ALL files exist and are non-empty: proceed with delegation to the spoke skill.
+4. **Check the sign-off block.** In each deliverable file, look for an `ns-review` signature block (delimited by `<!-- ns-review:signoff -->` … `<!-- /ns-review:signoff -->`) written by the reviewer(s) this gate requires (see the Gate Check table). For each required reviewer:
+   - **`Verdict: SIGNED`** → that reviewer's sign-off is satisfied.
+   - **`Verdict: CHANGES REQUESTED`** → **STOP**. Report the open Blocker/Major findings and that the phase cannot advance until they are resolved and re-reviewed. A fix is made by re-invoking the relevant build skill's normal flow, then re-running `<skill> review @<artifact>`.
+   - **No sign-off block present** → the deliverable has not been reviewed. Surface this and recommend the relevant `<skill> review @<artifact>` before advancing. Treat an unsigned required deliverable as a blocked gate unless the sponsor explicitly waives review (log the waiver).
+5. Only if ALL required files exist, are non-empty, AND carry a `SIGNED` block from each required reviewer: proceed with delegation to the spoke skill.
 
-| Entering Phase | Gate Check |
-|----------------|------------|
-| Phase 2 (Solution Design) | BRD signed off, RTM initialized, all req IDs assigned → delegate to `ns-solution-architect` |
-| Phase 3 (Build) | SDD and Fit-Gap approved, Customization Specs reviewed, **GitHub/SDF pipeline set up (`ci/setup-complete.json` present — run `ns-github-setup` if not)** → delegate to build team |
-| Phase 4 (Data) | Data mapping complete, cleansing rules defined → delegate to `ns-data-migrator` |
-| Phase 5 (Testing) | Test plan written, test environment ready → delegate to `ns-test-manager` |
-| Phase 6 (Change Mgt) | Training material drafted, training schedule confirmed → delegate to change management lead |
+| Entering Phase | Gate Check | Required `ns-review` sign-off |
+|----------------|------------|-------------------------------|
+| Phase 2 (Solution Design) | BRD signed off, RTM initialized, all req IDs assigned → delegate to `ns-solution-architect` | BRD reviewed (any lens; typically `ns-solution-architect`) |
+| Phase 3 (Build) | SDD and Fit-Gap approved, Customization Specs reviewed, **GitHub/SDF pipeline set up (`ci/setup-complete.json` present — run `ns-github-setup` if not)** → delegate to build team | SDD / Fit-Gap / Customization Specs SIGNED by the relevant build lens (`ns-suitescript-dev`, `ns-configurator`, or `ns-workflow-dev`) |
+| Phase 4 (Data) | Data mapping complete, cleansing rules defined → delegate to `ns-data-migrator` | Data mapping SIGNED (`ns-data-migrator`) |
+| Phase 5 (Testing) | Test plan written, test environment ready → delegate to `ns-test-manager` | Test plan / strategy SIGNED (`ns-test-manager`) |
+| Phase 6 (Change Mgt) | Training material drafted, training schedule confirmed → delegate to change management lead | Training material SIGNED (`ns-change-orchestrator`) |
 
-Before delegating, always confirm: **Are all deliverables from the previous phase signed off?** If not, block the phase transition and escalate.
+The "Required sign-off" column lists *recommended* reviewers, not a hard matrix — the `review` verb is universal, so you may ask any specialist to review any artifact. The gate's rule is simply: **a required deliverable must carry a `SIGNED` `ns-review` block before the phase advances.**
+
+Before delegating, always confirm: **Are all deliverables from the previous phase signed off?** A deliverable is "signed off" when it carries a `Verdict: SIGNED` `ns-review` block (Step 4 above) — not merely a PLAN.md checkbox. If any required sign-off is missing or `CHANGES REQUESTED`, block the phase transition and escalate.
 
 ### Phase 3 Build Prerequisite — SDF/GitHub Pipeline
 

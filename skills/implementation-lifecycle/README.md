@@ -12,6 +12,9 @@ The 7-phase NetSuite implementation methodology: one orchestrator that tracks pr
 | **ns-data-migrator** | 4 | Cleanses legacy records, maps fields to NetSuite schemas, validates data quality, and runs sequenced CSV imports. |
 | **ns-test-manager** | 5 | Builds test plans and runs UAT/SIT, defect logging and triage, regression testing, and go-live readiness sign-off. |
 | **ns-change-orchestrator** | 6 | Develops training strategies, role-based user guides, communication plans, and adoption tracking for go-live. |
+| **ns-review** | Cross-phase | Shared review & sign-off protocol. Any skill above, invoked as `<skill> review @<artifact>`, delegates here to validate the artifact against its governing spec through that skill's persona lens, write findings into the document, and append a `SIGNED` / `CHANGES REQUESTED` block the Phase Gate reads. Reviews, never fixes. |
 | **ns-session-retrospective** | Meta | Analyzes a completed session to surface frictions, pivots, and skill gaps; produces a privacy-safe report and publishes it as a GitHub issue. |
 
 > Deliverables in this category are written through the **deliverable-authoring** co-writing protocol.
+>
+> Any deliverable can be reviewed and signed off through **ns-review** — invoke any specialist with the `review` verb (e.g. `ns-suitescript-dev review @02_Design/SDD_O2C.md`) to apply that specialist's lens. `ns-erp-navigator`'s Phase Gate consumes the resulting sign-off blocks.
