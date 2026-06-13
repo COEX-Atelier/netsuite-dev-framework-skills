@@ -51,19 +51,80 @@ function extractFrontmatter(content) {
   return match ? match[1] : null;
 }
 
-/** Read a top-level `key:` value from a frontmatter block (handles quotes). */
-function readField(block, key) {
+/** Read the raw (still-quoted) single-line value for `key:` from a block. */
+function readRawField(block, key) {
   const re = new RegExp(`^${key}:\\s*(.*)$`, 'm');
   const m = re.exec(block);
-  if (!m) return null;
-  let value = m[1].trim();
+  return m ? m[1].trim() : null;
+}
+
+/** Strip a single layer of matching surrounding quotes. */
+function unquote(value) {
   if (
-    (value.startsWith('"') && value.endsWith('"')) ||
-    (value.startsWith("'") && value.endsWith("'"))
+    value &&
+    ((value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))) &&
+    value.length >= 2
   ) {
-    value = value.slice(1, -1);
+    return value.slice(1, -1);
   }
   return value;
+}
+
+/** Read a top-level `key:` value from a frontmatter block (handles quotes). */
+function readField(block, key) {
+  const raw = readRawField(block, key);
+  return raw === null ? null : unquote(raw);
+}
+
+// Limits enforced by `npx skills` (vercel-labs/skills `skills validate`).
+const NAME_MAX = 64;
+const NAME_KEBAB = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const DESCRIPTION_MIN = 20;
+const DESCRIPTION_MAX = 500;
+
+/**
+ * Detect frontmatter string values that the `npx skills` YAML parser silently
+ * rejects (issue #1094: a skill with unparseable frontmatter is dropped from
+ * discovery with no error). Returns a problem description, or null if safe.
+ *
+ * Quoted values are safe as long as the quote layer is well-formed. An unquoted
+ * plain scalar is unsafe if it begins with a YAML indicator (e.g. the leading
+ * `[` in our `[Phase 3] …` descriptions) or contains a `: ` / ` #` sequence.
+ */
+function yamlScalarProblem(raw) {
+  if (raw === null || raw === '') return null; // emptiness handled separately
+  const first = raw[0];
+  const dq = first === '"' && raw.endsWith('"') && raw.length >= 2;
+  const sq = first === "'" && raw.endsWith("'") && raw.length >= 2;
+  if (dq) {
+    const inner = raw.slice(1, -1);
+    if (/(^|[^\\])"/.test(inner)) {
+      return 'has an unescaped double-quote inside a double-quoted value (escape it as \\")';
+    }
+    return null;
+  }
+  if (sq) {
+    const inner = raw.slice(1, -1);
+    if (/(^|[^'])'(?!')/.test(inner)) {
+      return "has an unescaped single-quote inside a single-quoted value (double it as '')";
+    }
+    return null;
+  }
+  // Unquoted plain scalar.
+  if (/^[!&*?|>%@`"'#,[\]{}]/.test(raw)) {
+    return `is unquoted and starts with the YAML indicator '${first}' — wrap it in double quotes`;
+  }
+  if (raw.startsWith('- ')) {
+    return "is unquoted and starts with '- ' — wrap it in double quotes";
+  }
+  if (/:(\s|$)/.test(raw)) {
+    return "is unquoted and contains a colon followed by a space — wrap it in double quotes";
+  }
+  if (/\s#/.test(raw)) {
+    return "is unquoted and contains ' #' (read as a YAML comment) — wrap it in double quotes";
+  }
+  return null;
 }
 
 /** GitHub-style heading slug. */
@@ -123,15 +184,49 @@ function validate(root) {
       continue;
     }
     const name = readField(block, 'name');
+    const rawDescription = readRawField(block, 'description');
     const description = readField(block, 'description');
-    if (!name) errors.push(`${rel}: frontmatter is missing a non-empty 'name'`);
-    if (!description)
+
+    // name: non-empty, matches directory, ≤64 chars, kebab-case (npx skills).
+    if (!name) {
+      errors.push(`${rel}: frontmatter is missing a non-empty 'name'`);
+    } else {
+      const dirName = path.basename(path.dirname(file));
+      if (name !== dirName) {
+        errors.push(
+          `${rel}: frontmatter name '${name}' does not match directory '${dirName}'`
+        );
+      }
+      if (name.length > NAME_MAX) {
+        errors.push(
+          `${rel}: name is ${name.length} chars (npx skills max is ${NAME_MAX})`
+        );
+      }
+      if (!NAME_KEBAB.test(name)) {
+        errors.push(
+          `${rel}: name '${name}' is not kebab-case (lowercase a-z, 0-9, single hyphens; required by npx skills)`
+        );
+      }
+    }
+
+    // description: non-empty, 20–500 chars, YAML-parseable by npx skills.
+    if (!description) {
       errors.push(`${rel}: frontmatter is missing a non-empty 'description'`);
-    const dirName = path.basename(path.dirname(file));
-    if (name && name !== dirName) {
-      errors.push(
-        `${rel}: frontmatter name '${name}' does not match directory '${dirName}'`
-      );
+    } else {
+      if (description.length < DESCRIPTION_MIN) {
+        errors.push(
+          `${rel}: description is ${description.length} chars (npx skills min is ${DESCRIPTION_MIN})`
+        );
+      }
+      if (description.length > DESCRIPTION_MAX) {
+        errors.push(
+          `${rel}: description is ${description.length} chars (npx skills max is ${DESCRIPTION_MAX})`
+        );
+      }
+    }
+    const yamlProblem = yamlScalarProblem(rawDescription);
+    if (yamlProblem) {
+      errors.push(`${rel}: description ${yamlProblem} (npx skills would drop this skill)`);
     }
   }
 
@@ -207,7 +302,15 @@ function validate(root) {
   return errors;
 }
 
-module.exports = { validate, slugify, headingSlugs };
+module.exports = {
+  validate,
+  slugify,
+  headingSlugs,
+  yamlScalarProblem,
+  NAME_MAX,
+  DESCRIPTION_MIN,
+  DESCRIPTION_MAX,
+};
 
 if (require.main === module) {
   const root = process.argv[2]

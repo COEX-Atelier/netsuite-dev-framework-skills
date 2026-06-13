@@ -108,6 +108,75 @@ test('rejects invalid JSON assets', () => {
   assert.ok(errors.some((e) => e.includes('invalid JSON')));
 });
 
+test('rejects a description over the npx skills 500-char max', () => {
+  const longDesc = 'x'.repeat(501);
+  const root = scaffold({
+    'skills/cat/ns-demo/SKILL.md': `---\nname: ns-demo\ndescription: "${longDesc}"\n---\n# X\n`,
+  });
+  const errors = validate(root);
+  assert.ok(
+    errors.some((e) => e.includes('501 chars') && e.includes('max is 500')),
+    `expected a max-length error, got: ${JSON.stringify(errors)}`
+  );
+});
+
+test('rejects a description under the npx skills 20-char min', () => {
+  const root = scaffold({
+    'skills/cat/ns-demo/SKILL.md': '---\nname: ns-demo\ndescription: "too short"\n---\n# X\n',
+  });
+  const errors = validate(root);
+  assert.ok(errors.some((e) => e.includes('min is 20')));
+});
+
+test('rejects a non-kebab-case name', () => {
+  const root = scaffold({
+    'skills/cat/Ns_Demo/SKILL.md':
+      '---\nname: Ns_Demo\ndescription: "A long enough valid description string here."\n---\n# X\n',
+  });
+  const errors = validate(root);
+  assert.ok(errors.some((e) => e.includes('not kebab-case')));
+});
+
+test('rejects a name over 64 chars', () => {
+  const longName = 'a'.repeat(65);
+  const root = scaffold({
+    [`skills/cat/${longName}/SKILL.md`]: `---\nname: ${longName}\ndescription: "A long enough valid description string here."\n---\n# X\n`,
+  });
+  const errors = validate(root);
+  assert.ok(errors.some((e) => e.includes('max is 64')));
+});
+
+test('rejects an unquoted description that npx skills would silently drop', () => {
+  // Leading "[" is a YAML flow indicator — exactly our "[Phase N] ..." style,
+  // which must be quoted or the skill vanishes from discovery.
+  const root = scaffold({
+    'skills/cat/ns-demo/SKILL.md':
+      '---\nname: ns-demo\ndescription: [Phase 3] Build configuration objects for the account\n---\n# X\n',
+  });
+  const errors = validate(root);
+  assert.ok(
+    errors.some((e) => e.includes('would drop this skill')),
+    `expected a YAML-drop error, got: ${JSON.stringify(errors)}`
+  );
+});
+
+test('rejects an unquoted description with a colon-space', () => {
+  const root = scaffold({
+    'skills/cat/ns-demo/SKILL.md':
+      '---\nname: ns-demo\ndescription: Use this skill when flags: --all or --deep are passed\n---\n# X\n',
+  });
+  const errors = validate(root);
+  assert.ok(errors.some((e) => e.includes('colon followed by a space')));
+});
+
+test('accepts a properly quoted description containing colons and brackets', () => {
+  const root = scaffold({
+    'skills/cat/ns-demo/SKILL.md':
+      '---\nname: ns-demo\ndescription: "[Phase 3] Build phase: configure forms, roles, and searches in the account."\n---\n# X\n',
+  });
+  assert.deepStrictEqual(validate(root), []);
+});
+
 test('slugify matches GitHub heading anchors', () => {
   assert.strictEqual(slugify('2. Phase folders — Tier 1 & 2'), '2-phase-folders--tier-1--2');
   assert.strictEqual(slugify('Step A — go'), 'step-a--go');
