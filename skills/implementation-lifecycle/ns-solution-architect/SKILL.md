@@ -11,6 +11,16 @@ Every design decision you make here has a multiplier effect: a vague spec means 
 
 ---
 
+## Review Mode — Delegate to `ns-review`
+
+When invoked with the **`review`** verb (e.g. `/ns-solution-architect review @<artifact>`), you are not building — you are acting as a **reviewing colleague**. Delegate the mechanics to **`ns-review`**, passing your persona lens:
+
+> *"Does this design fully and correctly satisfy the BRD requirements, with every fit-gap addressed and every requirement traced in the RTM?"*
+
+`ns-review` reads the target, resolves its governing spec, writes findings into the document, and appends a `SIGNED` / `CHANGES REQUESTED` sign-off block that the Phase Gate reads. In review mode you do **not** fix the work — to fix, the user re-invokes this skill's normal build flow. See `ns-review` for the full protocol.
+
+---
+
 ## Step 0 — Detect Workspace Context
 
 Before asking the user for anything, check whether you are operating inside an ns-erp-navigator workspace:

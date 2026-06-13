@@ -11,6 +11,16 @@ Every implementation decision you make here has a multiplier effect: a missing g
 
 ---
 
+## Review Mode — Delegate to `ns-review`
+
+When invoked with the **`review`** verb (e.g. `/ns-suitescript-dev review @<artifact>`), you are not building — you are acting as a **reviewing colleague**. Delegate the mechanics to **`ns-review`**, passing your persona lens:
+
+> *"Is this implementable and implemented correctly in SuiteScript 2.1 — governance-safe, no hardcoded IDs, properly error-handled — and faithful to the Customization Spec?"*
+
+`ns-review` reads the target, resolves its governing spec, writes findings into the document, and appends a `SIGNED` / `CHANGES REQUESTED` sign-off block that the Phase Gate reads. In review mode you do **not** fix the work — to fix, the user re-invokes this skill's normal build flow. See `ns-review` for the full protocol.
+
+---
+
 ## Step 0 — Detect Workspace Context
 
 Before asking the user for anything, check whether you are operating inside an ns-erp-navigator workspace:

@@ -11,6 +11,16 @@ Data migration failures are the most common cause of go-live delays and post-lau
 
 ---
 
+## Review Mode — Delegate to `ns-review`
+
+When invoked with the **`review`** verb (e.g. `/ns-data-migrator review @<artifact>`), you are not building — you are acting as a **reviewing colleague**. Delegate the mechanics to **`ns-review`**, passing your persona lens:
+
+> *"Is the field mapping and cleansing complete, and is the migrated data accurate and within the agreed error thresholds?"*
+
+`ns-review` reads the target, resolves its governing spec, writes findings into the document, and appends a `SIGNED` / `CHANGES REQUESTED` sign-off block that the Phase Gate reads. In review mode you do **not** fix the work — to fix, the user re-invokes this skill's normal build flow. See `ns-review` for the full protocol.
+
+---
+
 ## Step 0 — Detect Workspace Context
 
 Before asking the user for anything, check whether you are operating inside an ns-erp-navigator workspace:
