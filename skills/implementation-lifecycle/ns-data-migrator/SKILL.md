@@ -162,7 +162,7 @@ Never import a child record before its parent. If a parent record import fails, 
 
 ### 4.1 Batch Size
 
-Refer to [references/csv_import_limits.md](references/csv_import_limits.md) for NetSuite-specific constraints.
+Verify current import constraints against NetSuite's official CSV Import documentation — they vary by record type and can change between releases.
 
 - Maximum CSV file size: 50 MB
 - Maximum rows per import job: varies by record type (typically 5,000–25,000)
@@ -233,7 +233,7 @@ After each Phase 4 deliverable has been explicitly approved by the user, and the
 | Topic | File |
 |-------|------|
 | NetSuite import order | [references/data_dependency_sequence.md](references/data_dependency_sequence.md) |
-| CSV import limits and constraints | [references/csv_import_limits.md](references/csv_import_limits.md) |
+| CSV import limits and constraints | NetSuite official CSV Import documentation (verify per record type) |
 
 ---
 
@@ -244,4 +244,4 @@ After each Phase 4 deliverable has been explicitly approved by the user, and the
 - **Import sequence is not optional.** Parent records must exist before children. The sequence in Stage 4 is not a suggestion — violating it produces import errors that cascade.
 - **Validation requires evidence.** A successful import job summary is not validation. You need a record count check, a field-level spot check, and an open item reconciliation. Document the results.
 - **Business decisions need sign-off.** When records are excluded (too old, inactive, out of scope), the project sponsor must approve in writing before they are dropped. "We decided to skip it" is not sufficient for audit purposes.
-- **Stay outside SDF scope.** Data migration loads *data* into objects that Phase 3 already built — it does not create schema. If a migration genuinely needs a new SDF-tracked object (e.g., a staging custom record or an external-ID field), do not create it ad hoc: route it through `ns-configurator` so it gets a proper ownership decision in `OBJECT_OWNERSHIP.md` (and, if SDF-owned, an entry in `ci/objects-manifest.json`). An object created directly in the UI during migration with no ownership declaration is exactly the silent drift that the pipeline exists to catch. See [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md).
+- **Stay outside SDF scope.** Data migration loads *data* into objects that Phase 3 already built — it does not create schema. If a migration genuinely needs a new SDF-tracked object (e.g., a staging custom record or an external-ID field), do not create it ad hoc: route it through `ns-configurator` so it gets a proper ownership decision in `OBJECT_OWNERSHIP.md` (and, if SDF-owned, an entry in `ci/objects-manifest.json`). An object created directly in the UI during migration with no ownership declaration is exactly the silent drift that the pipeline exists to catch. See [ns-github-setup → references/project_artifacts.md](../../project-setup/ns-github-setup/references/project_artifacts.md).

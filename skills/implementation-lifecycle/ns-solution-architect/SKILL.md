@@ -146,7 +146,7 @@ For deeper guidance, see [references/design_decision_tree.md](references/design_
 
 Each spec must include step-by-step pseudocode or a decision table — not just a vague description. The developer should be able to write unit tests from the spec alone.
 
-**Declare object ownership.** Every spec template includes an **Object Ownership Declaration** (§3a): for each new object the customization introduces, state whether it is SDF-owned or UI-owned. This is what lets the build skills (`ns-configurator`, `ns-suitescript-dev`, `ns-workflow-dev`) populate `OBJECT_OWNERSHIP.md` and `ci/objects-manifest.json` correctly without re-litigating the decision. Scripts/deployments are always SDF-owned; saved searches, custom forms, and SuiteFlow workflows default to UI-owned. The `Configuration_Workbook.csv` carries a matching **SDF Ownership** column. See [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md).
+**Declare object ownership.** Every spec template includes an **Object Ownership Declaration** (§3a): for each new object the customization introduces, state whether it is SDF-owned or UI-owned. This is what lets the build skills (`ns-configurator`, `ns-suitescript-dev`, `ns-workflow-dev`) populate `OBJECT_OWNERSHIP.md` and `ci/objects-manifest.json` correctly without re-litigating the decision. Scripts/deployments are always SDF-owned; saved searches, custom forms, and SuiteFlow workflows default to UI-owned. The `Configuration_Workbook.csv` carries a matching **SDF Ownership** column. See [ns-github-setup → references/project_artifacts.md](../../project-setup/ns-github-setup/references/project_artifacts.md).
 
 ---
 

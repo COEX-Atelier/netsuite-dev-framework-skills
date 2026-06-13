@@ -245,7 +245,7 @@ SuiteScript and its deployments are **always SDF-owned** — they live in `Objec
    }
    ```
 
-Both files are committed source control (not gitignored), so include them in the same PR as the new script. Missing the manifest entry means a later UI edit to the deployment will **silently** escape drift detection. See [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md) for the full artifact contract.
+Both files are committed source control (not gitignored), so include them in the same PR as the new script. Missing the manifest entry means a later UI edit to the deployment will **silently** escape drift detection. See [ns-github-setup → references/project_artifacts.md](../../project-setup/ns-github-setup/references/project_artifacts.md) for the full artifact contract.
 
 ---
 
@@ -311,7 +311,7 @@ If `ci/setup-complete.json` is **absent**, the project has no CI pipeline yet; d
 | Governance patterns & code samples | [references/governance_patterns.md](references/governance_patterns.md) |
 | Full coding standards with examples | [references/suitescript_2_1_standards.md](references/suitescript_2_1_standards.md) |
 | Header tag validation | [scripts/validate_script_headers.js](scripts/validate_script_headers.js) |
-| SDF/GitHub artifact contract (ownership, manifest, deploy.xml) | [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md) |
+| SDF/GitHub artifact contract (ownership, manifest, deploy.xml) | [ns-github-setup → references/project_artifacts.md](../../project-setup/ns-github-setup/references/project_artifacts.md) |
 
 ---
 

@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Lint & validate skills
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Markdown lint
+        run: npx --yes markdownlint-cli2@0.22.1
+
+      - name: Validate skills (frontmatter, cross-references, JSON)
+        run: node scripts/validate-skills.js
+
+      - name: Test the validator
+        run: node --test scripts/test-validate-skills.js

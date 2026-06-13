@@ -111,12 +111,12 @@ Every object you create in the stages below is one of three things, and the deci
 
 **Procedure for each object:**
 
-1. Determine ownership using the **Ownership Decision Guide** in [ns-github-setup → assets/OBJECT_OWNERSHIP.md](../ns-github-setup/assets/OBJECT_OWNERSHIP.md). Quick defaults: custom **fields, records, lists, segments → SDF-owned**; **saved searches, custom forms, roles → UI-owned** (they carry account-specific or per-environment values). Override only with a documented reason. If the Customization Spec from `ns-solution-architect` carries an **SDF Ownership** declaration, use it.
+1. Determine ownership using the **Ownership Decision Guide** in [ns-github-setup → assets/OBJECT_OWNERSHIP.md](../../project-setup/ns-github-setup/assets/OBJECT_OWNERSHIP.md). Quick defaults: custom **fields, records, lists, segments → SDF-owned**; **saved searches, custom forms, roles → UI-owned** (they carry account-specific or per-environment values). Override only with a documented reason. If the Customization Spec from `ns-solution-architect` carries an **SDF Ownership** declaration, use it.
 2. Write the decision to `OBJECT_OWNERSHIP.md` in the correct section.
 3. If **SDF-owned**, also add the object to `ci/objects-manifest.json` (`{ "type": "...", "scriptid": "..." }`) so drift detection covers it. Both files are committed source control — include them in the same PR.
 4. If **UI-owned**, do **not** add it to `Objects/` or `deploy.xml`. It is built and maintained directly in the UI.
 
-Several per-stage checklists below carry an "ownership recorded" item — that is where you satisfy this for fields, forms, and saved searches. Custom records (§1.1) and custom lists (§1.3) have no checklist of their own; record their ownership (both default to **SDF-owned**) the same way when you create them. The quality gate at the end re-checks that every object's ownership is recorded. Full contract: [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md).
+Several per-stage checklists below carry an "ownership recorded" item — that is where you satisfy this for fields, forms, and saved searches. Custom records (§1.1) and custom lists (§1.3) have no checklist of their own; record their ownership (both default to **SDF-owned**) the same way when you create them. The quality gate at the end re-checks that every object's ownership is recorded. Full contract: [ns-github-setup → references/project_artifacts.md](../../project-setup/ns-github-setup/references/project_artifacts.md).
 
 ---
 
@@ -392,8 +392,8 @@ Do not mark configuration complete until every item passes:
 | Field type selection | [references/field_type_decision_guide.md](references/field_type_decision_guide.md) |
 | Naming conventions | [references/naming_conventions.md](references/naming_conventions.md) |
 | Saved search formulas & patterns | [references/saved_search_patterns.md](references/saved_search_patterns.md) |
-| Object ownership decision guide | [ns-github-setup → assets/OBJECT_OWNERSHIP.md](../ns-github-setup/assets/OBJECT_OWNERSHIP.md) |
-| SDF/GitHub artifact contract | [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md) |
+| Object ownership decision guide | [ns-github-setup → assets/OBJECT_OWNERSHIP.md](../../project-setup/ns-github-setup/assets/OBJECT_OWNERSHIP.md) |
+| SDF/GitHub artifact contract | [ns-github-setup → references/project_artifacts.md](../../project-setup/ns-github-setup/references/project_artifacts.md) |
 
 ---
 

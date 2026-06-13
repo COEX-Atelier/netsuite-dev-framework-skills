@@ -149,7 +149,7 @@ End-user guides are not enough on an SDF project. The client's internal develope
 - **Object ownership** — what SDF-owned vs UI-owned means (`OBJECT_OWNERSHIP.md`), and the golden rule: **SDF-owned objects are changed via Git PR only — editing them in the UI will be overwritten** on the next deploy. UI changes to an SDF-owned object must be synced back to Git (`ns-object-sync`) or drift detection will fail the pipeline.
 - **Who to call when CI goes red** — point them at `ns-ci-diagnose` and the on-call/escalation path.
 
-This is part of the maintainability handover document referenced in the go-live wrap-up. See [ns-github-setup → references/project_artifacts.md](../ns-github-setup/references/project_artifacts.md) for the underlying artifact contract.
+This is part of the maintainability handover document referenced in the go-live wrap-up. See [ns-github-setup → references/project_artifacts.md](../../project-setup/ns-github-setup/references/project_artifacts.md) for the underlying artifact contract.
 
 ---
 
