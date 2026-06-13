@@ -61,6 +61,7 @@ Skills are grouped into five folders. Each folder has a `README.md` describing t
 | Plan testing, run UAT, or check go-live readiness | `ns-test-manager` |
 | Plan training and user adoption | `ns-change-orchestrator` |
 | Write any document with the user in the loop | `ns-cowrite-align` (then develop → approve) |
+| Make a draft read like I wrote it, not an AI | `remove-context-leakage` |
 | Pull a UI-edited object back into git | `ns-object-sync` |
 | Resolve an SDF merge conflict | `ns-conflict-resolve` |
 | Understand why a CI run failed | `ns-ci-diagnose` |
@@ -96,6 +97,7 @@ Every skill, alphabetically, with the folder it lives in. Each folder's own `REA
 | `ns-suitescript-dev` | implementation-lifecycle | Build and debug SuiteScript 2.1 customizations. |
 | `ns-test-manager` | implementation-lifecycle | Plan SIT/UAT, triage defects, and decide release readiness. |
 | `ns-workflow-dev` | implementation-lifecycle | Build SuiteFlow workflows and approvals where configuration is the right tool. |
+| `remove-context-leakage` | deliverable-authoring | Edit a finished draft to remove AI authorship marks — leaked request context and the generated-text voice — before it reaches a reader. |
 
 ---
 
