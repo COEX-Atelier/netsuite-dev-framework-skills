@@ -110,11 +110,18 @@ GitHub MCP: create the tag/release via the release tool against `main` at HEAD.
 
 ## Step 7 — Confirm the Production Deploy
 
-Production deploys trigger on **push to `main`** (the merge in `ns-pr-merge`), gated by the `production` environment approval — **not** by the tag. So:
+**What triggers production is project-specific — read it, do not assume.** Check `ci/setup-complete.json` → `productionGate`, and confirm against the workflow's `on:` block (`.github/workflows/*.yml`). Two gates are common:
 
-1. Check whether the merge already kicked off `deploy-production` (via the detected tool, or GitHub → Actions).
-2. If it is waiting on the environment approval gate, remind the user to approve it.
-3. If no deploy job exists (manual deploy strategy, or `ci/setup-complete.json` absent), remind the user to run the production deploy.
+| `productionGate` | What actually deploys | What to do |
+|---|---|---|
+| `version-tag (v*)` | The **tag push you just made** in Step 6. The merge into `main` deployed nothing — `main` is validate-only. | Watch the run triggered by the tag. |
+| `branch (main)` + environment approval | The **merge into `main`** (in `ns-pr-merge`), gated by the `production` environment reviewers. The tag is documentation only. | Check whether the merge already kicked off `deploy-production`; if it waits on the approval gate, remind the user to approve. |
+
+Then:
+
+1. Locate the run triggered by whichever event the table says is the real trigger (via the detected tool, or GitHub → Actions).
+2. If no deploy job exists (manual deploy strategy, or `ci/setup-complete.json` absent), remind the user to run the production deploy.
+3. Never describe the `develop` → `main` merge as "the release" when the gate is the tag — say so explicitly to the user, since it is a common misreading.
 
 On a failed deploy run, redirect to `ns-ci-diagnose`.
 

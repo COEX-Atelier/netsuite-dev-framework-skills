@@ -86,7 +86,12 @@ Explain the chosen strategy and why. If it is not obvious, present two options w
 |---|---|
 | Production only | `main`-only; manual deploy |
 | 1 Sandbox + Production | `develop` → sandbox auto-deploy; `main` → production with approval gate |
+| 1 Sandbox + Production, **no enforceable branch protection** | `develop` → sandbox auto-deploy; `main` **validate-only**; tag `v*` → production (Model 1b) |
 | 2 Sandboxes + Production | `feature/*` → dev sandbox; `develop` → QA sandbox; `main` → production |
+
+Check the plan first: on a **free-plan private repo**, rulesets and required reviewers are not enforceable, so the approval gate does not exist — pick **Model 1b** and adapt `assets/github-deploy.yml` (`main` stays in `on.push.branches` for validation, but the `deploy-production` job keys on `startsWith(github.ref, 'refs/tags/v')` instead of `refs/heads/main`).
+
+Record the outcome in `ci/setup-complete.json` → `productionGate` (`branch (main)` or `version-tag (v*)`). Every downstream skill reads that field to know what actually ships.
 
 See [references/branch_environment_map.md](references/branch_environment_map.md) for protection rule recommendations.
 
