@@ -24,5 +24,5 @@
 
 ---
 
-**Deploy target:** Production (`main`) · **Approval gate:** `production` environment
+**Deploy target:** Production · **Gate:** <!-- fill from ci/setup-complete.json → productionGate: either "push to `main` + `production` environment approval", or "the `v*` tag push itself (merging into `main` deploys nothing)" -->
 <!-- Omit any section with no entries. Keep messages to readable one-liners, not raw git hashes. -->

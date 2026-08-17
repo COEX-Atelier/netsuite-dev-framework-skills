@@ -10,7 +10,7 @@
 
 <!-- Auto-filled by ns-pr-create based on ci/setup-complete.json and PLAN.md -->
 
-- **Target environment:** <!-- e.g. Sandbox (develop branch) / Production (main branch) -->
+- **Target environment:** <!-- e.g. Sandbox (merge to develop). If the base is `main`, check ci/setup-complete.json → productionGate: on a tag-gated project this PR deploys NOTHING — write "aucun déploiement (mise à jour de main avant tag v*)". -->
 - **Deploy strategy:** <!-- e.g. SDF CI pipeline, manual, etc. -->
 - **SDF-owned objects modified:** <!-- Yes / No — list if yes -->
 - **manifest.xml changed:** <!-- Yes (review feature flags) / No -->
